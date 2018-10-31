@@ -45,6 +45,7 @@ class Controleur():
 			self.serveur=ServerProxy(ad)
 			self.monnom=identifiant
 			rep=self.serveur.loginauserveur(identifiant, motDePasse)	# on averti le serveur de nous inscrire
+			print(str(rep))
 			#C'est dans le serveur que se passent les vérifications dans la BD
 			if rep!=0: # Rep sera 0 si l'utilisateur n'est pas trouvé ou si le pw ne match pas
 				self.vue.chargercentral(rep[2]) #Load les modules

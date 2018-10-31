@@ -32,9 +32,9 @@ s.close()
 #daemon = Pyro4.core.Daemon(host=monip,port=9999) 
 daemon= SimpleXMLRPCServer((monip,9999))
 
-class Client(object):
-	def __init__(self,nom):
-		self.nom=nom
+#class Client(object):
+#	def __init__(self,nom):
+#		self.nom=nom
 		
 class ModeleService(object):
 	def __init__(self,parent,rdseed):
@@ -44,13 +44,13 @@ class ModeleService(object):
 								 "sql":"gp_sql",
 								 "login":"gp_login"}
 		self.clients={}
-		
+
 	def creerclient(self,nom):
-		if nom in self.clients.keys(): # on assure un nom unique
-			return [0,"Erreur de nom"]
+		#if nom in self.clients.keys(): # on assure un nom unique
+		#	return [0,"Erreur de nom"]
 		# tout va bien on cree le client et lui retourne la seed pour le random
-		c=Client(nom)
-		self.clients[nom]=c
+		#c=Client(nom)
+		#self.clients[nom]=c
 		return [1,"Bienvenue",list(self.modulesdisponibles.keys())]
 			
 class ControleurServeur(object):
