@@ -2,6 +2,7 @@
 
 import os,os.path
 import sys
+import Pyro4
 import socket
 from subprocess import Popen 
 import math
