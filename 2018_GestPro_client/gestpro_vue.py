@@ -545,9 +545,25 @@ class Vue():
             150,250,window=self.reponseQuestion,width=250,height=25)
         self.canevasSignIn.create_window(                        
             150,280,window=btnConfirmerInscription,width=200,height=25)
+        #self.placeHolderText = 'test'
 
+        self.nomUsager.insert(0,'Entrer votre username...')
+        self.nomUsager.bind('<FocusIn>',self.on_entry_click)
+        self.nomUsager.bind('<FocusOut>',self.on_focusout)
+        #self.nomUsager.pack()
 
-    def startMoveWindow(self, event):
+    def on_entry_click(self, event):
+        """function that gets called whenever entry is clicked"""
+        if self.nomUsager.get() == 'Entrer votre username...':
+           self.nomUsager.delete(0, "end") # delete all the text in the entry
+           self.nomUsager.insert(0, '') #Insert blank for user input
+           self.nomUsager.config(fg = 'white')
+    def on_focusout(self, event):
+        if self.nomUsager.get() == '':
+            self.nomUsager.insert(0, 'Entrer votre username...')
+            self.nomUsager.config(fg = 'white')
+
+    def startMoveWindow(self,event):
     ## When the movement starts, record current root coordinates
         self.__lastX= event.x_root
 
