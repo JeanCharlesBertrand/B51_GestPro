@@ -29,15 +29,17 @@ class Controleur():
 		s.close() # ferme le socket
 		return monip
 	
-	def inscrireSiDisponibles(self,ipserveur, identifiant, courriel, motDePasse ):
+	def inscrireSiDisponibles(self,ipserveur, identifiant, courriel, motDePasse, question, reponse):
 		if ipserveur and identifiant and courriel and motDePasse:
 			ad="http://"+ipserveur+":"+self.nodeport
 			self.serveur=ServerProxy(ad)
-			reponseInscription=self.serveur.inscrireSiInfosDisponibles(identifiant, courriel, motDePasse)# on averti le serveur de nous inscrire
+			reponseInscription=self.serveur.inscrireSiInfosDisponibles(identifiant, courriel, motDePasse, question, reponse)# on averti le serveur de nous inscrire
 			if reponseInscription[0]:# reponseInscription[0] == True/False (succes de l'inscription) et reponseInscription[1] = messageErreur si [0] == False
 				print("Inscrit!") #À CHANGER POUR UN LABEL+CREATEWINDOW DANS LA VUE
+				self.vue.afficherInscriptionAchevee(identifiant, motDePasse)
 			else:
 				print(reponseInscription[1])
+	
 	
 	def loginclient(self,ipserveur,identifiant, motDePasse):
 		if ipserveur and identifiant and motDePasse:

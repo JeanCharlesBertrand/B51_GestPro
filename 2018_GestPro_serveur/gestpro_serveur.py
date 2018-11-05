@@ -66,7 +66,7 @@ class ControleurServeur(object):
 		if not motDePasseCorrespondant: #Si l'utilisateur n'est pas dans la bd il n'y aura
 			return 0			 #pas de mot de passe correspondant, donc le login de marchera pas
 
-		#print(list(motDePasseCorrespondant)[0]) #Pour espionner les mots de passe ;)
+		print("mot de passe: "+list(motDePasseCorrespondant)[0]) #Pour espionner les mots de passe ;)
 		'''.fetchone() retourne un tuple avec une valeur Ex: ('aaaa',)
 		donc on y accède par [0]
 		'''
@@ -75,21 +75,23 @@ class ControleurServeur(object):
 		else:
 			return 0
 		
-	def inscrireSiInfosDisponibles(self, identifiant, courriel, mot_de_passe):
+	def inscrireSiInfosDisponibles(self, identifiant, courriel, mot_de_passe,question,reponse):
 		disponibles = True
 		messageErreur = ""
 		try:
-			dbUtilisateurs.c.execute('INSERT INTO utilisateurs(identifiant, courriel, mot_de_passe) VALUES (\'%s\', \'%s\', \'%s\');' % ( identifiant, courriel, mot_de_passe ) )
+			dbUtilisateurs.c.execute('INSERT INTO utilisateurs(identifiant, courriel, mot_de_passe, question_sec, reponse_ques) VALUES (\'%s\', \'%s\', \'%s\', \'%s\',\'%s\');' % ( identifiant, courriel, mot_de_passe,question,reponse ) )
 			dbUtilisateurs.conn.commit()
 		except Exception as e:
 			if str(e) == "UNIQUE constraint failed: utilisateurs.identifiant":
 				messageErreur = "Cet identifiant existe déjà, veuillez en choisir un autre svp"
 				disponibles = False
-			if str(e) == "UNIQUE constraint failed: utilisateurs.courriel":
+			elif str(e) == "UNIQUE constraint failed: utilisateurs.courriel":
 				messageErreur = "Ce courriel a déjà été utilisé, veuillez en choisir un autre svp"
 				disponibles = False
-			if messageErreur == "":
+			else:
 				print(str(e))
+				disponibles = False
+				messageErreur = str(e)
 				print('%r' % e)
 		#Ajouter la date id'nscription?
 		return ([disponibles, messageErreur])

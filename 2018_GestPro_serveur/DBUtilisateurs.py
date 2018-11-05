@@ -1,11 +1,5 @@
 import sqlite3
 
-'''On pourrait faire une classe plus générique et passer le path de
-la DB en paramètre au constructeur, ça pourrait être pratique si on fait plusieurs BD,
-ce qui serait pratique à mon avis, pour pas que ça overload si
-y'en a une seule, mais c'est débattable
-'''
-
 
 
 class DbUtilisateurs:
