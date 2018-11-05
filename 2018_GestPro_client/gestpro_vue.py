@@ -115,6 +115,7 @@ class Vue():
 		self.loginMDP=Entry(									# Champs entré no.2
 			bg="#4C9689",										# Couleur de fond [cyan]
 			relief = "sunken",
+			show = '*',
 			font = ("Courier New", 12, "bold"),
 			fg = "#dbdbdb",justify='center')					# Couleur de texte [blanc]
 			#show="*")											# Remplace le texte par des '*'
@@ -242,8 +243,8 @@ class Vue():
 		self.compteurY = 50
 
 		self.nomUsager = Entry()
-		self.motDePasse = Entry()
-		self.confirmationMDP = Entry()
+		self.motDePasse = Entry( show= '*')
+		self.confirmationMDP = Entry(show= '*')
 		self.email = Entry()
 		self.questionSecurite = Entry()
 		self.reponseQuestion = Entry()
@@ -263,14 +264,13 @@ class Vue():
 
 		self.textNomUsager = "Nom usager"
 		self.textMotDePasse = "Mot de passe"
-		self.textConfirmationMDP = "Confirmer votre mot de passe"
 		self.textEmail = "email@email.com"
 		self.textQuestionSecurite = "Entrer une question de securite"
 		self.textReponseQuestion = "Entrer votre reponse"
 
 		#self.placeHolderText = 'test'
 		self.entryListe = [self.nomUsager, self.motDePasse, self.confirmationMDP, self.email,self.questionSecurite, self.reponseQuestion]
-		self.texteListe = [self.textNomUsager, self.textMotDePasse, self.textConfirmationMDP,self.textEmail,self.textQuestionSecurite, self.textReponseQuestion]
+		self.texteListe = [self.textNomUsager, self.textMotDePasse, self.textMotDePasse,self.textEmail,self.textQuestionSecurite, self.textReponseQuestion]
 
 		for self.entry in self.entryListe:
 			self.champsTexte = self.texteListe[self.compteur]
@@ -509,10 +509,10 @@ class Vue():
 			
 	def afficherInscriptionAchevee(self, identifiant, motDePasse):
 		self.frameSignIn.destroy() #Faudrait mettre ça dans le serveur parce que l'inscription n'est peut-être pas
-		#self.loginMDP.delete(0, END)
-		#self.loginMDP.insert(END, motDePasse)
-		#self.nomsplash.delete(0, END)
-		#self.nomsplash.insert(END, identifiant)
+		self.loginMDP.delete(0, END)
+		self.loginMDP.insert(END, motDePasse)
+		self.nomsplash.delete(0, END)
+		self.nomsplash.insert(END, identifiant)
 		self.labelInscrit = Label(self.canevasLogin, text="Vous etes inscrit!")
 		#A COMPLETER: Envoyer id et mdp dans les champs texte
 		self.canevasLogin.create_window(						# Dessiner bouton connecter sur canevas
@@ -528,52 +528,63 @@ class Vue():
 		self.courriel = self.email.get()
 		self.questionSecu = self.questionSecurite.get()
 		self.reponseSecu = self.reponseQuestion.get()
-		
+
+
 		self.erreurIDInvalide = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Veuillez vous choisir un identifiant.")
 		self.erreurPWDifferents = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Les passwords entres sont differents.")
 		self.erreurCourrielInvalide = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Veuillez saisir un courriel valide.")
 		self.erreurMPInvalide = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Veuillez saisir un mot de passe.")
 		self.erreurQSInvalide = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Veuillez saisir une question de securite.")
 		self.erreurRSInvalide = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Veuillez saisir une reponse a la question de securite.")
+		
+		self.erreurIDInvalide.place(x=50, y=85)
+		self.erreurPWDifferents.place(x=50, y=130)
+		self.erreurMPInvalide.place(x=50, y=175)
+		self.erreurCourrielInvalide.place(x=50, y=215)
+		self.erreurQSInvalide.place(x=50, y=260)
+		self.erreurRSInvalide.place(x=20, y=302)
+		
+		self.erreurIDInvalide.visible = False
+		self.erreurPWDifferents.visible = False
+		self.erreurCourrielInvalide.visible = False
+		self.erreurMPInvalide.visible = False
+		self.erreurQSInvalide.visible = False
+		self.erreurRSInvalide.visible = False
 
 		infosValides = True
+
 		print("%r vs %r" % (self.identifiant, self.textNomUsager))
+
 		if self.identifiant == "" or self.identifiant == self.textNomUsager:
 			#print("Veuillez vous choisir un identifiant.")
 			infosValides = False
-			self.erreurIDInvalide.place(x=50, y=85)
-		else:
-			self.erreurIDInvalide.placeforget();			
+			self.erreurIDInvalide.visible = True
+		
 		if self.mp1 != self.mp2:
 			#print("Les passwords entres sont differents")#Changer ces print pour des Label qui s'affichent à côté/sous les champs
 			infosValides = False
-			self.erreurPWDifferents.place(x=50, y=130)
-		else:
-			self.erreurPWDifferents.placeforget();
-		if self.mp2 == "" or self.mp2 == self.textConfirmationMDP:
+			self.erreurPWDifferents.visible = True
+
+		if self.mp2 == "" or self.mp2 == self.textMotDePasse:
 			#print("Veuillez saisir un mot de passe.")
 			infosValides = False
-			self.erreurMPInvalide.place(x=50, y=175)
-		else:
-			self.erreurMPInvalide.placeforget();
+			self.erreurMPInvalide.visible = True
+
 		if ('@' not in self.courriel) or ("." not in self.courriel) or self.courriel == self.textEmail:
 			#print("Veuillez saisir un courriel valide.")
 			infosValides = False
-			self.erreurCourrielInvalide.place(x=50, y=215)
-		else:
-			self.erreurCourrielInvalide.placeforget();
+			self.erreurCourrielInvalide.visible = True
+
 		if self.questionSecu == "" or self.questionSecu == self.textQuestionSecurite:
 			#print("Veuillez saisir une question de securite.")
 			infosValides = False
-			self.erreurQSInvalide.place(x=50, y=260)
-		else:
-			self.erreurQSInvalide.placeforget();
+			self.erreurQSInvalide.visible = True
+
 		if self.reponseSecu == "" or self.reponseSecu == self.textReponseQuestion:
 			#print("Veuillez saisir une reponse a la question de securite.")
 			infosValides = False
-			self.erreurRSInvalide.place(x=20, y=302)
-		else:
-			self.erreurRSInvalide.placeforget();
+			self.erreurRSInvalide.visible = True
+		
 		return infosValides
 	
 if __name__ == '__main__':
