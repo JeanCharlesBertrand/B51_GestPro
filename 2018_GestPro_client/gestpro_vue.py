@@ -43,18 +43,6 @@ class Vue():
         self.changecadre(self.frameLogin)
 
 #===============================================================================
-# 	Description: Aucune utilité dans le code actuel. À retiré  
-#	Creator: Julien Desgagné
-#	Last modified: 2018/10/22 - 21h50 
-#===============================================================================
-
-    #def changemode(self,cadre):
-        #if self.modecourant:
-        #    self.modecourant.pack_forget()
-        #self.modecourant=cadre
-        #self.modecourant.pack(expand=1,fill=BOTH)
-
-#===============================================================================
 # 	Description: Change le frame actif. Efface le frame actuel et le remplace
 #				 par le frame passé en paramètre.
 #	Creator: Julien Desgagné
@@ -97,7 +85,7 @@ class Vue():
 #===============================================================================
 # 	Description: Création du frame de login pour l'usager
 #	Creator: Julien Desgagné
-#	Last modified: 2018/10/22 - 21h40 
+#	Last modified: 2018/11/05 - 8h00
 #===============================================================================
 
     def creerFrameLogin(self):
@@ -109,7 +97,11 @@ class Vue():
             bg="#282E3F")										# Couleur de fond [Bleu-gris]
         self.img_logo2 = PhotoImage (file = "image/logo3.png")	# Importer image logo
         x = 300                                     			# Position x,y de l'image sur canevas
-        y = 100                                     
+        y = 100 
+
+        self.compteurTexte = 0
+        self.compteurLoginY = 175
+
         self.canevasLogin.create_image (						# Dessiner logo sur le canevas
         	x, y, image = self.img_logo2)
         self.canevasLogin.pack()
@@ -119,15 +111,15 @@ class Vue():
             font = ("Courier New", 12, "bold"),
             fg = "#dbdbdb",justify='center')					# Couleur de texte [blanc]
         
-        self.nomsplash.insert(0, "username")					# Placeholder dans le champs no.1
-        self.ipsplash=Entry(									# Champs entré no.2
+        self.texteNomSplash = "Identifiant"					    # Placeholder dans le champs no.1
+        self.loginMDP=Entry(									# Champs entré no.2
             bg="#4C9689",										# Couleur de fond [cyan]
             relief = "sunken",
             font = ("Courier New", 12, "bold"),
             fg = "#dbdbdb",justify='center',					# Couleur de texte [blanc]
             show="*")											# Remplace le texte par des '*'
         
-        self.ipsplash.insert(0, "password")						# Placeholder password
+        self.texteLoginMDP = "Mot de passe"						# Placeholder password
         btnConnecter=Button(									# Création bouton connection
             text="Connecter au serveur",
             bg="#4C9689",										# Couleur bouton [cyan]
@@ -140,17 +132,46 @@ class Vue():
             relief = "flat",
             font = ("Courier New", 12, "bold"),
             fg = "#dbdbdb",command=self.frameQuiBouge)           # Couleur de texte [blanc]
-        self.canevasLogin.create_window(						# Dessiner no.1 sur canevas
-        	300,175,window=self.nomsplash,width=250,height=40)
-        self.canevasLogin.create_window(						# Dessiner no.2 sur canevas
-        	300,225,window=self.ipsplash,width=250,height=40)	
         self.canevasLogin.create_window(						# Dessiner bouton connecter sur canevas
         	300,300,window=btnConnecter,width=250,height=40)
         self.canevasLogin.create_window(                        # Dessiner bouton connecter sur canevas
             300,350,window=btnInscription,width=250,height=40)
+
+        self.listeConnexion = [self.nomsplash, self.loginMDP]
+        self.texteListe = [self.texteLoginMDP, self.texteNomSplash]
+
+        for self.entry2 in self.listeConnexion:
+            self.champsText2 = self.texteListe[self.compteurTexte]
+            self.construitEntryLogin(self.entry2,self.champsText2)
+            self.compteurTexte += 1
+            self.compteurLoginY += 50
+
+    def construitEntryLogin(self, entry2, champsText2):
+        self.entry2.insert(0, champsText2)
+        self.entry2.bind('<FocusIn>',lambda event: self.on_entry_click2(event,entry2,champsText2))
+        self.entry2.bind('<FocusOut>',lambda event: self.on_focusout2(event,entry2,champsText2))
+        self.entry2.config(                                  
+            bg="#4C9689",                                       
+            relief = "sunken",
+            font = ("Courier New", 12, "bold"),
+            fg = "#dbdbdb",justify='center')
+
+        self.canevasLogin.create_window(                        
+            300,self.compteurLoginY,window=self.entry2,width=250,height=25)
+
+    def on_entry_click2(self, event,entry2, champsText2):
+        if entry2.get() == champsText2:
+           entry2.delete(0, "end") 
+           entry2.insert(0, '') 
+           entry2.config(fg = 'white')
+
+    def on_focusout2(self, event, entry2, champsText2):
+        if entry2.get() == '':
+            entry2.insert(0, champsText2)
+            entry2.config(fg = 'white')
         
 #===============================================================================
-# 	Description: 
+# 	Description: Creation de nouveau projet
 #	Creator: Julien Desgagné
 #	Last modified: 2018/10/22 - 21h40 
 #===============================================================================
@@ -227,6 +248,124 @@ class Vue():
             font = ("Courier New", 12, "bold"),
             fg = "#dbdbdb",command=self.inscrireClient)
         self.canevasplash.create_window(500,220,window=btnconfirmer,width=100,height=20)
+#===============================================================================
+#   Description: 
+#   Creator: Julien Desgagné
+#   Last modified: 2018/11/05 - 7h25 
+#===============================================================================
+
+    def frameQuiBouge(self):    
+        ## Record coordinates for window to avoid asking them every time
+        self.__winX, self.__winY = 300, 20
+        self.frameSignIn = Frame(
+            self.root, 
+            bd=1, 
+            relief=RIDGE,
+            bg="#282E3F")
+        self.frameSignIn.place(
+            x=self.__winX, 
+            y=20, 
+            width=300, 
+            height=360)
+        
+        self.labelSignIn = Label(
+            self.frameSignIn, 
+            bd=1, 
+            relief=RIDGE, 
+            text="Inscription",fg="#4C9689",
+            font = ("Courier New", 12, "bold"),
+            bg="#282E3F")
+        self.labelSignIn.pack(fill=X, padx=1, pady=1)
+        
+        self.canevasSignIn = Canvas(
+            self.frameSignIn, 
+            width=300,
+            height=360,
+            bg="#282E3F", 
+            bd=0, 
+            highlightbackground ="#282E3F")
+        self.canevasSignIn.pack(fill=X, padx=1, pady=1)
+        
+        ## When the button is pressed, make sure we get the first coordinates
+        self.labelSignIn.bind('<ButtonPress-1>', self.startMoveWindow)
+        self.labelSignIn.bind('<B1-Motion>', self.MoveWindow)
+        self.frameSignIn.bind('<ButtonPress-1>', self.startMoveWindow)
+        self.frameSignIn.bind('<B1-Motion>', self.MoveWindow)
+
+        #usager, mot de passe, confirmation, email, question de sécurité, réponse sécurité, btnOk
+        self.compteur = 0
+        self.compteurY = 50
+
+        self.nomUsager = Entry()
+        self.motDePasse = Entry()
+        self.confirmationMDP = Entry()
+        self.email = Entry()
+        self.questionSecurite = Entry()
+        self.reponseQuestion = Entry()
+        self.btnConfirmerInscription = Button(
+            text="S'inscrire",
+            bg="#282E3F",
+            fg = "#dbdbdb",                         #texte blanc
+            justify='right',
+            font = ("Courier New", 12, "bold"),
+            relief="flat",
+            overrelief = "raised",
+            activebackground = "#4C9689")
+
+        self.canevasSignIn.create_window(                        
+            150,280,window=self.btnConfirmerInscription,width=200,height=25)
+
+        self.textNomUsager = "Nom usager"
+        self.textMotDePassse = "Mot de passe"
+        self.textConfirmationMDP = "Confirmer votre mot de passe"
+        self.textEmail = "email@email.com"
+        self.textQuestionSecurite = "Entrer une question de securite"
+        self.textReponseQuestion = "Entrer votre reponse"
+
+        #self.placeHolderText = 'test'
+        self.entryListe = [self.nomUsager, self.motDePasse, self.confirmationMDP, self.email,self.questionSecurite, self.reponseQuestion]
+        self.texteListe = [self.textNomUsager, self.textMotDePassse, self.textConfirmationMDP,self.textEmail,self.textQuestionSecurite, self.textReponseQuestion]
+
+        for self.entry in self.entryListe:
+            self.champsTexte = self.texteListe[self.compteur]
+            self.construitEntry(self.entry,self.champsTexte)
+            self.compteur += 1
+            self.compteurY += 40
+
+
+    def construitEntry(self, entry, champsTexte):
+        self.entry.insert(0, champsTexte)
+        self.entry.bind('<FocusIn>',lambda event: self.on_entry_click(event,entry,champsTexte))
+        self.entry.bind('<FocusOut>',lambda event: self.on_focusout(event,entry,champsTexte))
+        self.entry.config(
+            bg="#4C9689",                                       # Couleur de fond [cyan]
+            relief = "sunken",
+            font = ("Courier New", 12, "bold"),
+            fg = "#dbdbdb",justify='center')
+
+        self.canevasSignIn.create_window(                        
+            150,self.compteurY,window=self.entry,width=250,height=25)
+
+
+    def on_entry_click(self, event,entry, champsTexte):
+        if entry.get() == champsTexte:
+           entry.delete(0, "end") 
+           entry.insert(0, '') 
+           entry.config(fg = 'white')
+
+    def on_focusout(self, event, entry, champsTexte):
+        if entry.get() == '':
+            entry.insert(0, champsTexte)
+            entry.config(fg = 'white')
+
+    def startMoveWindow(self,event):
+        self.__lastX= event.x_root
+
+    def MoveWindow(self, event):
+        self.root.update_idletasks()
+        self.__winX += event.x_root - self.__lastX
+        self.__lastX = event.x_root
+        self.frameSignIn.place_configure(x=self.__winX)
 
 #===============================================================================
 # 	Description: 
@@ -451,131 +590,6 @@ class Vue():
     def fermerfenetre(self):
         # Ici, on pourrait mettre des actions a faire avant de fermer (sauvegarder, avertir etc) 
         self.parent.fermefenetre()
-
-    def frameQuiBouge(self):    
-        ## Record coordinates for window to avoid asking them every time
-        self.__winX, self.__winY = 300, 20
-        self.frameSignIn = Frame(
-            self.root, 
-            bd=1, 
-            relief=RIDGE,
-            bg="#282E3F")
-        self.frameSignIn.place(
-            x=self.__winX, 
-            y=20, 
-            width=300, 
-            height=360)
-        
-        self.labelSignIn = Label(
-            self.frameSignIn, 
-            bd=1, 
-            relief=RIDGE, 
-            text="Inscription",fg="#4C9689",
-            font = ("Courier New", 12, "bold"),
-            bg="#282E3F")
-        self.labelSignIn.pack(fill=X, padx=1, pady=1)
-        
-        self.canevasSignIn = Canvas(
-            self.frameSignIn, 
-            width=300,
-            height=360,
-            bg="#282E3F", 
-            bd=0, 
-            highlightbackground ="#282E3F")
-        self.canevasSignIn.pack(fill=X, padx=1, pady=1)
-        
-        ## When the button is pressed, make sure we get the first coordinates
-        self.labelSignIn.bind('<ButtonPress-1>', self.startMoveWindow)
-        self.labelSignIn.bind('<B1-Motion>', self.MoveWindow)
-        self.frameSignIn.bind('<ButtonPress-1>', self.startMoveWindow)
-        self.frameSignIn.bind('<B1-Motion>', self.MoveWindow)
-
-        #usager, mot de passe, confirmation, email, question de sécurité, réponse sécurité, btnOk
-        self.nomUsager = Entry(
-            bg="#4C9689",                                       # Couleur de fond [cyan]
-            relief = "sunken",
-            font = ("Courier New", 12, "bold"),
-            fg = "#dbdbdb",justify='center')
-        self.motDePasse = Entry(
-            bg="#4C9689",                                       # Couleur de fond [cyan]
-            relief = "sunken",
-            font = ("Courier New", 12, "bold"),
-            fg = "#dbdbdb",justify='center',show="*")
-        self.confirmationMDP = Entry(
-            bg="#4C9689",                                       # Couleur de fond [cyan]
-            relief = "sunken",
-            font = ("Courier New", 12, "bold"),
-            fg = "#dbdbdb",justify='center',show="*")
-        self.email = Entry(
-            bg="#4C9689",                                       # Couleur de fond [cyan]
-            relief = "sunken",
-            font = ("Courier New", 12, "bold"),
-            fg = "#dbdbdb",justify='center')
-        self.questionSecurite = Entry(
-            bg="#4C9689",                                       # Couleur de fond [cyan]
-            relief = "sunken",
-            font = ("Courier New", 12, "bold"),
-            fg = "#dbdbdb",justify='center')
-        self.reponseQuestion = Entry(
-            bg="#4C9689",                                       # Couleur de fond [cyan]
-            relief = "sunken",
-            font = ("Courier New", 12, "bold"),
-            fg = "#dbdbdb",justify='center')
-        btnConfirmerInscription = Button(
-            text="S'inscrire",
-            bg="#282E3F",
-            fg = "#dbdbdb",                         #texte blanc
-            justify='right',
-            font = ("Courier New", 12, "bold"),
-            relief="flat",
-            overrelief = "raised",
-            activebackground = "#4C9689")
-
-        self.canevasSignIn.create_window(                        
-            150,50,window=self.nomUsager,width=250,height=25)
-        self.canevasSignIn.create_window(                        
-            150,90,window=self.motDePasse,width=250,height=25)
-        self.canevasSignIn.create_window(                        
-            150,130,window=self.confirmationMDP,width=250,height=25)
-        self.canevasSignIn.create_window(                        
-            150,170,window=self.email,width=250,height=25)
-        self.canevasSignIn.create_window(                        
-            150,210,window=self.questionSecurite,width=250,height=25)
-        self.canevasSignIn.create_window(                        
-            150,250,window=self.reponseQuestion,width=250,height=25)
-        self.canevasSignIn.create_window(                        
-            150,280,window=btnConfirmerInscription,width=200,height=25)
-        #self.placeHolderText = 'test'
-
-        self.nomUsager.insert(0,'Entrer votre username...')
-        self.nomUsager.bind('<FocusIn>',self.on_entry_click)
-        self.nomUsager.bind('<FocusOut>',self.on_focusout)
-        #self.nomUsager.pack()
-
-    def on_entry_click(self, event):
-        """function that gets called whenever entry is clicked"""
-        if self.nomUsager.get() == 'Entrer votre username...':
-           self.nomUsager.delete(0, "end") # delete all the text in the entry
-           self.nomUsager.insert(0, '') #Insert blank for user input
-           self.nomUsager.config(fg = 'white')
-    def on_focusout(self, event):
-        if self.nomUsager.get() == '':
-            self.nomUsager.insert(0, 'Entrer votre username...')
-            self.nomUsager.config(fg = 'white')
-
-    def startMoveWindow(self,event):
-    ## When the movement starts, record current root coordinates
-        self.__lastX= event.x_root
-
-    def MoveWindow(self, event):
-        self.root.update_idletasks()
-        ## Use root coordinates to compute offset for inside window coordinates
-        self.__winX += event.x_root - self.__lastX
-        #self.__winY += event.y_root - self.__lastY
-        ## Remember last coordinates
-        self.__lastX = event.x_root
-        ## Move inside window
-        self.frameSignIn.place_configure(x=self.__winX)
 
     
 if __name__ == '__main__':
