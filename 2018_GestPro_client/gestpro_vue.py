@@ -152,7 +152,7 @@ class Vue():
             x=self.__winX, 
             y=20, 
             width=300, 
-            height=360)
+            height=260)
         
         self.labelCreateProject = Label(
             self.frameCreateProject, 
