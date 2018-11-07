@@ -33,6 +33,7 @@ class DbUtilisateurs:
 				description 	TEXT,
 				nom_organi		TEXT,
 				date_creation	TEXT		NOT NULL,
+				date_butoire	DATE,
 
 				CONSTRAINT uc_createur_nom UNIQUE(nom,id_createur),
 				CONSTRAINT fk_pro_id_createur FOREIGN KEY (id_createur) REFERENCES utilisateurs(id)
@@ -47,3 +48,77 @@ class DbUtilisateurs:
 				CONSTRAINT fk_userPro_iduser FOREIGN KEY (id_user) REFERENCES utilisateurs(id),
 				CONSTRAINT fk_userPro_idpro FOREIGN KEY (id_projet) REFERENCES projet(id)
 														) ''')
+		
+	def creationMandat(self):
+		self.c.execute(''' CREATE TABLE IF NOT EXISTS mandat(
+				id				INTEGER		PRIMARY KEY AUTOINCREMENT,
+				fichier_txt		TEXT		NOT NULL,
+				id_projet		INTEGER		NOT NULL,
+
+				CONSTRAINT fk_mandat_projet	FOREIGN KEY (id_projet) REFERENCES projet(id),
+														) ''')
+		
+	def creationAnalyseTextuelle(self):
+		self.c.execute(''' CREATE TABLE IF NOT EXISTS analyse(
+				id				INTEGER		PRIMARY KEY AUTOINCREMENT,
+				id_projet		INTEGER		NOT NULL,
+				fichNomExp		TEXT,
+				fichVerbeExp	TEXT,
+				fichAdjExp		TEXT,
+				fichNomImp		TEXT,
+				fichVerbeImp	TEXT,
+				fichAdjImp		TEXT,
+				fichNomSupp		TEXT,
+				fichVerbeSupp	TEXT,
+				fichAdjSupp		TEXT,
+				
+				CONSTRAINT fk_analyse_projet	FOREIGN KEY (id_projet) REFERENCES projet(id),
+														) ''')	
+	
+
+	def creationBlocTemps(self):
+		self.c.execute(''' CREATE TABLE IF NOT EXISTS bloc_temps(
+				id				INTEGER		PRIMARY KEY AUTOINCREMENT,
+				id_projet		INTEGER		NOT NULL,
+				debut			DATE		NOT NULL,
+				fin				DATE		NOT NULL,
+
+				CONSTRAINT fk_bloc_projet	FOREIGN KEY (id_projet) REFERENCES projet(id),
+														) ''')
+		
+	def creationCasUsage(self):
+		self.c.execute('''CREATE TABLE IF NOT EXISTS cas_usage(
+				id				INTEGER		PRIMARY KEY AUTOINCREMENT,
+				id_projet		INTEGER		NOT NULL,
+				description		TEXT,
+				
+				CONSTRAINT fk_casusage_projet	FOREIGN KEY (id_projet) REFERENCES projet(id),
+														) ''')
+		
+	def creationScenarioUtilisation(self):
+		self.c.execute('''CREATE TABLE IF NOT EXISTS scenario_utilisation(	
+				id				INTEGER		PRIMARY KEY AUTOINCREMENT,
+				id_projet		INTEGER		NOT NULL,
+				id_cas_usage	INTEGER		NOT NULL,
+				fichUsage		TEXT,
+				fichOrdi		TEXT,
+				fichAutre		TEXT,
+				
+				CONSTRAINT fk_scenario_projet	FOREIGN KEY (id_projet) REFERENCES projet(id),
+				CONSTRAINT fk_scenario_casusage	FOREIGN KEY (id_cas_usage) REFERENCES cas_usage(id),
+														) ''')
+				
+	def creationCRC(self):
+		self.c.execute('''CREATE TABLE IF NOT EXISTS crc(	
+				id				INTEGER		PRIMARY KEY AUTOINCREMENT,
+				id_projet		INTEGER		NOT NULL,
+				id_utilisateur	INTEGER,
+				id_classe		INTEGER,
+				
+				CONSTRAINT fk_crc_projet	FOREIGN KEY (id_projet) REFERENCES projet(id),
+				CONSTRAINT fk_crc_utilisateur	FOREIGN KEY (id_utilisateur) REFERENCES utilisateurs(id),
+														) ''')
+				
+				
+
+				
