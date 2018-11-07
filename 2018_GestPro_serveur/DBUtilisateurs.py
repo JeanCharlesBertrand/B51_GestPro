@@ -30,9 +30,9 @@ class DbUtilisateurs:
 				id				INTEGER		PRIMARY KEY AUTOINCREMENT,
 				nom				TEXT		NOT NULL,
 				id_createur		INTEGER		NOT NULL,
-				nom_organi		TEXT		NOT NULL,
-				date_creation	DATE		NOT NULL,
-				date_butoir		DATE,
+				description 	TEXT,
+				nom_organi		TEXT,
+				date_creation	TEXT		NOT NULL,
 
 				CONSTRAINT uc_createur_nom UNIQUE(nom,id_createur),
 				CONSTRAINT fk_pro_id_createur FOREIGN KEY (id_createur) REFERENCES utilisateurs(id)

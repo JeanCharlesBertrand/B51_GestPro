@@ -21,6 +21,8 @@ class Controleur():
 		self.nodeport="9999"
 		self.vue=Vue(self,self.monip)
 		self.vue.root.mainloop()
+		self.idProjet=None
+		self.identifiant=None
 		
 	def trouverIP(self): # fonction pour trouver le IP en 'pignant' gmail
 		s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # on cree un socket
@@ -50,10 +52,51 @@ class Controleur():
 			print(str(rep))
 			#C'est dans le serveur que se passent les vérifications dans la BD
 			if rep!=0: # Rep sera 0 si l'utilisateur n'est pas trouvé ou si le pw ne match pas
-				self.vue.chargercentral(rep[2]) #Load les modules
+				self.identifiant=self.serveur.getIdMembre(identifiant) #sauvegarde du côté client le id de utilisateur
+				self.vue.chargerSelectProjet(self.selectProjetDuMembre()) #charge fenêtre intermédiaire de sélection/création de projet
 			else:
 				print("Nous n'avons pas réussi à vous connecter avec ces informations")
 				#À CHANGER POUR UN LABEL+CREATEWINDOW DANS LA VUE
+				
+	
+#===============================================================================
+#    Description: creer projet si non existant+appel pour ajout du membre table liaison user/projet+retourne fenetre de selection des projets/option de creation
+#    Creator: Guillaume Geoffroy
+#    Last modified: 2018/11/04 - 12h30
+#===============================================================================				
+				
+	def creerSiDisponibles(self, nom, description, organisation):
+		if nom:# and description and organisation and dateButoir:
+			reponseCreation=self.serveur.creerSiInfosDisponibles(nom, self.identifiant, description, organisation)# on averti le serveur de créer le projet
+			if reponseCreation[0]:# reponseInscription[0] == True/False (succes de l'inscription) et reponseInscription[1] = messageErreur si [0] == False
+				print("Projet Creer") #À CHANGER POUR UN LABEL+CREATEWINDOW DANS LA VUE
+				self.vue.frameCreateProject.destroy()
+				self.vue.chargerSelectProjet(self.selectProjetDuMembre()) #retourner fenetre d'affichage des projets du membre
+			else:
+				print(reponseCreation[1])	
+
+#===============================================================================
+#    Description: retourne la liste des projets du client à partir de son identifiant conserver localement
+#    Creator: Guillaume Geoffroy
+#    Last modified: 2018/11/04 - 12h30
+#===============================================================================
+					
+	def selectProjetDuMembre(self):
+		return self.serveur.selectProjetDuMembre(self.identifiant)
+		 
+#===============================================================================
+#    Description: permet de configurer le main pour qu'une fois un projet selectionner on ait son identifiant pour aller chercher les bonnes data dans nos tables de module
+#    Creator: Guillaume Geoffroy
+#    Last modified: 2018/11/04 - 12h30
+#===============================================================================
+		
+	def selectionProjet(self,nom):
+		if nom:
+			self.idProjet=self.serveur.getIdProjet(nom) #set le idProjet du client pour qu'on puisse aller chercher les bonnes infos pour nos modules
+			self.vue.chargercentral() #Load le main frame
+
+#===============================================================================
+
 	def requetemodule(self,mod):
 		rep=self.serveur.requetemodule(mod)
 		if rep:
