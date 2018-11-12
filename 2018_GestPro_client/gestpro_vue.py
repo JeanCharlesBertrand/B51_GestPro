@@ -699,9 +699,9 @@ class Vue():
         
         ## When the button is pressed, make sure we get the first coordinates
         self.labelAjouterMembre.bind('<ButtonPress-1>', self.startMoveWindow)
-        self.labelAjouterMembre.bind('<B1-Motion>', self.MoveWindow1)
+        self.labelAjouterMembre.bind('<B1-Motion>', self.MoveWindow2)
         self.frameAjouterMembre.bind('<ButtonPress-1>', self.startMoveWindow)
-        self.frameAjouterMembre.bind('<B1-Motion>', self.MoveWindow1)
+        self.frameAjouterMembre.bind('<B1-Motion>', self.MoveWindow2)
 
         self.compteur = 0
         self.compteurY = 50
@@ -734,7 +734,7 @@ class Vue():
             self.compteur += 1
             self.compteurY += 43
         
-    def MoveWindow1(self, event):
+    def MoveWindow2 (self, event):
         self.root.update_idletasks()
         self.__winX += event.x_root - self.__lastX
         self.__lastX = event.x_root
