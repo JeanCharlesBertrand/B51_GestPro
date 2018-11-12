@@ -478,6 +478,13 @@ class Vue():
 			self.construitEntry(self.entry,self.champsTexte,1)
 			self.compteur += 1
 			self.compteurY += 43
+			
+		self.erreurIDInvalide = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Veuillez vous choisir un identifiant.")
+		self.erreurPWDifferents = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Les passwords entres sont differents.")
+		self.erreurCourrielInvalide = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Veuillez saisir un courriel valide.")
+		self.erreurMPInvalide = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Veuillez saisir un mot de passe.")
+		self.erreurQSInvalide = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Veuillez saisir une question de securite.")
+		self.erreurRSInvalide = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Veuillez saisir une reponse a la question de securite.")
 
 	def construitEntry(self, entry, champsTexte, v):
 		self.entry.insert(0, champsTexte)
@@ -821,63 +828,50 @@ class Vue():
 		self.questionSecu = self.questionSecurite.get()
 		self.reponseSecu = self.reponseQuestion.get()
 
-
-		self.erreurIDInvalide = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Veuillez vous choisir un identifiant.")
-		self.erreurPWDifferents = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Les passwords entres sont differents.")
-		self.erreurCourrielInvalide = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Veuillez saisir un courriel valide.")
-		self.erreurMPInvalide = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Veuillez saisir un mot de passe.")
-		self.erreurQSInvalide = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Veuillez saisir une question de securite.")
-		self.erreurRSInvalide = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Veuillez saisir une reponse a la question de securite.")
-		
-		self.erreurIDInvalide.place(x=50, y=85)
-		self.erreurPWDifferents.place(x=50, y=130)
-		self.erreurMPInvalide.place(x=50, y=175)
-		self.erreurCourrielInvalide.place(x=50, y=215)
-		self.erreurQSInvalide.place(x=50, y=260)
-		self.erreurRSInvalide.place(x=20, y=302)
-		
-		self.erreurIDInvalide.visible = False
-		self.erreurPWDifferents.visible = False
-		self.erreurCourrielInvalide.visible = False
-		self.erreurMPInvalide.visible = False
-		self.erreurQSInvalide.visible = False
-		self.erreurRSInvalide.visible = False
-
 		infosValides = True
 
 		print("%r vs %r" % (self.identifiant, self.textNomUsager))
 
+		self.erreurIDInvalide.place_forget()
+		self.erreurPWDifferents.place_forget()
+		self.erreurMPInvalide.place_forget()
+		self.erreurCourrielInvalide.place_forget()
+		self.erreurQSInvalide.place_forget()
+		self.erreurRSInvalide.place_forget()
+		
+		
+		
 		if self.identifiant == "" or self.identifiant == self.textNomUsager:
 			#print("Veuillez vous choisir un identifiant.")
 			infosValides = False
-			self.erreurIDInvalide.visible = True
+			self.erreurIDInvalide.place(x=50, y=85)
 		
 		if self.mp1 != self.mp2:
 			#print("Les passwords entres sont differents")#Changer ces print pour des Label qui s'affichent à côté/sous les champs
 			infosValides = False
-			self.erreurPWDifferents.visible = True
+			self.erreurPWDifferents.place(x=50, y=130)
 
 		if self.mp2 == "" or self.mp2 == self.textMotDePasse:
 			#print("Veuillez saisir un mot de passe.")
 			infosValides = False
-			self.erreurMPInvalide.visible = True
+			self.erreurMPInvalide.place(x=50, y=175)
 
 		if ('@' not in self.courriel) or ("." not in self.courriel) or self.courriel == self.textEmail:
 			#print("Veuillez saisir un courriel valide.")
 			infosValides = False
-			self.erreurCourrielInvalide.visible = True
+			self.erreurCourrielInvalide.place(x=50, y=215)
 
 		if self.questionSecu == "" or self.questionSecu == self.textQuestionSecurite:
 			#print("Veuillez saisir une question de securite.")
 			infosValides = False
-			self.erreurQSInvalide.visible = True
+			self.erreurQSInvalide.place(x=50, y=260)
 
 		if self.reponseSecu == "" or self.reponseSecu == self.textReponseQuestion:
 			#print("Veuillez saisir une reponse a la question de securite.")
 			infosValides = False
-			self.erreurRSInvalide.visible = True
+			self.erreurRSInvalide.place(x=20, y=302)
 		
-		return infosValides	   
+		return infosValides
 	
 	
 	def validerAjoutMembre(self):#S'assure que les champs sont remplis + '@' et '.' ds courriel
