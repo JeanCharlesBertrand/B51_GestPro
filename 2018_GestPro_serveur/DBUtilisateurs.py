@@ -33,7 +33,7 @@ class DbUtilisateurs:
 				description 	TEXT,
 				nom_organi		TEXT,
 				date_creation	TEXT		NOT NULL,
-				date_butoire	DATE,
+				date_butoire	TEXT,
 
 				CONSTRAINT uc_createur_nom UNIQUE(nom,id_createur),
 				CONSTRAINT fk_pro_id_createur FOREIGN KEY (id_createur) REFERENCES utilisateurs(id)
@@ -48,6 +48,18 @@ class DbUtilisateurs:
 				CONSTRAINT fk_userPro_iduser FOREIGN KEY (id_user) REFERENCES utilisateurs(id),
 				CONSTRAINT fk_userPro_idpro FOREIGN KEY (id_projet) REFERENCES projet(id)
 														) ''')
+	
+	def creationChat(self):
+		self.c.execute(''' CREATE TABLE IF NOT EXISTS chat(
+				id				INTEGER		PRIMARY KEY AUTOINCREMENT,					
+				id_user			INTEGER		NOT NULL,
+				id_projet		INTEGER		NOT NULL,		
+				message			TEXT		NOT NULL,
+				time			TEXT		NOT NULL,
+
+				CONSTRAINT fk_userPro_iduser FOREIGN KEY (id_user) REFERENCES utilisateurs(id),
+				CONSTRAINT fk_userPro_idpro FOREIGN KEY (id_projet) REFERENCES projet(id)
+														) ''')
 		
 	def creationMandat(self):
 		self.c.execute(''' CREATE TABLE IF NOT EXISTS mandat(
@@ -55,7 +67,7 @@ class DbUtilisateurs:
 				fichier_txt		TEXT		NOT NULL,
 				id_projet		INTEGER		NOT NULL,
 
-				CONSTRAINT fk_mandat_projet	FOREIGN KEY (id_projet) REFERENCES projet(id),
+				CONSTRAINT fk_mandat_projet	FOREIGN KEY (id_projet) REFERENCES projet(id)
 														) ''')
 		
 	def creationAnalyseTextuelle(self):
@@ -72,10 +84,9 @@ class DbUtilisateurs:
 				fichVerbeSupp	TEXT,
 				fichAdjSupp		TEXT,
 				
-				CONSTRAINT fk_analyse_projet	FOREIGN KEY (id_projet) REFERENCES projet(id),
+				CONSTRAINT fk_analyse_projet	FOREIGN KEY (id_projet) REFERENCES projet(id)
 														) ''')	
 	
-
 	def creationBlocTemps(self):
 		self.c.execute(''' CREATE TABLE IF NOT EXISTS bloc_temps(
 				id				INTEGER		PRIMARY KEY AUTOINCREMENT,
@@ -83,7 +94,7 @@ class DbUtilisateurs:
 				debut			DATE		NOT NULL,
 				fin				DATE		NOT NULL,
 
-				CONSTRAINT fk_bloc_projet	FOREIGN KEY (id_projet) REFERENCES projet(id),
+				CONSTRAINT fk_bloc_projet	FOREIGN KEY (id_projet) REFERENCES projet(id)
 														) ''')
 		
 	def creationCasUsage(self):
@@ -92,7 +103,7 @@ class DbUtilisateurs:
 				id_projet		INTEGER		NOT NULL,
 				description		TEXT,
 				
-				CONSTRAINT fk_casusage_projet	FOREIGN KEY (id_projet) REFERENCES projet(id),
+				CONSTRAINT fk_casusage_projet	FOREIGN KEY (id_projet) REFERENCES projet(id)
 														) ''')
 		
 	def creationScenarioUtilisation(self):
@@ -105,7 +116,7 @@ class DbUtilisateurs:
 				fichAutre		TEXT,
 				
 				CONSTRAINT fk_scenario_projet	FOREIGN KEY (id_projet) REFERENCES projet(id),
-				CONSTRAINT fk_scenario_casusage	FOREIGN KEY (id_cas_usage) REFERENCES cas_usage(id),
+				CONSTRAINT fk_scenario_casusage	FOREIGN KEY (id_cas_usage) REFERENCES cas_usage(id)
 														) ''')
 				
 	def creationCRC(self):
@@ -116,7 +127,7 @@ class DbUtilisateurs:
 				id_classe		INTEGER,
 				
 				CONSTRAINT fk_crc_projet	FOREIGN KEY (id_projet) REFERENCES projet(id),
-				CONSTRAINT fk_crc_utilisateur	FOREIGN KEY (id_utilisateur) REFERENCES utilisateurs(id),
+				CONSTRAINT fk_crc_utilisateur	FOREIGN KEY (id_utilisateur) REFERENCES utilisateurs(id)
 														) ''')
 				
 				

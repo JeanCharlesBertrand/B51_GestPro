@@ -36,9 +36,15 @@ class ModeleService(object):
 	def __init__(self,parent,rdseed):
 		self.parent=parent
 		self.rdseed=rdseed
-		self.modulesdisponibles={"projet":"gp_projet",
-								 "sql":"gp_sql",
-								 "login":"gp_login"}
+		self.modulesdisponibles={   "analyseText":     ["gp_analyseText",0.1],
+								      "casUsages":       ["gp_casUsages",0.1],
+								      "maquettes":       ["gp_maquettes",0.1],
+								            "crc":             ["gp_crc",0.1],
+								   "modelisation":    ["gp_modelisation",0.1],
+								  "planifGlobale":   ["gp_planifGlobale",0.1],
+								 "implementation":  ["gp_implementation",0.1],
+								     "calendrier":      ["gp_calendrier",0.1]							
+								}
 		self.clients={}
 
 	def creerclient(self,nom):
@@ -53,9 +59,18 @@ class ControleurServeur(object):
 	def __init__(self):
 		rand=random.randrange(1000)+1000
 		self.modele=ModeleService(self,rand)
+
+#===============================================================================
+#    Description: appelé une fois le curseur utilisé en transposé dans une variable intermédiaire pour réutilisation du curseur
+#    Creator: Guillaume Geoffroy
+#    Last modified: 2018/11/07 - 18h30
+#===============================================================================
 	
 	def resetCurseur(self):
 		dbUtilisateurs.c=dbUtilisateurs.conn.cursor()	
+		
+	def getDicoModules(self):
+		return self.modele.modulesdisponibles
 		
 	def loginauserveur(self,nom, motDePasse):
 		#SELECT du mot de passe relié à l'identifiant dans la BD, casté dans un object de type cursor
@@ -124,7 +139,7 @@ class ControleurServeur(object):
 		
 		self.resetCurseur()
 		if disponibles:
-			self.ajouterMembre(identifiant, nom)
+			rep2=self.ajouterMembre(identifiant, nom)
 		
 		return ([disponibles, messageErreur])
 
@@ -137,10 +152,13 @@ class ControleurServeur(object):
 	
 	def getIdMembre(self,identifiant):
 		curseurID = dbUtilisateurs.c.execute('SELECT id FROM utilisateurs WHERE identifiant = ?', [identifiant])
-		idT = curseurID.fetchone()
-		self.resetCurseur()
-		id=int(idT[0])
-		return id
+		if curseurID is None:
+			return "Membre inexistant"
+		else:
+			idT = curseurID.fetchone()
+			self.resetCurseur()
+			id=int(idT[0])
+			return id
 	
 #===============================================================================
 #    Description: retourne la liste des noms de projets dont fait partie le membre
@@ -163,7 +181,10 @@ class ControleurServeur(object):
 	def ajouterMembre(self,identifiant,nom):
 		disponibles = True
 		messageErreur = ""
-		idProjet=self.getIdProjet(nom)
+		if type(nom) is str:
+			idProjet=self.getIdProjet(nom)
+		else:
+			idProjet=nom
 		try:
 			dbUtilisateurs.c.execute('INSERT INTO user_projet(id_user, id_projet) VALUES (?, ?)', (identifiant, idProjet) )
 			dbUtilisateurs.conn.commit()
@@ -176,8 +197,11 @@ class ControleurServeur(object):
 				disponibles = False
 				messageErreur = str(e)
 				print('%r' % e)
+		
+		return messageErreur
 				
 		self.resetCurseur()
+
 
 #===============================================================================
 #    Description: retourne l'id d'un projet dont on connait le nom (à ce stade pour la sélection du projet dans lequel le client veut travailler)
@@ -198,7 +222,8 @@ class ControleurServeur(object):
 		if mod in self.modele.modulesdisponibles.keys():
 			cwd=os.getcwd()
 			if os.path.exists(cwd+"/gp_modules/"):
-				dirmod=cwd+"/gp_modules/"+self.modele.modulesdisponibles[mod]+"/"
+				lieuApp="/gp_"+mod
+				dirmod=cwd+"/gp_modules/"+lieuApp+"/"
 				if os.path.exists(dirmod):
 					listefichiers=[]
 					for i in os.listdir(dirmod):
@@ -206,11 +231,8 @@ class ControleurServeur(object):
 							val=["fichier",i]
 						else:
 							val=["dossier",i]
-							
 						listefichiers.append(val)
 					return [mod,dirmod,listefichiers]
-			
-			
 			
 	def requetefichier(self,lieu):
 		fiche=open(lieu,"rb")

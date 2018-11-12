@@ -41,6 +41,7 @@ class Vue():
         self.cadreactif=None
         self.creercadres()
         self.changecadre(self.frameLogin)
+        self.erreurAjout=None
 
 #===============================================================================
 #    Description: cadre temporaire pour tester les fonctionnalités
@@ -475,7 +476,6 @@ class Vue():
             self.compteur += 1
             self.compteurY += 43
 
-
     def construitEntry(self, entry, champsTexte, v):
         self.entry.insert(0, champsTexte)
         self.entry.bind('<FocusIn>',lambda event: self.on_entry_click(event,entry,champsTexte))
@@ -489,8 +489,11 @@ class Vue():
         if v==1:
             self.canevasSignIn.create_window(                         
                 150,self.compteurY,window=self.entry,width=250,height=25)
-        else:
+        elif v==2:
             self.canevasCreation.create_window(                         
+                150,self.compteurY,window=self.entry,width=250,height=25)
+        else:
+            self.canevasAjouterMembre.create_window(                         
                 150,self.compteurY,window=self.entry,width=250,height=25)
 
     def on_entry_click(self, event,entry, champsTexte):
@@ -528,35 +531,20 @@ class Vue():
             bg="#282E3F")                            #Bleu-gris
         self.canevacentral.pack()
         
-        self.listemodules=Listbox(
-            bg="#282E3F",                            #Bleu-gris
-            borderwidth=0,
-            relief=FLAT,
-            width=20,
-            height=6,
-            fg = "#dbdbdb",                            #texte blanc
-            font = ("Courier New", 12, "bold"),
-            highlightbackground= "#282E3F")            #Contour bleu-gris
-        self.ipcentral=Entry(bg="pink")
-        self.ipcentral.insert(0, self.monip)
-        btnConnecter=Button(
-            text="Requerir module",
-            bg="#4C9689",                            #Cyan
-            fg = "#dbdbdb",                            #texte blanc
-            justify='center',
-            font = ("Courier New", 12, "bold"),
-            command=self.requetemodule)
-        self.canevacentral.create_window(
-            300,
-            150,
-            window=self.listemodules)
-        self.canevacentral.create_window(
-            300,
-            250,
-            window=btnConnecter,
-            width=250,
-            height=40)
+        self.cadreChat=Frame(self.cadrecentral, 
+            width=450,
+            height=200,
+            bg="#4C9689")
         
+        self.cadreChat.place(x=600,y=350)
+        
+        self.cadreEntree=Frame(self.cadrecentral, 
+            width=450,
+            height=45,
+            bg="#387c70")
+        
+        self.cadreEntree.place(x=600,y=550)
+                        
         btnquitproc=Button(
             text="Fermer dernier module",
             bg="#4C9689",                            #Cyan
@@ -565,6 +553,17 @@ class Vue():
             font = ("Courier New", 12, "bold"),
             command=self.closeprocess)
 
+        btnAjouterMembre = Button(
+            text="+Membre",
+            bg="#282E3F",
+            fg = "#dbdbdb",                            #texte blanc
+            justify='right',
+            font = ("Courier New", 30, "bold"),
+            relief="flat",
+            overrelief = "raised",
+            activebackground = "#4C9689",
+            command=self.ajouterMembrePop)
+        
         btnMandat = Button(
             text="Mandat",
             bg="#282E3F",
@@ -583,8 +582,8 @@ class Vue():
             font = ("Courier New", 15, "bold"),
             relief="flat",
             overrelief = "raised",
-            activebackground = "#4C9689")
-            #command=none)
+            activebackground = "#4C9689",
+            command=self.requeteAnalyse)
         btnCasUsage = Button(
             text="Cas usage",
             bg="#282E3F",
@@ -655,7 +654,7 @@ class Vue():
             overrelief = "raised",
             activebackground = "#4C9689")
             #command=none)
-        
+             
         self.canevacentral.create_window(80,10,window=btnMandat,width=150,height=15)
         self.canevacentral.create_window(80,25,window=btnAnalyse,width=150,height=15)
         self.canevacentral.create_window(80,40,window=btnCasUsage,width=150,height=15)
@@ -665,8 +664,83 @@ class Vue():
         self.canevacentral.create_window(80,100,window=btnCRC,width=150,height=15)
         self.canevacentral.create_window(80,115,window=btnModelisation,width=150,height=15)
         self.canevacentral.create_window(80,130,window=btnTimePlaner,width=150,height=15)
-        self.canevacentral.create_window(300,300,window=btnquitproc,width=250,height=40)
+        self.canevacentral.create_window(200,200,window=btnAjouterMembre,width=150,height=15)
 
+    def ajouterMembrePop(self):
+        self.__winX, self.__winY = 200, 20
+        self.frameAjouterMembre = Frame(
+            self.root, 
+            bd=1, 
+            relief=RIDGE,
+            bg="#282E3F")
+        self.frameAjouterMembre.place(
+            x=self.__winX, 
+            y=20, 
+            width=300, 
+            height=260)
+        
+        self.labelAjouterMembre = Label(
+            self.frameAjouterMembre, 
+            bd=1, 
+            relief=RIDGE, 
+            text="Ajouter un membre au projet",fg="#4C9689",
+            font = ("Courier New", 12, "bold"),
+            bg="#282E3F")
+        self.labelAjouterMembre.pack(fill=X, padx=1, pady=1)
+        
+        self.canevasAjouterMembre = Canvas(
+            self.frameAjouterMembre, 
+            width=300,
+            height=360,
+            bg="#282E3F", 
+            bd=0, 
+            highlightbackground ="#282E3F")
+        self.canevasAjouterMembre.pack(fill=X, padx=1, pady=1)
+        
+        ## When the button is pressed, make sure we get the first coordinates
+        self.labelAjouterMembre.bind('<ButtonPress-1>', self.startMoveWindow)
+        self.labelAjouterMembre.bind('<B1-Motion>', self.MoveWindow1)
+        self.frameAjouterMembre.bind('<ButtonPress-1>', self.startMoveWindow)
+        self.frameAjouterMembre.bind('<B1-Motion>', self.MoveWindow1)
+
+        self.compteur = 0
+        self.compteurY = 50
+        
+        #usager, mot de passe, confirmation, email, question de sécurité, réponse sécurité, btnOk
+        self.champIdentifiant = Entry()
+        
+        btnConfirmerAjout = Button(
+            text="Creer",
+            bg="#282E3F",
+            fg = "#dbdbdb",                         #texte blanc
+            justify='right',
+            font = ("Courier New", 12, "bold"),
+            relief="flat",
+            overrelief = "raised",
+            activebackground = "#4C9689",
+            command=self.ajouterMembre)
+        
+        self.canevasAjouterMembre .create_window(                        
+            50,180,window=btnConfirmerAjout,width=200,height=25)
+        
+        self.textIdentifiant = "Identifiant"
+        
+        self.entryListe = [self.champIdentifiant]
+        self.texteListe = [self.textIdentifiant]
+        
+        for self.entry in self.entryListe:
+            self.champsTexte = self.texteListe[self.compteur]
+            self.construitEntry(self.entry,self.champsTexte,3)
+            self.compteur += 1
+            self.compteurY += 43
+        
+    def MoveWindow1(self, event):
+        self.root.update_idletasks()
+        self.__winX += event.x_root - self.__lastX
+        self.__lastX = event.x_root
+        self.frameAjouterMembre.place_configure(x=self.__winX)
+
+        
 #===============================================================================
 #    Description: 
 #    Creator: Julien DesgagnÃ©
@@ -676,10 +750,9 @@ class Vue():
     def closeprocess(self):
         self.parent.fermerprocessus()
 
-    def requetemodule(self):
-        mod=self.listemodules.selection_get()
-        if mod:
-            self.parent.requetemodule(mod)
+    def requeteAnalyse(self):
+        mod="analyseText"
+        self.parent.requetemodule(mod)        
         
     def loginclient(self):
         ipserveur=self.ipsplash.get() # lire le IP dans le champ du layout
@@ -704,6 +777,10 @@ class Vue():
             ipserveur=self.ipsplash.get() # lire le IP dans le champ du layout
             self.parent.inscrireSiDisponibles(ipserveur, self.identifiant, self.courriel, self.mp1,self.questionSecu,self.reponseSecu )#Envoie Ã  client_main
 
+    def ajouterMembre(self):
+        if self.validerAjoutMembre():
+            self.parent.ajouterMembre(self.nomMembreAjout)
+            
 #########################################################
 ##
             
@@ -787,6 +864,27 @@ class Vue():
         
         return infosValides    
     
+    
+    def validerAjoutMembre(self):#S'assure que les champs sont remplis + '@' et '.' ds courriel
+        self.nomMembreAjout = self.champIdentifiant.get()
+
+        infosValides = True
+
+        if self.nomMembreAjout == "" or self.nomMembreAjout == self.textIdentifiant:
+            #print("Veuillez vous choisir un identifiant.")
+            infosValides = False
+        
+        return infosValides 
+    
+    def afficherErreurAjoutMembre(self,message):
+        if self.afficher:
+            self.erreurAjout = Label(self.frameAjouterMembre, fg="red", bg="#282E3F", height=1, text=message)
+            self.erreurAjout.place(x=50, y=85)
+    
+    
+
+
+
 if __name__ == '__main__':
     m=Vue(0,"jmd","127.0.0.1")
     m.root.mainloop()

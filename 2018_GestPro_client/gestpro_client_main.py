@@ -22,7 +22,7 @@ class Controleur():
 		self.vue=Vue(self,self.monip)
 		self.vue.root.mainloop()
 		self.idProjet=None
-		self.identifiant=None
+		self.identifiant=None	
 		
 	def trouverIP(self): # fonction pour trouver le IP en 'pignant' gmail
 		s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # on cree un socket
@@ -75,6 +75,19 @@ class Controleur():
 			else:
 				print(reponseCreation[1])	
 
+	def ajouterMembre(self,nom):
+		self.vue.erreurAjout=None
+		id=self.serveur.getIdMembre(nom)
+		if id is "Membre inexistant":
+			self.vue.afficherErreurAjoutMembre(id)
+		else:
+			rep=self.serveur.ajouterMembre(id,self.idProjet)
+			if rep is None:
+				self.vue.frameAjouterMembre.destroy()
+			else:
+				self.vue.afficherErreurAjoutMembre(rep)
+
+
 #===============================================================================
 #    Description: retourne la liste des projets du client à partir de son identifiant conserver localement
 #    Creator: Guillaume Geoffroy
@@ -96,32 +109,59 @@ class Controleur():
 			self.vue.chargercentral() #Load le main frame
 
 #===============================================================================
+#    Description: permet de shippé au client la version la plus à jour de ses modules
+#    Creator: Guillaume Geoffroy/Jean-Marc
+#    Last modified: 2018/11/07 - 17h40
+#===============================================================================
 
 	def requetemodule(self,mod):
-		rep=self.serveur.requetemodule(mod)
-		if rep:
-			print(rep[0])
-			cwd=os.getcwd()
-			lieuApp="/gp_"+rep[0]
-			lieu=cwd+lieuApp
-			print(lieu)
-			if not os.path.exists(lieu):
-				os.mkdir(lieu) #plante s'il exist deja
-			reso=rep[1]
-			print(rep[1])
-			for i in rep[2]:
-				if i[0]=="fichier":
-					nom=reso+i[1]
-					rep=self.serveur.requetefichier(nom)
-					fiche=open(lieu+"/"+i[1],"wb")
-					fiche.write(rep.data)
-					fiche.close()
-			chaineappli="."+lieuApp+lieuApp+".py"
-
-			self.pid = Popen([sys.executable, chaineappli,self.monnom,self.monip,self.nodeport],shell=0) 
+		cwd=os.getcwd()
+		lieuApp="/gp_"+mod
+		lieu=cwd+lieuApp
+		print(lieu)
+		if not os.path.exists(lieu):
+			os.mkdir(lieu) #plante s'il exist deja
+		if self.updateDispo(mod, lieu): #vérifie si une version updaté du module est disponible
+			rep=self.serveur.requetemodule(mod)
+			if rep:
+				reso=rep[1]
+				print(rep[1])
+				for i in rep[2]:
+					if i[0]=="fichier":
+						nom=reso+i[1]
+						rep=self.serveur.requetefichier(nom)
+						fiche=open(lieu+"/"+i[1],"wb")
+						fiche.write(rep.data)
+						fiche.close()
+						
+		chaineappli="."+lieuApp+lieuApp+".py"	
+		idProjet=str(self.idProjet)
+		self.pid = Popen([sys.executable, chaineappli,self.monnom,self.monip,self.nodeport,idProjet],shell=0) 
+		
+#===============================================================================
+#    Description: vérifie si le client a la dernière version du module
+#    Creator: Guillaume Geoffroy
+#    Last modified: 2018/11/07 - 17h40
+#===============================================================================
+	
+	def updateDispo(self, mod, lieu):
+		if os.path.isfile(lieu+"/version.txt"):
+			with open(lieu+"/version.txt") as f:
+				content = f.readlines()
+				self.nom=str(mod)
+				vC=float(content[0])
+				dico=self.serveur.getDicoModules()
+				modA=dico[mod]
+				vS=modA[1]
+				if vC<vS:
+					return True
+				else:
+					return False
 		else:
-			print("RIEN")
-			
+			return True
+		
+#===============================================================================
+						
 	def fermerprocessus(self):
 		self.pid.kill()
 		
@@ -130,8 +170,7 @@ class Controleur():
 			#print("REP",rep)
 			self.modele=Modele(self,rep[1][0][1],rep[1][0][2]) # on cree le modele
 			self.vue.afficherinitpartie(self.modele)
-
-			
+		
 	def fermeserveur(self):
 		if self.serveur:
 			self.serveur.jequitte(self.monnom)
