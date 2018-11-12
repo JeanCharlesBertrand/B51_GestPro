@@ -96,16 +96,16 @@ class ControleurServeur(object):
 		
 	def inscrireSiInfosDisponibles(self, identifiant, courriel, mot_de_passe,question,reponse):
 		disponibles = True
-		messageErreur = ""
+		messageErreur = None
 		try:
 			dbUtilisateurs.c.execute('INSERT INTO utilisateurs(identifiant, courriel, mot_de_passe, question_sec, reponse_ques) VALUES (\'%s\', \'%s\', \'%s\', \'%s\',\'%s\');' % ( identifiant, courriel, mot_de_passe,question,reponse ) )
 			dbUtilisateurs.conn.commit()
 		except Exception as e:
 			if str(e) == "UNIQUE constraint failed: utilisateurs.identifiant":
-				messageErreur = "Cet identifiant existe déjà, veuillez en choisir un autre svp"
+				messageErreur = 1
 				disponibles = False
 			elif str(e) == "UNIQUE constraint failed: utilisateurs.courriel":
-				messageErreur = "Ce courriel a déjà été utilisé, veuillez en choisir un autre svp"
+				messageErreur = 2
 				disponibles = False
 			else:
 				print(str(e))

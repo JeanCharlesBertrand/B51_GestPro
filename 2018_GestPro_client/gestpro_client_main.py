@@ -40,8 +40,8 @@ class Controleur():
 				print("Inscrit!") #À CHANGER POUR UN LABEL+CREATEWINDOW DANS LA VUE
 				self.vue.afficherInscriptionAchevee(identifiant, motDePasse)
 			else:
-				print(reponseInscription[1])
-	
+				self.vue.afficherErreurDejaUtilise(reponseInscription[1])
+
 	
 	def loginclient(self,ipserveur,identifiant, motDePasse):
 		if ipserveur and identifiant and motDePasse:

@@ -121,9 +121,6 @@ class Vue():
 		
 
 		return infosValides
-		#	 if self.parent.serveur.inscrireSiDisponibles(self.identifiant, self.courriel):
-		#		 self.parent.serveur.setMotDePasse(self.identifiant, self.mp1)
-		#		 print("Inscrit!")
 
 #===============================================================================
 #	 Description: valide infos et send modele qui send au serveur
@@ -480,12 +477,14 @@ class Vue():
 			self.compteurY += 43
 			
 		self.erreurIDInvalide = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Veuillez vous choisir un identifiant.")
-		self.erreurPWDifferents = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Les passwords entres sont differents.")
+		self.erreurIDDejaUtilise = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Cet identifiant existe déjà, veuillez en choisir un autre")
+		self.erreurPWDifferents = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Les passwords entres sont différents.")
 		self.erreurCourrielInvalide = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Veuillez saisir un courriel valide.")
+		self.erreurCourrielDejaUtilise = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Cet courriel existe déjà, veuillez en choisir un autre")
 		self.erreurMPInvalide = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Veuillez saisir un mot de passe.")
-		self.erreurQSInvalide = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Veuillez saisir une question de securite.")
-		self.erreurRSInvalide = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Veuillez saisir une reponse a la question de securite.")
-
+		self.erreurQSInvalide = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Veuillez saisir une question de sécurité.")
+		self.erreurRSInvalide = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Veuillez saisir une réponse a la question de sécurité.")
+		self.erreurAutre = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="")
 	def construitEntry(self, entry, champsTexte, v):
 		self.entry.insert(0, champsTexte)
 		self.entry.bind('<FocusIn>',lambda event: self.on_entry_click(event,entry,champsTexte))
@@ -819,7 +818,16 @@ class Vue():
 
 	#############################
 	##	  Vincent 5 nov - ajout des champs question, reponse + link avec database
-			
+	
+	def afficherErreurDejaUtilise(self, code):
+		if code ==1:
+			self.erreurIDDejaUtilise.place(x=5, y=85)
+		elif code ==2:
+			self.erreurCourrielDejaUtilise.place(x=5, y=215)
+		else:
+			self.erreurAutre.text = code
+			self.erreurCourrielDejaUtilise.place(x=20, y=302)
+	
 	def validerInformations(self):#S'assure que les champs sont remplis + '@' et '.' ds courriel
 		self.identifiant = self.nomUsager.get()
 		self.mp1 = self.motDePasse.get()
@@ -831,13 +839,15 @@ class Vue():
 		infosValides = True
 
 		print("%r vs %r" % (self.identifiant, self.textNomUsager))
-
+		self.erreurIDDejaUtilise.place_forget()
+		self.erreurCourrielDejaUtilise.place_forget()
 		self.erreurIDInvalide.place_forget()
 		self.erreurPWDifferents.place_forget()
 		self.erreurMPInvalide.place_forget()
 		self.erreurCourrielInvalide.place_forget()
 		self.erreurQSInvalide.place_forget()
 		self.erreurRSInvalide.place_forget()
+		self.erreurAutre.place_forget()
 		
 		
 		
