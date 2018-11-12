@@ -534,19 +534,19 @@ class Vue():
 			bg="#282E3F")							 #Bleu-gris
 		self.canevacentral.pack()
 		
-		self.cadreChat=Frame(self.cadrecentral, 
-			width=450,
-			height=200,
-			bg="#4C9689")
+		#self.cadreChat=Frame(self.cadrecentral, 
+		#	width=450,
+		#	height=200,
+		#	bg="#4C9689")
 		
-		self.cadreChat.place(x=600,y=350)
+		#self.cadreChat.place(x=600,y=350)
 		
-		self.cadreEntree=Frame(self.cadrecentral, 
-			width=450,
-			height=45,
-			bg="#387c70")
+		#self.cadreEntree=Frame(self.cadrecentral, 
+		#	width=450,
+		#	height=45,
+		#	bg="#387c70")
 		
-		self.cadreEntree.place(x=600,y=550)
+		#self.cadreEntree.place(x=600,y=550)
 						
 		btnquitproc=Button(
 			text="Fermer dernier module",
@@ -564,8 +564,8 @@ class Vue():
 			font = ("Courier New", 30, "bold"),
 			relief="flat",
 			overrelief = "raised",
-			activebackground = "#4C9689",
-			command=self.ajouterMembrePop)
+			activebackground = "#4C9689")
+			#command=self.ajouterMembrePop)
 		
 		btnMandat = Button(
 			text="Mandat",
@@ -595,8 +595,8 @@ class Vue():
 			font = ("Courier New", 15, "bold"),
 			relief="flat",
 			overrelief = "raised",
-			activebackground = "#4C9689")
-			#command=none)
+			activebackground = "#4C9689",
+			command=self.requeteCasUsages)
 		btnScenario = Button(
 			text="Scenario",
 			bg="#282E3F",
@@ -625,8 +625,8 @@ class Vue():
 			font = ("Courier New", 15, "bold"),
 			relief="flat",
 			overrelief = "raised",
-			activebackground = "#4C9689")
-			#command=none)
+			activebackground = "#4C9689",
+			command=self.requeteMaquette)
 		btnCRC = Button(
 			text="CRC",
 			bg="#282E3F",
@@ -635,8 +635,8 @@ class Vue():
 			font = ("Courier New", 15, "bold"),
 			relief="flat",
 			overrelief = "raised",
-			activebackground = "#4C9689")
-			#command=none)
+			activebackground = "#4C9689",
+			command=self.requeteCrc)
 		btnModelisation = Button(
 			text="Modelisation",
 			bg="#282E3F",
@@ -645,8 +645,8 @@ class Vue():
 			font = ("Courier New", 15, "bold"),
 			relief="flat",
 			overrelief = "raised",
-			activebackground = "#4C9689")
-			#command=none)
+			activebackground = "#4C9689",
+			command=self.requeteModelisation)
 		btnTimePlaner = Button(
 			text="Time planner",
 			bg="#282E3F",
@@ -658,16 +658,12 @@ class Vue():
 			activebackground = "#4C9689")
 			#command=none)
 			 
-		self.canevacentral.create_window(80,10,window=btnMandat,width=150,height=15)
 		self.canevacentral.create_window(80,25,window=btnAnalyse,width=150,height=15)
 		self.canevacentral.create_window(80,40,window=btnCasUsage,width=150,height=15)
-		self.canevacentral.create_window(80,55,window=btnScenario,width=150,height=15)
-		self.canevacentral.create_window(80,70,window=btnInventaire,width=150,height=15)
 		self.canevacentral.create_window(80,85,window=btnMaquette,width=150,height=15)
 		self.canevacentral.create_window(80,100,window=btnCRC,width=150,height=15)
 		self.canevacentral.create_window(80,115,window=btnModelisation,width=150,height=15)
-		self.canevacentral.create_window(80,130,window=btnTimePlaner,width=150,height=15)
-		self.canevacentral.create_window(200,200,window=btnAjouterMembre,width=150,height=15)
+		self.canevacentral.create_window(110,200,window=btnAjouterMembre,width=180,height=50)
 
 	def ajouterMembrePop(self):
 		self.__winX, self.__winY = 200, 20
@@ -745,9 +741,9 @@ class Vue():
 
 		
 #===============================================================================
-#	 Description: 
-#	 Creator: Julien Desgagné
-#	 Last modified: 2018/10/22 - 21h40 
+#	 Description: requette module xyz
+#	 Creator: GuillaumeGeoffroy
+#	 Last modified: 2018/11/12 - 10h00 
 #===============================================================================
 
 	def closeprocess(self):
@@ -755,8 +751,24 @@ class Vue():
 
 	def requeteAnalyse(self):
 		mod="analyseText"
-		self.parent.requetemodule(mod)		  
+		self.parent.requetemodule(mod)	
 		
+	def requeteCrc(self):
+		mod="crc"
+		self.parent.requetemodule(mod)	
+
+	def requeteCasUsages(self):
+		mod="casUsages"
+		self.parent.requetemodule(mod)	
+	
+	def requeteMaquette(self):
+		mod="maquettes"
+		self.parent.requetemodule(mod)	
+	
+	def requeteModelisation(self):
+		mod="modelisation"
+		self.parent.requetemodule(mod)	
+          	
 	def loginclient(self):
 		ipserveur=self.ipsplash.get() # lire le IP dans le champ du layout
 		identifiant=self.nomsplash.get() # noter notre identifiant

@@ -47,6 +47,10 @@ class ModeleService(object):
 								}
 		self.clients={}
 
+	def requeteAnalyse(self):
+		mod="analyseText"
+		self.parent.requetemodule(mod)	
+
 	def creerclient(self,nom):
 		#if nom in self.clients.keys(): # on assure un nom unique
 		#	return [0,"Erreur de nom"]
