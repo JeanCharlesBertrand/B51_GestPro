@@ -350,7 +350,7 @@ class Vue():
 		self.canevasLogin.create_window(						# Dessiner bouton connecter sur canevas
 			300,300,window=btnConnecter,width=250,height=40)
 		self.canevasLogin.create_window(						# Dessiner bouton connecter sur canevas
-			300,350,window=btnInscription,width=250,height=40)
+			290,350,window=btnInscription,width=250,height=40)
 			
 		######	AJOUT IP 
 		self.canevasLogin.create_window(300,400,window=self.ipsplash,width=250,height=40)
@@ -811,10 +811,10 @@ class Vue():
 		self.loginMDP.insert(END, motDePasse)
 		self.nomsplash.delete(0, END)
 		self.nomsplash.insert(END, identifiant)
-		self.labelInscrit = Label(self.canevasLogin, text="Vous etes inscrit!")
-		#A COMPLETER: Envoyer id et mdp dans les champs texte
+		self.labelInscrit = Label(self.canevasLogin, text="Vous êtes inscrit!", fg= 'green', bg="#282E3F", font =("Times New Roman", 16) )
+
 		self.canevasLogin.create_window(						# Dessiner bouton connecter sur canevas
-			100,100,window=self.labelInscrit)
+			300,380,window=self.labelInscrit)
 
 	#############################
 	##	  Vincent 5 nov - ajout des champs question, reponse + link avec database
