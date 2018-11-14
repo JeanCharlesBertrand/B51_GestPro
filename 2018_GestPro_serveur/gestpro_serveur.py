@@ -26,7 +26,7 @@ print("MON IP SERVEUR",monip)
 s.close()
 
 #daemon = Pyro4.core.Daemon(host=monip,port=9999) 
-daemon= SimpleXMLRPCServer((monip,9999))
+daemon= SimpleXMLRPCServer((monip,9999), allow_none=True)
 
 #class Client(object):
 #	def __init__(self,nom):
