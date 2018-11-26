@@ -1,9 +1,9 @@
   #===============================================================================
 #	 Nom fichier : gestpro_vue.py
-#	 Ormàda
+#	 OrmÃ da
 #	 Creation date: 2018/10/22
-#	 Description: Création du GUI et des éléments visuel du projet 
-#	 Creator: Julien Desgagné
+#	 Description: CrÃ©ation du GUI et des Ã©lÃ©ments visuel du projet 
+#	 Creator: Julien DesgagnÃ©
 #	 Version 1.0
 #===============================================================================
 
@@ -19,7 +19,7 @@ import signal
 
 #===============================================================================
 #	 Description: Classe principale d'affichage
-#	 Creator: Julien Desgagné
+#	 Creator: Julien DesgagnÃ©
 #	 Last modified: 2018/10/22 - 21h40 
 #===============================================================================
 
@@ -44,13 +44,13 @@ class Vue():
 		self.erreurAjout=None
 
 #===============================================================================
-#	 Description: cadre temporaire pour tester les fonctionnalit�s
+#	 Description: cadre temporaire pour tester les fonctionnalités
 #	 Creator: Guillaume Geoffroy
 #	 Last modified: 2018/11/04 - 12h30
 #===============================================================================	
 
 	def creerFrameSelectProjet(self):
-		self.frameSelectProjet = Frame(self.root)						 # Cr�ation frameSelectProjet
+		self.frameSelectProjet = Frame(self.root)						 # Création frameSelectProjet
 		self.canevasSelectProjet=Canvas(								# Ajout d'un canvas de le frame
 			self.frameSelectProjet,
 			width=600,
@@ -68,14 +68,14 @@ class Vue():
 			font = ("Courier New", 12, "bold"),
 			highlightbackground= "#282E3F")
 		
-		btnSelection=Button(									# Cr�ation bouton connection
+		btnSelection=Button(									# Création bouton connection
 			text="Selection Projet",
 			bg="#4C9689",											 # Couleur bouton [cyan]
 			relief = "raised",
 			font = ("Courier New", 12, "bold"),
 			fg = "#dbdbdb",command=self.requeteProjet)
 		
-		btnCreation=Button(									   # Cr�ation bouton connection
+		btnCreation=Button(									   # Création bouton connection
 			text="Creer un projet",
 			bg="#282E3F",										# Couleur bouton [cyan]
 			relief = "flat",
@@ -129,8 +129,8 @@ class Vue():
 #===============================================================================	
 	
 	def creerProjet(self):
-		if self.validerInformationsCreationProjet(): #Si les champs ont �t� remplis
-			self.parent.creerSiDisponibles(self.nomProjet, self.description, self.nomOrganisation)#Envoie � client_main
+		if self.validerInformationsCreationProjet(): #Si les champs ont été remplis
+			self.parent.creerSiDisponibles(self.nomProjet, self.description, self.nomOrganisation)#Envoie à  client_main
  
 #===============================================================================
 #	 Description: Temporaire fenetre pop pour creer projet
@@ -179,7 +179,7 @@ class Vue():
 		self.compteur = 0
 		self.compteurY = 50
 		
-		#usager, mot de passe, confirmation, email, question de s�curit�, r�ponse s�curit�, btnOk
+		#usager, mot de passe, confirmation, email, question de sécurité, réponse sécurité, btnOk
 		self.champnomProjet = Entry()
 		self.champnomOrganisation = Entry()
 		self.champdescription = Entry()
@@ -232,7 +232,7 @@ class Vue():
 				self.parent.selectionProjet(pro)
 	
 #===============================================================================
-#	 Description: change le cadre et ins�re la liste des projets associ�s au membre dans la fen�tre de s�lection d'un projet
+#	 Description: change le cadre et insère la liste des projets associés au membre dans la fenêtre de sélection d'un projet
 #	 Creator: Guillaume Geoffroy
 #	 Last modified: 2018/11/04 - 12h30
 #===============================================================================	
@@ -245,8 +245,8 @@ class Vue():
 
 #===============================================================================
 #	 Description: Change le frame actif. Efface le frame actuel et le remplace
-#				  par le frame passé en paramètre.
-#	 Creator: Julien Desgagné
+#				  par le frame passÃ© en paramÃ¨tre.
+#	 Creator: Julien DesgagnÃ©
 #	 Last modified: 2018/10/22 - 21h48 
 #===============================================================================
 
@@ -260,38 +260,38 @@ class Vue():
 			self.cadreactif.pack()
 
 #===============================================================================
-#	 Description: Affiche la liste des modules présent dans le dossier du projet.
-#				  Cette fonction est appelé dans le controlleur par la fontion
+#	 Description: Affiche la liste des modules prÃ©sent dans le dossier du projet.
+#				  Cette fonction est appelÃ© dans le controlleur par la fontion
 #				  loginclient().
-#	 Creator: Julien Desgagné
+#	 Creator: Julien DesgagnÃ©
 #	 Last modified: 2018/10/22 - 21h40 
 #===============================================================================
 
 	def chargercentral(self):
 		#for i in self.parent.serveur.modulesdisponibles:
 		#	 self.listemodules.insert(END,i)
-		self.changecadre(self.cadrecentral)
+		self.changecadre(self.frameAccueil)
 
 #===============================================================================
-#	 Description: Créer les différents frames utilisés dans le projet 
-#	 Creator: Julien Desgagné
+#	 Description: CrÃ©er les diffÃ©rents frames utilisÃ©s dans le projet 
+#	 Creator: Julien DesgagnÃ©
 #	 Last modified: 2018/10/22 - 21h40 
 #===============================================================================
 		
 	def creercadres(self):
 		self.creerFrameLogin()
 		#self.creercadresplash()
-		self.creercadrecentral()
+		self.creerFrameAccueil()
 		self.creerFrameSelectProjet()
 
 #===============================================================================
-#	 Description: Création du frame de login pour l'usager
-#	 Creator: Julien Desgagné
+#	 Description: CrÃ©ation du frame de login pour l'usager
+#	 Creator: Julien DesgagnÃ©
 #	 Last modified: 2018/11/05 - 8h00
 #===============================================================================
 
 	def creerFrameLogin(self):
-		self.frameLogin = Frame(self.root)						  # Création frameLogin
+		self.frameLogin = Frame(self.root)						  # CrÃ©ation frameLogin
 		self.canevasLogin=Canvas(								 # Ajout d'un canvas de le frame
 			self.frameLogin,
 			width=600,
@@ -307,14 +307,14 @@ class Vue():
 		self.canevasLogin.create_image (						# Dessiner logo sur le canevas
 			x, y, image = self.img_logo2)
 		self.canevasLogin.pack()
-		self.nomsplash=Entry(									 # Champs entré no.1
+		self.nomsplash=Entry(									 # Champs entrÃ© no.1
 			bg="#4C9689",										 # Couleur de fond [cyan]
 			relief = "sunken",
 			font = ("Courier New", 12, "bold"),
 			fg = "#dbdbdb",justify='center')					# Couleur de texte [blanc]
 		
 
-		self.loginMDP=Entry(									# Champs entré no.2
+		self.loginMDP=Entry(									# Champs entrÃ© no.2
 			bg="#4C9689",										 # Couleur de fond [cyan]
 			relief = "sunken",
 			show = '*',
@@ -334,14 +334,14 @@ class Vue():
 		#################################
 		
 					# Placeholder password
-		btnConnecter=Button(									# Création bouton connection
+		btnConnecter=Button(									# CrÃ©ation bouton connection
 			text="Connecter au serveur",
 			bg="#4C9689",											 # Couleur bouton [cyan]
 			relief = "raised",
 			font = ("Courier New", 12, "bold"),
 			fg = "#dbdbdb",command=self.loginclient)			# Couleur de texte [blanc]
 			
-		btnInscription=Button(										# Création bouton connection
+		btnInscription=Button(										# CrÃ©ation bouton connection
 			text="S'inscrire",
 			bg="#282E3F",										 # Couleur bouton [cyan]
 			relief = "flat",
@@ -393,7 +393,7 @@ class Vue():
 
 #===============================================================================
 #	 Description: 
-#	 Creator: Julien Desgagné
+#	 Creator: Julien DesgagnÃ©
 #	 Last modified: 2018/11/05 - 7h25 
 #===============================================================================
 
@@ -435,7 +435,7 @@ class Vue():
 		self.frameSignIn.bind('<ButtonPress-1>', self.startMoveWindow)
 		self.frameSignIn.bind('<B1-Motion>', self.MoveWindow)
 
-		#usager, mot de passe, confirmation, email, question de sécurité, réponse sécurité, btnOk
+		#usager, mot de passe, confirmation, email, question de sÃ©curitÃ©, rÃ©ponse sÃ©curitÃ©, btnOk
 		self.compteur = 0
 		self.compteurY = 50
 
@@ -477,13 +477,13 @@ class Vue():
 			self.compteurY += 43
 			
 		self.erreurIDInvalide = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Veuillez vous choisir un identifiant.")
-		self.erreurIDDejaUtilise = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Cet identifiant existe déjà, veuillez en choisir un autre")
-		self.erreurPWDifferents = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Les passwords entres sont différents.")
+		self.erreurIDDejaUtilise = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Cet identifiant existe dÃ©jÃ , veuillez en choisir un autre")
+		self.erreurPWDifferents = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Les passwords entres sont diffÃ©rents.")
 		self.erreurCourrielInvalide = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Veuillez saisir un courriel valide.")
-		self.erreurCourrielDejaUtilise = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Cet courriel existe déjà, veuillez en choisir un autre")
+		self.erreurCourrielDejaUtilise = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Cet courriel existe dÃ©jÃ , veuillez en choisir un autre")
 		self.erreurMPInvalide = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Veuillez saisir un mot de passe.")
-		self.erreurQSInvalide = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Veuillez saisir une question de sécurité.")
-		self.erreurRSInvalide = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Veuillez saisir une réponse a la question de sécurité.")
+		self.erreurQSInvalide = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Veuillez saisir une question de sÃ©curitÃ©.")
+		self.erreurRSInvalide = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Veuillez saisir une rÃ©ponse a la question de sÃ©curitÃ©.")
 		self.erreurAutre = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="")
 	def construitEntry(self, entry, champsTexte, v):
 		self.entry.insert(0, champsTexte)
@@ -527,149 +527,173 @@ class Vue():
 
 #===============================================================================
 #	 Description: 
-#	 Creator: Julien Desgagné
+#	 Creator: Julien DesgagnÃ©
 #	 Last modified: 2018/10/23 - 9h15 
 #===============================================================================
 	
-	def creercadrecentral(self):
-		self.cadrecentral=Frame(self.root)
-		self.canevacentral=Canvas(
-			self.cadrecentral,
-			width=1200,
-			height=800,
-			bg="#282E3F")							 #Bleu-gris
-		self.canevacentral.pack()
-		
-		#self.cadreChat=Frame(self.cadrecentral, 
-		#	width=450,
-		#	height=200,
-		#	bg="#4C9689")
-		
-		#self.cadreChat.place(x=600,y=350)
-		
-		#self.cadreEntree=Frame(self.cadrecentral, 
-		#	width=450,
-		#	height=45,
-		#	bg="#387c70")
-		
-		#self.cadreEntree.place(x=600,y=550)
-						
-		btnquitproc=Button(
-			text="Fermer dernier module",
-			bg="#4C9689",							 #Cyan
-			fg = "#dbdbdb",							   #texte blanc
-			justify='center',
-			font = ("Courier New", 12, "bold"),
-			command=self.closeprocess)
+	
+	def creerFrameAccueil(self):
+		self.frameAccueil = Frame(self.root)
+		self.frameModule = Frame(self.frameAccueil,bg="#282E3F", width = 200, height = 800)
+		self.frameInfo = Frame(self.frameAccueil,bg="#282E3F", width = 998, height = 800)
+		self.frameBorder = Frame(self.frameAccueil,bg = "black", width = 2, height = 800)
+		self.canevasModule = Canvas(self.frameModule,bg="#282E3F",bd=0, highlightthickness=0, width = 200, height = 800)
+		self.canevasModule.grid(row = 0, column = 0, sticky = "nsew")
+		self.canevasInfo = Canvas(self.frameInfo, bg="#282E3F",bd=0, highlightthickness=0, width = 998, height = 800)
 
-		btnAjouterMembre = Button(
-			text="+Membre",
+		self.frameModule.grid(row = 0, column = 1, sticky = "nse")
+		self.frameBorder.grid(row = 0, column =2, sticky = "ns")
+		self.frameInfo.grid(row = 0, column = 3, sticky = "nse")
+		self.canevasInfo.grid(row = 0, column = 0, sticky = "nsew")
+
+		self.frameModule.grid_rowconfigure(20, weight = 0)
+		self.frameModule.grid_columnconfigure(2, weight =0)
+
+		self.creerBoutonFrameModule()
+		self.creerInfoProjet()
+
+	def creerBoutonFrameModule(self):
+
+		self.btnAnalyseTxt      = Button(text = "     Analyse textuel", command = self.requeteAnalyse)
+		self.btnCasUsage        = Button(text = "     Cas d'usage", command = self.requeteCasUsages)
+		self.btnScenario        = Button(text = "     Scenario")
+		self.btnMaquette        = Button(text = "     Maquette", command = self.requeteMaquette)
+		self.btnCRC             = Button(text = "     CRC", command = self.requeteCrc)
+		self.btnDonnee          = Button(text = "     Donnee", command = self.requeteModelisation)
+		self.btnCreationSprint  = Button(text = "     Creation sprint")
+		self.btnScrum           = Button(text = "     Scrum(s)")
+
+		self.btnProbleme        = Button(text = "     Problème")
+		self.btnDebriefing      = Button(text = "     Debriefing")
+		self.btnCalendrier      = Button(text = "     Debriefing")
+		self.btnStats           = Button(text = "     Statistique")
+		self.btnPlanif          = Button(text = " Planification")
+		self.btnImplementation  = Button(text = " Implementation")
+		self.btnSyntheseStats   = Button(text = " Synthese et stats")
+		self.btnChat            = Button(text = " Chat")
+		self.btnQuitter         = Button(text = " Quitter")
+
+		self.lblVersion = Label(bd=1, text="Version 1.0",fg="#4C9689",font = ("Arial", 10),bg="#282E3F")
+
+		self.listeModule = [self.btnAnalyseTxt, self.btnCasUsage, self.btnScenario, self.btnMaquette, 
+							self.btnCRC, self.btnDonnee,self.btnCreationSprint,self.btnScrum,self.btnProbleme,
+							self.btnDebriefing,self.btnCalendrier,self.btnStats]
+
+		self.listeEtapeProjet = [self.btnPlanif, self.btnImplementation, self.btnSyntheseStats, self.btnChat, self.btnQuitter]
+
+		for self.etapeProjet in self.listeEtapeProjet:
+			self.creerBtnEtapeProjet(self.etapeProjet)
+
+		for self.module in self.listeModule:
+			self.creerBtnModule(self.module)
+
+		self.canevasModule.create_window(100,55, window=self.btnAnalyseTxt,width=200,height=30)
+		self.canevasModule.create_window(100,85, window=self.btnCasUsage,width=200,height=30)
+		self.canevasModule.create_window(100,115, window=self.btnScenario,width=200,height=30)
+		self.canevasModule.create_window(100,145, window=self.btnMaquette,width=200,height=30)
+		self.canevasModule.create_window(100,175, window=self.btnCRC,width=200,height=30)
+		self.canevasModule.create_window(100,205, window=self.btnDonnee,width=200,height=30)
+		self.canevasModule.create_window(100,280, window=self.btnCreationSprint,width=200,height=30)
+		self.canevasModule.create_window(100,310, window=self.btnScrum,width=200,height=30)
+		self.canevasModule.create_window(100,340, window=self.btnProbleme,width=200,height=30)
+		self.canevasModule.create_window(100,370, window=self.btnDebriefing,width=200,height=30)
+		self.canevasModule.create_window(100,435, window=self.btnCalendrier,width=200,height=30)
+		self.canevasModule.create_window(100,465, window=self.btnStats,width=200,height=30)
+		self.canevasModule.create_window(160,790,window=self.lblVersion, width=75, height=30)
+
+		self.canevasModule.create_window(100,25, window=self.btnPlanif,width=200,height=30)
+		self.canevasModule.create_window(100,250, window=self.btnImplementation,width=200,height=30)
+		self.canevasModule.create_window(100,405, window=self.btnSyntheseStats,width=200,height=30)
+		self.canevasModule.create_window(100,510, window=self.btnChat,width=200,height=30)
+		self.canevasModule.create_window(100,550, window=self.btnQuitter,width=200,height=30)
+
+	def creerBtnModule(self, module):
+		self.module.config(
 			bg="#282E3F",
-			fg = "#dbdbdb",							   #texte blanc
-			justify='right',
-			font = ("Courier New", 30, "bold"),
+			fg = "#dbdbdb",                            
+			font = ("Arial", 15),
 			relief="flat",
-			overrelief = "raised",
-			activebackground = "#4C9689")
-			#command=self.ajouterMembrePop)
-		
-		btnMandat = Button(
-			text="Mandat",
+			activebackground = "#4C9689", 
+			width = 15, 
+			anchor = W)
+
+	def creerBtnEtapeProjet(self,etapeProjet):
+		self.etapeProjet.config(
 			bg="#282E3F",
-			fg = "#dbdbdb",							   #texte blanc
-			justify='right',
-			font = ("Courier New", 15, "bold"),
+			fg = "#4C9689",                            
+			justify='left',
+			font = ("Arial", 16),
 			relief="flat",
-			overrelief = "raised",
-			activebackground = "#4C9689")
-			#command=none)
-		btnAnalyse = Button(
-			text="Analyse",
-			bg="#282E3F",
-			fg = "#dbdbdb",							   #texte blanc
-			justify='right',
-			font = ("Courier New", 15, "bold"),
+			activebackground = "#4C9689", 
+			width = 15,
+			anchor = W)
+
+	def creerInfoProjet(self):
+		self.nomProjet = "Project name"
+		self.date = "2018/12/21"
+		self.sprintNumber = 1
+		self.timeRemaining = "2 Days 18h"
+		self.lblNomProjet           = Label(text = self.nomProjet, bg = "#282E3F", fg = "#4C9689", font = ("Arial", 25, "bold"))
+		self.lblDeadline            = Label(text = "Deadline: ", fg = "#4C9689")
+		self.lblDate                = Label(text = self.date, fg = "#dbdbdb")
+		self.lblMember              = Label(text = "Member:", fg = "#4C9689")
+		self.lblTimer               = Label(text = "Time left before the end of the Sprint #" + str(self.sprintNumber), fg = "#4C9689")
+		self.lblTimeLeft            = Label(text = self.timeRemaining, fg = "#dbdbdb")
+		self.member1                = Label(text ="John Smith", fg = "#dbdbdb")
+		self.member2                = Label(text ="Ricky Jones", fg = "#dbdbdb")
+		self.member3                = Label(text ="Sofia Brown", fg = "#dbdbdb")
+		self.member4                = Label(text ="Alexe Anderson", fg = "#dbdbdb")
+		self.member5                = Label(text ="Jack Thompson", fg = "#dbdbdb")
+		self.member6                = Label(text ="Amelia Johnson", fg = "#dbdbdb")
+		self.lblprojectLeaderMsg    = Label(text = "Message du project leader: ", font = ("Arial", 10),fg = "#4C9689",bg="#282E3F")
+		self.lblTeamMsg             = Label(text = "Message de l'equipe: ",font = ("Arial", 10),fg = "#4C9689",bg="#282E3F")
+		self.lblUser                = Label(text = "@User", font = ("Arial", 10),fg = "#4C9689",bg="#282E3F")
+		self.listeLabelInfo = [self.lblDeadline,self.lblDate,self.lblMember,self.lblTimer,self.lblTimeLeft,self.member1,self.member2,self.member3,self.member4, self.member5,self.member6]
+		self.canevasInfo.create_window(145,45, window = self.lblNomProjet)
+		self.canevasInfo.create_window(200,150, window = self.lblMember)
+		self.canevasInfo.create_window(275,175, window = self.member1)
+		self.canevasInfo.create_window(275,200, window = self.member2)
+		self.canevasInfo.create_window(275,225, window = self.member3)
+		self.canevasInfo.create_window(275,250, window = self.member4)
+		self.canevasInfo.create_window(275,275, window = self.member5)
+		self.canevasInfo.create_window(275,300, window = self.member6)
+		self.canevasInfo.create_window(600,100, window = self.lblTimer)
+		self.canevasInfo.create_window(680,130, window = self.lblTimeLeft)
+		self.canevasInfo.create_window(200,100, window = self.lblDeadline)
+		self.canevasInfo.create_window(275,100, window = self.lblDate)
+		self.canevasInfo.create_window(130,355, window = self.lblprojectLeaderMsg)
+		self.canevasInfo.create_window(110,453, window = self.lblTeamMsg)
+		self.canevasInfo.create_window(72, 638, window = self.lblUser)
+		self.canevasInfo.create_line(40,70,950,70,fill="#4C9689")
+
+		for self.labelInfo in self.listeLabelInfo:
+			self.creerLabelInfo(self.labelInfo)
+
+		self.txtProjectLeader = Text(self.canevasInfo, width = 900, height = 65, bg ="#282E3F",selectbackground= "#f442e5", fg = "#dbdbdb")
+		self.canevasInfo.create_window(499,400, window = self.txtProjectLeader,width = 900,height = 65)
+		self.txtProjectLeader.insert('end', 'Il est important de vider vos backlogs avant mercredi!')
+		self.txtProjectLeader.config(state=DISABLED)
+		self.txtTeam = Text(self.canevasInfo, width = 900, height = 65, bg ="#282E3F", selectbackground= "#f442e5", fg = "#dbdbdb" )
+		self.canevasInfo.create_window(499,540, window = self.txtTeam,width = 900,height = 150)
+		self.txtTeam.insert('end', "@John:" + "\n" + "  J'ai terminer la premiere partie du travail." + "\n\n" + "@Sofia:" + "\n" + "  Parfait! Merci John.")
+		self.txtTeam.config(state=DISABLED)
+		self.txtUser = Text(self.canevasInfo, width = 900, height = 65, bg ="#dbdbdb", selectbackground= "#f442e5")
+		self.canevasInfo.create_window(499,700, window = self.txtUser,width = 900,height = 100)
+		self.txtUser.insert('end', 'Hello World')
+		self.btnLeaveMsg = Button(text = "Envoyer",bg="#4C9689",fg = "#dbdbdb",font = ("Arial", 12), relief="raised", activebackground = "#4C9689", width = 12)
+		self.canevasInfo.create_window(850,765, window = self.btnLeaveMsg, width = 200, height = 25)
+
+
+
+	def creerLabelInfo(self,labelInfo):
+		self.labelInfo.config(
+			bg="#282E3F",                            
+			justify='left',
 			relief="flat",
-			overrelief = "raised",
-			activebackground = "#4C9689",
-			command=self.requeteAnalyse)
-		btnCasUsage = Button(
-			text="Cas usage",
-			bg="#282E3F",
-			fg = "#dbdbdb",							   #texte blanc
-			justify='right',
-			font = ("Courier New", 15, "bold"),
-			relief="flat",
-			overrelief = "raised",
-			activebackground = "#4C9689",
-			command=self.requeteCasUsages)
-		btnScenario = Button(
-			text="Scenario",
-			bg="#282E3F",
-			fg = "#dbdbdb",							   #texte blanc
-			justify='right',
-			font = ("Courier New", 15, "bold"),
-			relief="flat",
-			overrelief = "raised",
-			activebackground = "#4C9689")
-			#command=none)
-		btnInventaire = Button(
-			text="Inventaire",
-			bg="#282E3F",
-			fg = "#dbdbdb",							   #texte blanc
-			justify='right',
-			font = ("Courier New", 15, "bold"),
-			relief="flat",
-			overrelief = "raised",
-			activebackground = "#4C9689")
-			#command= null)
-		btnMaquette = Button(
-			text="Maquette",
-			bg="#282E3F",
-			fg = "#dbdbdb",							   #texte blanc
-			justify='right',
-			font = ("Courier New", 15, "bold"),
-			relief="flat",
-			overrelief = "raised",
-			activebackground = "#4C9689",
-			command=self.requeteMaquette)
-		btnCRC = Button(
-			text="CRC",
-			bg="#282E3F",
-			fg = "#dbdbdb",							   #texte blanc
-			justify='right',
-			font = ("Courier New", 15, "bold"),
-			relief="flat",
-			overrelief = "raised",
-			activebackground = "#4C9689",
-			command=self.requeteCrc)
-		btnModelisation = Button(
-			text="Modelisation",
-			bg="#282E3F",
-			fg = "#dbdbdb",							   #texte blanc
-			justify='right',
-			font = ("Courier New", 15, "bold"),
-			relief="flat",
-			overrelief = "raised",
-			activebackground = "#4C9689",
-			command=self.requeteModelisation)
-		btnTimePlaner = Button(
-			text="Time planner",
-			bg="#282E3F",
-			fg = "#dbdbdb",							   #texte blanc
-			justify='right',
-			font = ("Courier New", 15, "bold"),
-			relief="flat",
-			overrelief = "raised",
-			activebackground = "#4C9689")
-			#command=none)
-			 
-		self.canevacentral.create_window(80,25,window=btnAnalyse,width=150,height=15)
-		self.canevacentral.create_window(80,40,window=btnCasUsage,width=150,height=15)
-		self.canevacentral.create_window(80,85,window=btnMaquette,width=150,height=15)
-		self.canevacentral.create_window(80,100,window=btnCRC,width=150,height=15)
-		self.canevacentral.create_window(80,115,window=btnModelisation,width=150,height=15)
-		self.canevacentral.create_window(110,200,window=btnAjouterMembre,width=180,height=50)
+			font = ("Arial", 12),
+			activebackground = "#4C9689", 
+			width = 35,
+			anchor = W)
 
 	def ajouterMembrePop(self):
 		self.__winX, self.__winY = 200, 20
@@ -711,7 +735,7 @@ class Vue():
 		self.compteur = 0
 		self.compteurY = 50
 		
-		#usager, mot de passe, confirmation, email, question de s�curit�, r�ponse s�curit�, btnOk
+		#usager, mot de passe, confirmation, email, question de sécurité, réponse sécurité, btnOk
 		self.champIdentifiant = Entry()
 		
 		btnConfirmerAjout = Button(
@@ -780,9 +804,9 @@ class Vue():
 		identifiant=self.nomsplash.get() # noter notre identifiant
 		motDePasse = self.loginMDP.get() #Lit le mot de passe
 
-		connexionValide = True #Vérifier si les champs sont remplis
+		connexionValide = True #VÃ©rifier si les champs sont remplis
 		'''Tous les print() qui suivent devrait etre changes pour des Label+createwindow
-			à cote/sous le champ correspondant dans le UI'''
+			Ã  cote/sous le champ correspondant dans le UI'''
 
 		if not identifiant:
 			print("Veuillez entrer un identifiant")
@@ -794,9 +818,9 @@ class Vue():
 			self.parent.loginclient(ipserveur,identifiant, motDePasse)
 
 	def inscrireClient(self):
-		if self.validerInformations(): #Si les champs ont été remplis
+		if self.validerInformations(): #Si les champs ont Ã©tÃ© remplis
 			ipserveur=self.ipsplash.get() # lire le IP dans le champ du layout
-			self.parent.inscrireSiDisponibles(ipserveur, self.identifiant, self.courriel, self.mp1,self.questionSecu,self.reponseSecu )#Envoie à client_main
+			self.parent.inscrireSiDisponibles(ipserveur, self.identifiant, self.courriel, self.mp1,self.questionSecu,self.reponseSecu )#Envoie Ã  client_main
 
 	def ajouterMembre(self):
 		if self.validerAjoutMembre():
@@ -806,12 +830,12 @@ class Vue():
 ##
 			
 	def afficherInscriptionAchevee(self, identifiant, motDePasse):
-		self.frameSignIn.destroy() #Faudrait mettre ça dans le serveur parce que l'inscription n'est peut-être pas
+		self.frameSignIn.destroy() #Faudrait mettre Ã§a dans le serveur parce que l'inscription n'est peut-Ãªtre pas
 		self.loginMDP.delete(0, END)
 		self.loginMDP.insert(END, motDePasse)
 		self.nomsplash.delete(0, END)
 		self.nomsplash.insert(END, identifiant)
-		self.labelInscrit = Label(self.canevasLogin, text="Vous êtes inscrit!", fg= 'green', bg="#282E3F", font =("Times New Roman", 16) )
+		self.labelInscrit = Label(self.canevasLogin, text="Vous Ãªtes inscrit!", fg= 'green', bg="#282E3F", font =("Times New Roman", 16) )
 
 		self.canevasLogin.create_window(						# Dessiner bouton connecter sur canevas
 			300,380,window=self.labelInscrit)
@@ -857,7 +881,7 @@ class Vue():
 			self.erreurIDInvalide.place(x=50, y=85)
 		
 		if self.mp1 != self.mp2:
-			#print("Les passwords entres sont differents")#Changer ces print pour des Label qui s'affichent à côté/sous les champs
+			#print("Les passwords entres sont differents")#Changer ces print pour des Label qui s'affichent Ã  cÃ´tÃ©/sous les champs
 			infosValides = False
 			self.erreurPWDifferents.place(x=50, y=130)
 
