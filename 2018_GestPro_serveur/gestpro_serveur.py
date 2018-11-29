@@ -37,10 +37,10 @@ class ModeleService(object):
 		self.parent=parent
 		self.rdseed=rdseed
 		self.modulesdisponibles={   "analyseText":     ["gp_analyseText",0.1],
-								      "casUsages":       ["gp_maquettes",0.1],
+								      "casUsages":       ["gp_casUsages",0.1], 
 								            "crc":             ["gp_crc",0.1],
-								   "modelisation":       ["gp_casUsages",0.1],
-								      "maquettes":    ["gp_modelisation",0.1],
+								   "modelisation":    ["gp_modelisation",0.1],
+								      "maquettes":       ["gp_maquettes",0.1],
 								  "planifGlobale":   ["gp_planifGlobale",0.1],
 								 "implementation":  ["gp_implementation",0.1],
 								     "calendrier":      ["gp_calendrier",0.1]							
