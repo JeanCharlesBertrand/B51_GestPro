@@ -9,6 +9,13 @@ class DbUtilisateurs:
 		self.creationInscription()
 		self.creationProjet()
 		self.creationUserProjet()
+		self.creationChat()
+		self.creationMandat()
+		self.creationAnalyseTextuelle()
+		self.creationCasUsage()
+		self.creationScenarioUtilisation()
+		self.creationCRC()
+		self.creationBlocTemps()
 
 	def creationInscription(self):
 		self.c.execute(''' CREATE TABLE IF NOT EXISTS utilisateurs(
@@ -52,12 +59,11 @@ class DbUtilisateurs:
 	def creationChat(self):
 		self.c.execute(''' CREATE TABLE IF NOT EXISTS chat(
 				id				INTEGER		PRIMARY KEY AUTOINCREMENT,					
-				id_user			INTEGER		NOT NULL,
+				identifiant		TEXT		NOT NULL,
 				id_projet		INTEGER		NOT NULL,		
 				message			TEXT		NOT NULL,
 				time			TEXT		NOT NULL,
 
-				CONSTRAINT fk_userPro_iduser FOREIGN KEY (id_user) REFERENCES utilisateurs(id),
 				CONSTRAINT fk_userPro_idpro FOREIGN KEY (id_projet) REFERENCES projet(id)
 														) ''')
 		

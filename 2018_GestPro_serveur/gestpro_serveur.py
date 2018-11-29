@@ -37,10 +37,10 @@ class ModeleService(object):
 		self.parent=parent
 		self.rdseed=rdseed
 		self.modulesdisponibles={   "analyseText":     ["gp_analyseText",0.1],
-								      "casUsages":       ["gp_casUsages",0.1],
-								      "maquettes":       ["gp_maquettes",0.1],
+								      "casUsages":       ["gp_maquettes",0.1],
 								            "crc":             ["gp_crc",0.1],
-								   "modelisation":    ["gp_modelisation",0.1],
+								   "modelisation":       ["gp_casUsages",0.1],
+								      "maquettes":    ["gp_modelisation",0.1],
 								  "planifGlobale":   ["gp_planifGlobale",0.1],
 								 "implementation":  ["gp_implementation",0.1],
 								     "calendrier":      ["gp_calendrier",0.1]							
@@ -149,20 +149,23 @@ class ControleurServeur(object):
 
 #( [nom], (identifiant,), [description], [organisation], [time1], [time2] ) )
 #===============================================================================
-#    Description: retourne le id du membre en fonction de son identifiant
+#    Description: retourne le id du membre en fonction de son identifiant 2)son identifiant
 #    Creator: Guillaume Geoffroy
 #    Last modified: 2018/11/05 - 9h00
 #===============================================================================
 	
 	def getIdMembre(self,identifiant):
 		curseurID = dbUtilisateurs.c.execute('SELECT id FROM utilisateurs WHERE identifiant = ?', [identifiant])
-		if curseurID is None:
-			return "Membre inexistant"
-		else:
-			idT = curseurID.fetchone()
-			self.resetCurseur()
-			id=int(idT[0])
-			return id
+		idT = curseurID.fetchone()
+		self.resetCurseur()
+		id=int(idT[0])
+		return id
+		
+	def getIdentifiantMembre(self,id):
+		curseurIDM = dbUtilisateurs.c.execute('SELECT identifiant FROM utilisateurs WHERE id = ?', (id,))
+		identifiant = curseurIDP.fetchone()
+		self.resetCurseur()
+		return identifiant
 	
 #===============================================================================
 #    Description: retourne la liste des noms de projets dont fait partie le membre
@@ -172,6 +175,42 @@ class ControleurServeur(object):
 	
 	def selectProjetDuMembre(self,identifiant):
 		curseurListe = dbUtilisateurs.c.execute('SELECT nom FROM projet WHERE id IN (SELECT id_projet FROM user_projet WHERE id_user=?)', (identifiant,))
+		liste = curseurListe.fetchall()
+		self.resetCurseur()
+		return liste		
+
+#===============================================================================
+#    Description: retourne la liste de tout les usagers inscrits 
+#    Creator: Guillaume Geoffroy
+#    Last modified: 2018/11/28 - 19h00
+#===============================================================================
+	
+	def getListeUsagers(self):
+		curseurListe = dbUtilisateurs.c.execute('SELECT identifiant FROM utilisateurs WHERE id IN (SELECT id FROM utilisateurs)')
+		liste = curseurListe.fetchall()
+		self.resetCurseur()
+		return liste
+	
+#===============================================================================
+#    Description: 1)retourne le nom du projet selon id 2)la description 3)la liste de membres
+#    Creator: Guillaume Geoffroy
+#    Last modified: 2018/11/28 - 10h20
+#===============================================================================
+	
+	def getNomProjet(self, idProjet):
+		curseurIDP = dbUtilisateurs.c.execute('SELECT nom FROM projet WHERE id = ?', (idProjet,))
+		nomP = curseurIDP.fetchone()
+		self.resetCurseur()
+		return nomP
+	
+	def getDescriptionProjet(self,idProjet):
+		curseurIDP = dbUtilisateurs.c.execute('SELECT description FROM projet WHERE id = ?', (idProjet,))
+		description = curseurIDP.fetchone()
+		self.resetCurseur()
+		return description
+	
+	def getListeMembres(self,id):
+		curseurListe = dbUtilisateurs.c.execute('SELECT identifiant FROM utilisateurs WHERE id IN (SELECT id_user FROM user_projet WHERE id_projet=?)', (id,))
 		liste = curseurListe.fetchall()
 		self.resetCurseur()
 		return liste
@@ -202,9 +241,10 @@ class ControleurServeur(object):
 				messageErreur = str(e)
 				print('%r' % e)
 		
+		
+		self.resetCurseur()
 		return messageErreur
 				
-		self.resetCurseur()
 
 
 #===============================================================================
@@ -219,6 +259,25 @@ class ControleurServeur(object):
 		self.resetCurseur()
 		id=int(idT[0])
 		return id
+
+#===============================================================================
+#    Description: server insertion et select pour chat
+#    Creator: Guillaume Geoffroy
+#    Last modified: 2018/11/28 - 21h30
+#===============================================================================
+
+	def insertIntoChat(self,identifiant, idProjet, message, time):
+		if(message is not ""):
+			dbUtilisateurs.c.execute('INSERT INTO chat(identifiant, id_projet, message, time) VALUES (?, ?, ?, ?)', (identifiant, idProjet,message,time) )
+			dbUtilisateurs.conn.commit()
+		self.resetCurseur()
+		
+	def getContentChat(self, id):
+		curseurListe = dbUtilisateurs.c.execute('SELECT * FROM chat WHERE id_projet = ?', (id,))
+		liste = curseurListe.fetchall()
+		self.resetCurseur()
+		return liste
+		
 
 #===============================================================================
 
@@ -243,8 +302,7 @@ class ControleurServeur(object):
 		contenub=fiche.read()
 		fiche.close()
 		return xmlrpc.client.Binary(contenub)
-			
-		
+				
 	def quitter(self):
 		t=Timer(1,self.fermer)
 		t.start()

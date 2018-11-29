@@ -10,6 +10,7 @@ from gestpro_modele import *
 from gestpro_vue import *
 from helper import Helper as hlp
 from IdMaker import Id
+import datetime
 
 class Controleur():
 	def __init__(self):
@@ -74,22 +75,22 @@ class Controleur():
 				self.vue.chargerSelectProjet(self.selectProjetDuMembre()) #retourner fenetre d'affichage des projets du membre
 			else:
 				print(reponseCreation[1])	
-
+	
 	def ajouterMembre(self,nom):
-		self.vue.erreurAjout=None
-		id=self.serveur.getIdMembre(nom)
-		if id is "Membre inexistant":
-			self.vue.afficherErreurAjoutMembre(id)
-		else:
-			rep=self.serveur.ajouterMembre(id,self.idProjet)
-			if rep is None:
-				self.vue.frameAjouterMembre.destroy()
-			else:
-				self.vue.afficherErreurAjoutMembre(rep)
-
+		for f in self.serveur.getListeMembres(self.idProjet):
+			if f[0] == nom:
+				return "User déjà membre"
+		
+		for x in self.serveur.getListeUsagers():
+			if x[0] == nom:
+				id=self.serveur.getIdMembre(nom)
+				rep=self.serveur.ajouterMembre(id,self.idProjet)
+				return "Membre ajouté"
+			
+		return "User inexistant"
 
 #===============================================================================
-#    Description: retourne la liste des projets du client à partir de son identifiant conserver localement
+#    Description: appel fonction du serveur qui retourne la liste des projets du client à partir de son identifiant conserver localement
 #    Creator: Guillaume Geoffroy
 #    Last modified: 2018/11/04 - 12h30
 #===============================================================================
@@ -100,13 +101,31 @@ class Controleur():
 #===============================================================================
 #    Description: permet de configurer le main pour qu'une fois un projet selectionner on ait son identifiant pour aller chercher les bonnes data dans nos tables de module
 #    Creator: Guillaume Geoffroy
-#    Last modified: 2018/11/04 - 12h30
+#    Last modified: 2018/11/04 - 19h00
 #===============================================================================
 		
 	def selectionProjet(self,nom):
 		if nom:
 			self.idProjet=self.serveur.getIdProjet(nom) #set le idProjet du client pour qu'on puisse aller chercher les bonnes infos pour nos modules
+			self.vue.creerInfoProjet()
 			self.vue.chargercentral() #Load le main frame
+		 
+#===============================================================================
+#    Description: retourne le nom du projet courant selon le id 2)la description 3)la liste des membres
+#    Creator: Guillaume Geoffroy
+#    Last modified: 2018/11/28 - 19h00
+#===============================================================================		
+			
+	def getNomProjet(self):
+		nom=self.serveur.getNomProjet(self.idProjet)
+		return nom
+	
+	def getDescriptionProjet(self):
+		description=self.serveur.getDescriptionProjet(self.idProjet)
+		return description[0]
+	
+	def getListeMembres(self):
+		return self.serveur.getListeMembres(self.idProjet)
 
 #===============================================================================
 #    Description: permet de shippé au client la version la plus à jour de ses modules
@@ -159,6 +178,19 @@ class Controleur():
 					return False
 		else:
 			return True
+		
+#===============================================================================
+#    Description: controleur insertion et select appel serveur pour chat
+#    Creator: Guillaume Geoffroy
+#    Last modified: 2018/11/28 - 21h30
+#===============================================================================
+
+	def insertIntoChat(self,message):
+		time=str(datetime.datetime.now())
+		self.serveur.insertIntoChat(self.monnom,self.idProjet,message,time)
+		
+	def getContentChat(self):
+		return self.serveur.getContentChat(self.idProjet)
 		
 #===============================================================================
 						
