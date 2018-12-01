@@ -1,0 +1,7 @@
+*.db
+/__pycache__
+/.settings
+.project
+.pydevproject
+_project.xml
+_pydevproject.xml
