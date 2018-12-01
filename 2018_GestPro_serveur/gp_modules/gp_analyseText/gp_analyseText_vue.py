@@ -127,7 +127,7 @@ class Vue():
         self.frameSupplementaire = ttk.Frame(self.lowerTabs)
 
 
-        # Onglets du Notebook inférieur
+        # Onglets du notebook inférieur
         self.lowerTabs.add(self.frameImplicite, text='IMPLICITE')
         self.lowerTabs.add(self.frameExplicite, text='EXPLICITE')
         self.lowerTabs.add(self.frameSupplementaire, text='SUPPLÉMENTAIRE')
