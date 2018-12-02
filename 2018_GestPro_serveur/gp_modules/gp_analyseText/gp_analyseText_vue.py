@@ -2,6 +2,7 @@
 from tkinter import *
 from tkinter import tix
 from tkinter import ttk
+from tkinter import filedialog
 from PIL import Image,ImageDraw, ImageTk
 import os,os.path
 import math
@@ -104,11 +105,11 @@ class Vue():
         self.enonceScrollb.grid(row=0, column=1, sticky='nsew')
         self.txtEnonce['yscrollcommand'] = self.enonceScrollb.set
 
-        # Frame boutons import export
+        # Frame boutons Importer Exporter Sauvegarder
         self.frameBtnCentre = ttk.Frame(self.frameAnalyse, style='My.TFrame')
         self.frameBtnCentre.pack(pady=20)
 
-        self.btnImportEnonce = ttk.Button(self.frameBtnCentre, text="Importer")
+        self.btnImportEnonce = ttk.Button(self.frameBtnCentre, text="Importer", command=self.importEnonce)
         self.btnImportEnonce.grid(row=0, column=0)
 
         self.btnSaveEnonce = ttk.Button(self.frameBtnCentre, text="Sauvegarder")
@@ -219,6 +220,30 @@ class Vue():
         self.tabVerbeSupp.grid(row=4, column=2)
         self.tabAdjSupp = Text(self.frameTableau, width=30, height=10)
         self.tabAdjSupp.grid(row=4, column=3)
+        
+    def importEnonce(self):
+        filePath = self.openTxtFile()
+        txtContent = self.readTxtFile(filePath)
+
+    def getTxtField(self):
+        #input = self.txtEnonce.get("1.0", END)
+        #print(input)
+        pass
+
+    def readTxtFile(self, filePath):
+        fileReader = open(filePath, 'r')
+        for line in fileReader:
+            print(line)
+            self.txtEnonce.insert(END, line)
+        fileReader.close()
+
+    def openTxtFile(self):
+        file_path = filedialog.askopenfilename()
+        #print(file_path)
+        return file_path
+
+    def saveToTxtFile(self):
+        pass
         
 
         
