@@ -15,6 +15,8 @@ class Vue():
         self.couleurTexte2 = "#FFFFFF"
         self.couleurAccent = "#4C9689"
         self.couleurSelection = "#FF4181"
+        
+        self.incrementLabel = 10
 
         self.creerFrameCasUsage()
 
@@ -34,16 +36,23 @@ class Vue():
         self.frameBorder.grid(row = 0, column =2, sticky = "ns")
         self.frameScenario.grid(row = 0, column = 3, sticky = "nse")
 
-        self.frameCasUsage.grid_rowconfigure(20, weight = 0)
-        self.frameCasUsage.grid_columnconfigure(2, weight =0)
-
+        self.frameCasUsage.grid_rowconfigure(60, weight = 0)
+        self.frameCasUsage.grid_columnconfigure(1, weight =0)
+        
+        self.listeCasUsage = Listbox(self.canevasCasUsage)
+        self.listeCasUsage.pack()
+        
+        self.scrollCasUsage = Scrollbar(self.canevasCasUsage)
+        self.scrollCasUsage.pack(side = LEFT, fill=Y)
+        
+        self.listeCasUsage.config(yscrollcommand=self.scrollCasUsage.set)
+        self.scrollCasUsage.config(command=self.listeCasUsage.yview)
+        
         self.creerScenario()
 
     def creerLabel(self):
        texte = self.entCasUsage.get()
-       self.lblCasUsage = Label(text = texte, bg = "#282E3F", fg = "#4C9689", font = ("Arial", 25, "bold"))
-
-
+       self.listeCasUsage.insert(END, texte)
 
 
     def creerBtnModule(self, module):
