@@ -1,54 +1,101 @@
-# -*- coding: utf-8 -*-
+
+
 from tkinter import *
-from tkinter import tix
-from tkinter import ttk
-from PIL import Image,ImageDraw, ImageTk
-import os,os.path
-import math
-from helper import Helper as hlp
 
 class Vue():
-    def __init__(self,parent,largeur=800,hauteur=600):
-        self.root=tix.Tk()
-        self.root.title(os.path.basename(sys.argv[0]))
-        self.root.protocol("WM_DELETE_WINDOW", self.fermerfenetre)
-        self.parent=parent
-        self.modele=None
-        self.largeur=largeur
-        self.hauteur=hauteur
-        self.images={}
-        self.cadreactif=None
-        self.creercadres()
-        self.changecadre(self.cadresplash)
-        
-    def changemode(self,cadre):
-        if self.modecourant:
-            self.modecourant.pack_forget()
-        self.modecourant=cadre
-        self.modecourant.pack(expand=1,fill=BOTH)            
+    def __init__(self):
+        self.root = Tk()
+        self.root.title("Omada")
+        self.root.geometry('1200x800')
 
-    def changecadre(self,cadre,etend=0):
-        if self.cadreactif:
-            self.cadreactif.pack_forget()
-        self.cadreactif=cadre
-        if etend:
-            self.cadreactif.pack(expand=1,fill=BOTH)
-        else:
-            self.cadreactif.pack()
-    
-        
-    def creercadres(self):
-        self.creercadresplash()
-        #self.cadrejeu=Frame(self.root,bg="blue")
-        #self.modecourant=None
-                
-    def creercadresplash(self):
-        self.cadresplash=Frame(self.root)
-        self.canevasplash=Canvas(self.cadresplash,width=640,height=480,bg="#282E3F")
-        self.canevasplash.pack()
+        self.couleur500 = "#282E3F"
+        self.couleur800 = ""
+        self.couleur300 = ""
+        self.couleurTexte1 = "#FFFFFF"
+        self.couleurTexte2 = "#FFFFFF"
+        self.couleurAccent = "#4C9689"
+        self.couleurSelection = "#FF4181"
 
-        
-    def fermerfenetre(self):
-        print("ONFERME la fenetre")
-        self.root.destroy()
-    
+        self.creerFrameCasUsage()
+
+    def creerFrameCasUsage(self):
+        self.frameModuleCU = Frame(self.root)
+        self.frameCasUsage = Frame(self.frameModuleCU,bg=self.couleur500, width = 200, height = 800)
+        self.frameScenario = Frame(self.frameModuleCU,bg="#282E3F", width = 998, height = 800)
+        self.frameBorder = Frame(self.frameModuleCU,bg = "black", width = 2, height = 800)
+        self.canevasCasUsage = Canvas(self.frameCasUsage,bg="#282E3F",bd=0, highlightthickness=0, width = 200, height = 800)
+        self.canevasCasUsage.grid(row = 0, column = 0, sticky = "nsew")
+        self.canevasScenario = Canvas(self.frameScenario, bg="#282E3F",bd=0, highlightthickness=0, width = 998, height = 800)
+        self.canevasScenario.pack()
+
+        self.frameModuleCU.pack()
+
+        self.frameCasUsage.grid(row = 0, column = 1, sticky = "nse")
+        self.frameBorder.grid(row = 0, column =2, sticky = "ns")
+        self.frameScenario.grid(row = 0, column = 3, sticky = "nse")
+
+        self.frameCasUsage.grid_rowconfigure(20, weight = 0)
+        self.frameCasUsage.grid_columnconfigure(2, weight =0)
+
+        self.creerScenario()
+
+    def creerLabel(self):
+       texte = self.entCasUsage.get()
+       self.lblCasUsage = Label(text = texte, bg = "#282E3F", fg = "#4C9689", font = ("Arial", 25, "bold"))
+
+
+
+
+    def creerBtnModule(self, module):
+        self.module.config(
+            bg="#282E3F",
+            fg = "#dbdbdb",                            
+            font = ("Arial", 15),
+            relief="flat",
+            activebackground = "#4C9689", 
+            width = 15, 
+            anchor = W)
+
+    def creerBtnEtapeProjet(self,etapeProjet):
+        self.etapeProjet.config(
+            bg="#282E3F",
+            fg = "#4C9689",                            
+            justify='left',
+            font = ("Arial", 16),
+            relief="flat",
+            activebackground = "#4C9689", 
+            width = 15,
+            anchor = W)
+
+    def creerScenario(self):
+        self.nomFenetre = "Scenario d'utilisation"
+        self.lblNomFentre = Label(text = self.nomFenetre, bg = "#282E3F", fg = "#4C9689", font = ("Arial", 25, "bold"))
+        self.entCasUsage = Entry(   
+            bg=self.couleurAccent,        
+            relief = "sunken",
+            font = ("Courier New", 12, "bold"),
+            fg = self.couleurTexte1,justify='center')
+
+
+        self.canevasScenario.create_window(400,200, window = self.entCasUsage, width = 700, height = 30)
+        self.canevasScenario.create_window(450,50, window = self.lblNomFentre)
+
+        self.btnCommit = Button(text = "Commit",bg="#4C9689",fg = "#dbdbdb",font = ("Arial", 12), relief="raised", activebackground = "#4C9689", width = 12, command = self.creerLabel)
+        self.canevasScenario.create_window(850,765, window = self.btnCommit, width = 200, height = 25)
+
+
+
+    def creerLabelInfo(self,labelInfo):
+        self.labelInfo.config(
+            bg="#282E3F",                            
+            justify='left',
+            relief="flat",
+            font = ("Arial", 12),
+            activebackground = "#4C9689", 
+            width = 35,
+            anchor = W)
+
+
+if __name__ == '__main__':
+    m=Vue()
+    m.root.mainloop()
