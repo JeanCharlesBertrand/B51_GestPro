@@ -29,7 +29,18 @@ class Controleur():
 
     def lierServeur(self):
         ad="http://"+self.ipserveur+":"+self.nodeport
-        self.serveur=ServerProxy(ad)    
+        self.serveur=ServerProxy(ad)
+        
+    def saisirFiche(self,classe,proprietaire,collaboration,responsabilites):
+        #faire lien avec la BD
+        #self.parent.insertFicheCRC(classe,proprietaire,collaboration,responsabilites)
+        pass
+        
+    def lireFiche(self):
+        pass
+        #return self.parent.getFicheCRC(self,Id) #??
+        
+    
         
 if __name__ == '__main__':
     c=Controleur()
