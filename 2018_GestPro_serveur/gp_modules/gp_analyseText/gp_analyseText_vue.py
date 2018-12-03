@@ -12,9 +12,10 @@ class Vue():
     def __init__(self,parent,largeur=800,hauteur=600):
         #self.root=tix.Tk()
         self.root=Tk()
-        self.root.title(os.path.basename(sys.argv[0]))
-        self.root.protocol("WM_DELETE_WINDOW", self.fermerfenetre)
         self.parent=parent
+        #self.root.title(os.path.basename(sys.argv[0]))
+        self.root.title(self.parent.getNomProjet())
+        self.root.protocol("WM_DELETE_WINDOW", self.fermerfenetre)
         self.modele=None
         self.largeur=largeur
         self.hauteur=hauteur
@@ -22,9 +23,6 @@ class Vue():
         self.cadreactif=None
         self.creercadres()
         #self.changecadre(self.cadresplash)
-        
-
-
         
     def changemode(self,cadre):
         if self.modecourant:
@@ -244,8 +242,6 @@ class Vue():
 
     def saveToTxtFile(self):
         pass
-        
-
         
     def fermerfenetre(self):
         print("ONFERME la fenetre")

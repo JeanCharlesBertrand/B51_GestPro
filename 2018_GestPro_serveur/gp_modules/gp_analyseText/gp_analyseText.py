@@ -18,18 +18,21 @@ class Controleur():
         print("IN CONTROLEUR",sys.argv)
         self.createurId=Id
         self.modele=None
-        self.vue=Vue(self)
-        self.vue.root.mainloop()
         self.idProjet=int(sys.argv[4])
         self.ipserveur=sys.argv[2]
         self.nodeport=sys.argv[3]
         self.serveur=None
         self.lierServeur()
-
-
+        self.vue=Vue(self)
+        self.vue.root.mainloop()
+        
     def lierServeur(self):
         ad="http://"+self.ipserveur+":"+self.nodeport
         self.serveur=ServerProxy(ad)
+        
+    def getNomProjet(self):
+        self.nomProjet = self.serveur.getNomProjet(self.idProjet)
+        return self.nomProjet
 
 if __name__ == '__main__':
     c=Controleur()
