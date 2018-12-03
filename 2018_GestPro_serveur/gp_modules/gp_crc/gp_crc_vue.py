@@ -18,8 +18,11 @@ class Vue():
         self.hauteur=hauteur
         self.images={}
         self.cadreactif=None
+        
+        #reference X-Y pour fenetres FichesCRC qui poppent
         self.frameX=25
         self.frameY=100
+
         self.creercadres()
         self.changecadre(self.cadresplash)
 
@@ -28,6 +31,7 @@ class Vue():
 # saisir avec numero idProjet, afficher ce qui existe
 # avoir un bouton sauvegarder? verifier que chaque carte est unique par son nom/classe .. ?
 # scrollbar, resize
+#
 #==========================================================================================
         
     def changemode(self,cadre):
@@ -54,30 +58,17 @@ class Vue():
     def creercadresplash(self):
         self.cadresplash=Frame(self.root)
         self.canevasplash=Canvas(self.cadresplash,width=1200,height=1200,bg="#282E3F")
-        self.canevasplash.pack()
-        self.creerBoutons()
-  
-    def onFrameConfigure(self, event):
-        '''Reset the scroll region to encompass the inner frame'''
-        self.canevasplash.configure(scrollregion=self.canevasplash.bbox("all"))
 
-    def testsScrollBar1(self):
-        #tests scrollbar
-        self.vbar=Scrollbar(self.cadresplash,orient=VERTICAL,command=self.canevasplash.yview)
-        self.canevasplash.configure(yscrollcommand= self.vbar.set)
-        self.vbar.pack(side="right",fill="y")
-        self.canevasplash.pack(side="left", fill="both", expand=True)
-        self.canevasplash.create_window((4,4), window=self.cadresplash, anchor="nw", 
-                                  tags="self.cadresplash")
-
-        self.cadresplash.bind("<Configure>", self.onFrameConfigure)
-
-    def testsScrollBar2(self):
-        #tests scrollbar
-        self.vbar=ttk.Scrollbar(self.cadresplash,orient=VERTICAL,command=self.canevasplash.yview)
-        self.vbar.pack()
-        self.canevasplash.configure(yscrollcommand= self.vbar.set)
+        #scrollbar tests
+        self.canevasplash.config(scrollregion=(0,0,1200,1200))
+        sbar = ttk.Scrollbar(self.root)
+        sbar.config(command=self.canevasplash.yview)                   
+        self.canevasplash.config(yscrollcommand=sbar.set)              
+        sbar.pack(side=RIGHT, fill=Y)
         
+        self.canevasplash.pack(side=LEFT, expand=YES, fill=BOTH)       
+        self.creerBoutons()
+      
     def creerBoutons(self):
         btnAjouterFiche=Button(                                    
             text="Ajouter Fiche",
@@ -93,8 +84,8 @@ class Vue():
             font = ("Courier New", 12, "bold"),
             fg = "#dbdbdb",command=self.saisirFiche)
 
-        self.canevasplash.create_window(300,20,window=btnAjouterFiche,width=250,height=40)
-        self.canevasplash.create_window(600,20,window=btnEnregistrerFiche,width=250,height=40)
+        self.canevasplash.create_window(500,20,window=btnAjouterFiche,width=250,height=40)
+        self.canevasplash.create_window(800,20,window=btnEnregistrerFiche,width=250,height=40)
 
     def creerFrameFiche(self):
         self.frameFiche = Frame(
@@ -123,6 +114,7 @@ class Vue():
         else:
             self.frameX = 25
             self.frameY += 300
+
 
     def creerLabelsFiche(self):
         self.labelClasse = Label(
@@ -156,18 +148,28 @@ class Vue():
             text="Responsabilites",fg="#4C9689",
             font = ("Courier New", 12, "bold"),
             bg="#282E3F")
+        
+        self.labelVariables = Label(
+            self.frameFiche, 
+            bd=1, 
+            relief=RIDGE, 
+            text="Variables",fg="#4C9689",
+            font = ("Courier New", 12, "bold"),
+            bg="#282E3F")
 
         self.canevasFiche.create_window(80,20, window = self.labelClasse,width=150, height=15)
         self.canevasFiche.create_window(80,60, window = self.labelProprietaire,width=150, height=15)
         self.canevasFiche.create_window(250,20, window = self.labelCollaboration,width=150, height=15)
         self.canevasFiche.create_window(80,100, window = self.labelResponsabilites,width=150, height=15)
+        self.canevasFiche.create_window(250,100, window = self.labelVariables,width=150, height=15)
 
 
     def creerChampsTexteFiche(self):
         self.champClasse = Entry()
         self.champProprietaire = Entry()
-        self.champCollaboration = Entry()
+        self.champCollaboration = Text()
         self.champResponsabilites = Text()
+        self.champVariables = Text()
 
         self.champClasse.config(
             bg='white',
@@ -185,19 +187,25 @@ class Vue():
             bg='white',
             relief = "sunken",
             font = ("Courier New", 12, "bold"),
-            fg = "#4C9689",justify='center')
+            fg = "#4C9689")
         
         self.champResponsabilites.config(
             bg='white',
             relief = "sunken",
             font = ("Courier New", 12, "bold"),
             fg = "#4C9689")
-     
         
+        self.champVariables.config(
+            bg='white',
+            relief = "sunken",
+            font = ("Courier New", 12, "bold"),
+            fg = "#4C9689")
+     
         self.canevasFiche.create_window(80,40,window=self.champClasse, width=150, height=20)
         self.canevasFiche.create_window(80,80,window=self.champProprietaire, width=150, height=20)
-        self.canevasFiche.create_window(250,40, window = self.champCollaboration,width=150, height=20)
-        self.canevasFiche.create_window(175,180, window = self.champResponsabilites,width=325, height=110)
+        self.canevasFiche.create_window(250,60, window = self.champCollaboration,width=150, height=50)
+        self.canevasFiche.create_window(85,165, window = self.champResponsabilites,width=160, height=110)
+        self.canevasFiche.create_window(250,165, window = self.champVariables,width=160, height=110)
         
         #scroller dans texte
         self.enonceScrollb = ttk.Scrollbar(self.frameFiche, command=self.champResponsabilites.yview)
@@ -205,21 +213,20 @@ class Vue():
         self.champResponsabilites['yscrollcommand'] = self.enonceScrollb.set
 
     def saisirFiche(self):
-        classe=champClasse.get()
-        proprietaire=champProprietaire.get()
-        collaboration=champCollaboration.get()
-        responsabilites=champResponsabilites.get()
+        classe=self.champClasse.get()
+        proprietaire=self.champProprietaire.get()
+        collaboration=self.champCollaboration.get()
+        responsabilites=self.champResponsabilites.get()
+        variables=self.champVariables.get()
 
-        self.parent.saisirFiche(classe,proprietaire,collaboration,responsabilites)
+        self.parent.saisirFiche(classe,proprietaire,collaboration,responsabilites,variables)
         
     def afficherFiche(self):
         #creer x Fiches, rempli les champs avec les infos de la BD si existe 
         listeFichesCRC=self.parent.lireFiche
         pass
         
-        
-        
-        
+
     def fermerfenetre(self):
         print("ONFERME la fenetre")
         self.root.destroy()
