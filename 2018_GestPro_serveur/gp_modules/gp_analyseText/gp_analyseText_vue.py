@@ -107,7 +107,7 @@ class Vue():
         
         self.btnImportEnonce = ttk.Button(self.frameBtnCentre, text="Importer", command=self.importEnonce)
         self.btnImportEnonce.grid(row=0, column=0)
-        self.btnSaveEnonce = ttk.Button(self.frameBtnCentre, text="Sauvegarder")
+        self.btnSaveEnonce = ttk.Button(self.frameBtnCentre, text="Sauvegarder", command=self.parent.insertIntoAnalyse)
         self.btnSaveEnonce.grid(row=0, column=1)
         self.btnExportEnonce = ttk.Button(self.frameBtnCentre, text="Exporter", command=self.getSelectedText)
         self.btnExportEnonce.grid(row=0, column=2)
@@ -168,6 +168,47 @@ class Vue():
     def importEnonce(self):
         filePath = self.openTxtFile()
         txtContent = self.readTxtFile(filePath)
+        
+    def prepaInsertList(self):
+        ListInsert = list()
+        ListInsert.append(self.txtEnonce.get("1.0", END))
+        ListInsert.append(self.tabNomImplicite.get("1.0", END))
+        ListInsert.append(self.tabVerbeImplicite.get("1.0", END))
+        ListInsert.append(self.tabAdjImplicite.get("1.0", END))
+        ListInsert.append(self.tabNomExplicite.get("1.0", END))
+        ListInsert.append(self.tabVerbeExplicite.get("1.0", END))
+        ListInsert.append(self.tabAdjExplicite.get("1.0", END))
+        ListInsert.append(self.tabNomSupp.get("1.0", END))
+        ListInsert.append(self.tabVerbeSupp.get("1.0", END))  
+        ListInsert.append(self.tabAdjSupp.get("1.0", END)) 
+        return ListInsert
+    
+    def showListeSelect(self):
+        self.selectList=self.parent.selectFromAnalyse()
+        try:
+            print(self.selectList)
+            self.txtEnonce.delete("1.0", END)
+            self.txtEnonce.insert("1.0", self.selectList[2])
+            self.tabNomImplicite.delete("1.0", END)
+            self.tabNomImplicite.insert("1.0", self.selectList[3])
+            self.tabVerbeImplicite.delete("1.0", END)
+            self.tabVerbeImplicite.insert("1.0", self.selectList[4])
+            self.tabAdjImplicite.delete("1.0", END)
+            self.tabAdjImplicite.insert("1.0", self.selectList[5])
+            self.tabNomExplicite.delete("1.0", END)
+            self.tabNomExplicite.insert("1.0", self.selectList[6])
+            self.tabVerbeExplicite.delete("1.0", END)
+            self.tabVerbeExplicite.insert("1.0", self.selectList[7])
+            self.tabAdjExplicite.delete("1.0", END)
+            self.tabAdjExplicite.insert("1.0", self.selectList[8])
+            self.tabNomSupp.delete("1.0", END)
+            self.tabNomSupp.insert("1.0", self.selectList[9])
+            self.tabVerbeSupp.delete("1.0", END)  
+            self.tabVerbeSupp.insert("1.0", self.selectList[10])  
+            self.tabAdjSupp.delete("1.0", END)
+            self.tabAdjSupp.insert("1.0", self.selectList[11])
+        except Exception as e:
+            pass
 
     def getTxtField(self):
         #input = self.txtEnonce.get("1.0", END)

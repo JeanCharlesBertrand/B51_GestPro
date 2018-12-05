@@ -80,6 +80,7 @@ class DbUtilisateurs:
 		self.c.execute(''' CREATE TABLE IF NOT EXISTS analyse(
 				id				INTEGER		PRIMARY KEY AUTOINCREMENT,
 				id_projet		INTEGER		NOT NULL,
+				fichierMandat 	TEXT,
 				fichNomExp		TEXT,
 				fichVerbeExp	TEXT,
 				fichAdjExp		TEXT,

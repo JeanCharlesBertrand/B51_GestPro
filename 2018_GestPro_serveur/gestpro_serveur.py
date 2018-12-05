@@ -278,7 +278,30 @@ class ControleurServeur(object):
 		self.resetCurseur()
 		return liste
 		
+#===============================================================================
+#    Description: server insertion et select pour analyse
+#    Creator: Guillaume Geoffroy
+#    Last modified: 2018/12/03 - 11h00
+#===============================================================================
 
+	def insertIntoAnalyse(self, list, idProjet):
+			dbUtilisateurs.c.execute('UPDATE analyse SET fichierMandat = ?, fichNomExp = ?, fichVerbeExp = ?, fichAdjExp = ?, fichNomImp = ?, fichVerbeImp = ?, fichAdjImp = ?, fichNomSupp = ?, fichVerbeSupp = ?, fichAdjSupp = ? WHERE id_projet = ?', (list[0],list[1],list[2], list[3], list[4], list[5], list[6], list[7], list[8], list[9], idProjet,))
+			self.resetCurseur()
+			dbUtilisateurs.conn.commit()
+			ok = dbUtilisateurs.c.execute('SELECT * FROM analyse WHERE id_projet = ?', (idProjet,))
+			rows = ok.fetchone()
+			self.resetCurseur()
+			if rows is None:
+				dbUtilisateurs.c.execute('INSERT INTO analyse(id_projet, fichierMandat, fichNomExp, fichVerbeExp, fichAdjExp, fichNomImp, fichVerbeImp, fichAdjImp, fichNomSupp, fichVerbeSupp, fichAdjSupp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', (idProjet, list[0],list[1],list[2], list[3], list[4], list[5], list[6], list[7], list[8], list[9]) )
+				dbUtilisateurs.conn.commit()
+				self.resetCurseur()
+		
+	def selectFromAnalyse(self, id):
+		curseurListe = dbUtilisateurs.c.execute('SELECT * FROM analyse WHERE id_projet = ?', (id,))
+		liste = curseurListe.fetchone()
+		self.resetCurseur()
+		return liste
+				
 #===============================================================================
 
 	def requetemodule(self,mod):

@@ -24,6 +24,7 @@ class Controleur():
         self.serveur=None
         self.lierServeur()
         self.vue=Vue(self)
+        self.vue.showListeSelect()
         self.vue.root.mainloop()
         
     def lierServeur(self):
@@ -33,6 +34,15 @@ class Controleur():
     def getNomProjet(self):
         self.nomProjet = self.serveur.getNomProjet(self.idProjet)
         return self.nomProjet
+
+    def insertIntoAnalyse(self):
+        self.list=self.vue.prepaInsertList()
+        self.serveur.insertIntoAnalyse(self.list, self.idProjet)
+        self.vue.showListeSelect()
+        
+    def selectFromAnalyse(self):
+        self.selectList=self.serveur.selectFromAnalyse(self.idProjet)
+        return self.selectList
 
 if __name__ == '__main__':
     c=Controleur()
