@@ -33,10 +33,8 @@ class Vue():
 
 
 #==========================================================================================       
-# saisir avec numero idProjet, afficher ce qui existe
-# avoir un bouton sauvegarder? verifier que chaque carte est unique par son nom/classe .. ?
-# scrollbar, resize
-#
+# 
+#       Lynda last version : 4dec 2018
 #==========================================================================================
         
     def changemode(self,cadre):
