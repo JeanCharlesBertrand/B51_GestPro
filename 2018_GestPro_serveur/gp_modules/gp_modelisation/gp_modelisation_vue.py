@@ -167,15 +167,15 @@ class Vue():
 			#command=self.loginclient)  
 
 		self.entryDefaultChamp.place(x=500, y= 400)
-		self.labelDefaultChamp.place(x=500, y=150)
+		self.labelDefaultChamp.place(x=500, y=140)
 		self.entryNNChamp.place(x=420, y= 400)
-		self.labelNNChamp.place(x=412, y=150)
+		self.labelNNChamp.place(x=412, y=140)
 		self.entryKeyChamp.place(x=340, y= 400)
-		self.labelKeyChamp.place(x=353, y=150)
+		self.labelKeyChamp.place(x=353, y=140)
 		self.entryNomChamp.place(x=180, y= 400)
-		self.labelNomChamp.place(x=190, y=150)
+		self.labelNomChamp.place(x=190, y=140)
 		self.entryTypeChamp.place(x=260, y= 400)
-		self.labelTypeChamp.place(x=270, y=150)
+		self.labelTypeChamp.place(x=270, y=140)
 
 			
 		self.canevasplash.create_window(580,80,window=btnNew,width=60,height=30)
@@ -184,20 +184,20 @@ class Vue():
 		self.canevasplash.create_window(80,450,window=btnDelete,width=120,height=30)
 
 		self.entryNomTable.place(x=320, y= 70)
-		self.labelNomTable.place(x=170, y=70)
+		self.labelNomTable.place(x=160, y=70)
 		self.labelListeTables.place(x= 20, y=70)
 		listTables = Listbox(self.cadresplash,height=20, bg="#002887")
 		listTables.place(x= 20, y=100)
 		listNom = Listbox(self.cadresplash,  height=500, bg="#002887")
-		listNom.place(x= 180, y=170,width=65, height=225)
+		listNom.place(x= 180, y=160,width=65, height=235)
 		listType = Listbox(self.cadresplash, width=20, bg="#002887")
-		listType.place(x= 260, y=170,width=65, height=225)
+		listType.place(x= 260, y=160,width=65, height=235)
 		listKey = Listbox(self.cadresplash, width=20, bg="#002887")
-		listKey.place(x= 340, y=170,width=65, height=225)
+		listKey.place(x= 340, y=160,width=65, height=235)
 		listNN = Listbox(self.cadresplash, width=20, bg="#002887")
-		listNN.place(x= 420, y=170,width=65, height=225)
+		listNN.place(x= 420, y=160,width=65, height=235)
 		listDefault = Listbox(self.cadresplash, width=20, bg="#002887")
-		listDefault.place(x= 500, y=170,width=65, height=225)
+		listDefault.place(x= 500, y=160,width=65, height=235)
 		
 		
 		
