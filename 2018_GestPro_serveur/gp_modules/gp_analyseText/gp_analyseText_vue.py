@@ -80,144 +80,90 @@ class Vue():
         self.gui_style.configure('My.TButton', foreground='#4C9689')
         self.gui_style.configure('My.TFrame', background='#4C9689')
 
-        # Notebook supérieur
-        self.upperTabs = ttk.Notebook(self.root)
-        self.upperTabs.pack(padx=20, pady=20)
+         # Main Frame
+        self.mainFrame = ttk.Frame(self.root)
+        self.mainFrame.pack()
+        
+        # Frame Title bar
+        self.frameTitleBar = ttk.Frame(self.mainFrame)
+        self.frameTitleBar.pack()
+        self.labelNomProjet = ttk.Label(self.frameTitleBar, text="Nom du projet", justify = LEFT)
+        self.labelNomProjet.grid(row=0, column=0)
 
-        # Frame Analyse et Tableau
-        self.frameAnalyse = ttk.Frame(self.upperTabs, style='My.TFrame')
-        self.frameTableau = ttk.Frame(self.upperTabs)
-
-        # Onglets du Notebook supérieur
-        self.upperTabs.add(self.frameAnalyse, text='ANALYSE')
-        self.upperTabs.add(self.frameTableau, text='TABLEAU')
-
-        # Frame enonce
-        self.frameEnonce = ttk.Frame(self.frameAnalyse)
+        # Frame Enonce
+        self.frameEnonce = ttk.Frame(self.mainFrame)
         self.frameEnonce.pack()
-
-        # Champ Text de l'énoncé Analyse
-        self.txtEnonce = Text(self.frameEnonce, width=100, height=15)
+        
+        # Champ Text de l'enonce Analyse
+        self.txtEnonce = Text(self.frameEnonce, width=100, height=20, wrap=WORD)
         self.txtEnonce.grid(row=0, column=0)
         self.enonceScrollb = ttk.Scrollbar(self.frameEnonce, command=self.txtEnonce.yview)
         self.enonceScrollb.grid(row=0, column=1, sticky='nsew')
         self.txtEnonce['yscrollcommand'] = self.enonceScrollb.set
-
+        
         # Frame boutons Importer Exporter Sauvegarder
-        self.frameBtnCentre = ttk.Frame(self.frameAnalyse, style='My.TFrame')
+        self.frameBtnCentre = ttk.Frame(self.mainFrame, style='My.TFrame')
         self.frameBtnCentre.pack(pady=20)
-
+        
         self.btnImportEnonce = ttk.Button(self.frameBtnCentre, text="Importer", command=self.importEnonce)
         self.btnImportEnonce.grid(row=0, column=0)
-
         self.btnSaveEnonce = ttk.Button(self.frameBtnCentre, text="Sauvegarder")
         self.btnSaveEnonce.grid(row=0, column=1)
-
-        self.btnExportEnonce = ttk.Button(self.frameBtnCentre, text="Exporter")
+        self.btnExportEnonce = ttk.Button(self.frameBtnCentre, text="Exporter", command=self.getSelectedText)
         self.btnExportEnonce.grid(row=0, column=2)
-
-        # Notebook inférieur Analyse
-        self.lowerTabs = ttk.Notebook(self.frameAnalyse)
-        self.lowerTabs.pack()
-
-        # Frames Implicite Explicite et Supplémentaire
-        self.frameImplicite = ttk.Frame(self.lowerTabs)
-        self.frameExplicite = ttk.Frame(self.lowerTabs)
-        self.frameSupplementaire = ttk.Frame(self.lowerTabs)
-
-
-        # Onglets du notebook inférieur
-        self.lowerTabs.add(self.frameImplicite, text='IMPLICITE')
-        self.lowerTabs.add(self.frameExplicite, text='EXPLICITE')
-        self.lowerTabs.add(self.frameSupplementaire, text='SUPPLÉMENTAIRE')
-        self.lowerTabs.pack(pady=10)
-
-        # Labels Nom, Verbe, Adjectif  Implicites
-        self.labelNom = ttk.Label(self.frameImplicite, text="Nom")
-        self.labelNom.grid(row=0, column=0)
-        self.labelVerbe = ttk.Label(self.frameImplicite, text="Verbe")
-        self.labelVerbe.grid(row=0, column=1)
-        self.labelAdj = ttk.Label(self.frameImplicite, text="Adjectif")
-        self.labelAdj.grid(row=0, column=2)
-
-        # Labels Nom, Verbe, Adjectif  Explicite
-        self.labelNom = ttk.Label(self.frameExplicite, text="Nom")
-        self.labelNom.grid(row=0, column=0)
-        self.labelVerbe = ttk.Label(self.frameExplicite, text="Verbe")
-        self.labelVerbe.grid(row=0, column=1)
-        self.labelAdj = ttk.Label(self.frameExplicite, text="Adjectif")
-        self.labelAdj.grid(row=0, column=2)
-
-        # Labels Nom, Verbe, Adjectif  Supplementaire
-        self.labelNom = ttk.Label(self.frameSupplementaire, text="Nom")
-        self.labelNom.grid(row=0, column=0)
-        self.labelVerbe = ttk.Label(self.frameSupplementaire, text="Verbe")
-        self.labelVerbe.grid(row=0, column=1)
-        self.labelAdj = ttk.Label(self.frameSupplementaire, text="Adjectif")
-        self.labelAdj.grid(row=0, column=2)
-
-        # Champs texte Nom Verbe Adjectif Implicites
-        self.txtNomImplicite = Text(self.frameImplicite, width=30, height=10)
-        self.txtNomImplicite.grid(row=1, column=0)
-        self.txtVerbeImplicite = Text(self.frameImplicite, width=30, height=10)
-        self.txtVerbeImplicite.grid(row=1, column=1)
-        self.txtAdjImplicite = Text(self.frameImplicite, width=30, height=10)
-        self.txtAdjImplicite.grid(row=1, column=2)
-
-        # Champs texte Nom Verbe Adjectif Explicite
-        self.txtNomExplicite = Text(self.frameExplicite, width=30, height=10)
-        self.txtNomExplicite.grid(row=1, column=0)
-        self.txtVerbeExplicite = Text(self.frameExplicite, width=30, height=10)
-        self.txtVerbeExplicite.grid(row=1, column=1)
-        self.txtAdjExplicite = Text(self.frameExplicite, width=30, height=10)
-        self.txtAdjExplicite.grid(row=1, column=2)
-
-        # Champs texte Nom Verbe Adjectif Supplementaire
-        self.txtNomSupplementaire = Text(self.frameSupplementaire, width=30, height=10)
-        self.txtNomSupplementaire.grid(row=1, column=0)
-        self.txtVerbeSupplementaire = Text(self.frameSupplementaire, width=30, height=10)
-        self.txtVerbeSupplementaire.grid(row=1, column=1)
-        self.txtAdjSupplementaire = Text(self.frameSupplementaire, width=30, height=10)
-        self.txtAdjSupplementaire.grid(row=1, column=2)
-
-        # ONGLET TABLEAU
-
-        # Labels Nom, Verbe, Adjectif
-        self.labelNom = ttk.Label(self.frameTableau, text="Nom")
+        
+                
+        # Frame Tableau
+        self.frameTableau = ttk.Frame(self.mainFrame)
+        self.frameTableau.pack()
+       
+       # Labels Nom, Verbe, Adjectif
+        self.labelNom = ttk.Label(self.frameTableau, text="NOM")
         self.labelNom.grid(row=1, column=1)
-        self.labelVerbe = ttk.Label(self.frameTableau, text="Verbe")
+        self.labelVerbe = ttk.Label(self.frameTableau, text="VERBE")
         self.labelVerbe.grid(row=1, column=2)
-        self.labelAdj = ttk.Label(self.frameTableau, text="Adjectif")
+        self.labelAdj = ttk.Label(self.frameTableau, text="ADJECTIF")
         self.labelAdj.grid(row=1, column=3)
 
         # Labels Nom, Verbe, Adjectif
-        self.labelNom = ttk.Label(self.frameTableau, text="Nom")
+        self.labelNom = ttk.Label(self.frameTableau, text="IMPLICITE")
         self.labelNom.grid(row=2, column=0)
-        self.labelVerbe = ttk.Label(self.frameTableau, text="Verbe")
+        self.labelVerbe = ttk.Label(self.frameTableau, text="EXPLICITE")
         self.labelVerbe.grid(row=3, column=0)
-        self.labelAdj = ttk.Label(self.frameTableau, text="Adjectif")
+        self.labelAdj = ttk.Label(self.frameTableau, text="SUPPLEMENTAIRE")
         self.labelAdj.grid(row=4, column=0)
 
-        self.tabNomImplicite = Text(self.frameTableau, width=30, height=10)
+        self.tabNomImplicite = Text(self.frameTableau, width=30, height=10, wrap=WORD)
         self.tabNomImplicite.grid(row=2, column=1)
-        self.tabVerbeImplicite = Text(self.frameTableau, width=30, height=10)
+        self.tabVerbeImplicite = Text(self.frameTableau, width=30, height=10, wrap=WORD)
         self.tabVerbeImplicite.grid(row=2, column=2)
-        self.tabAdjImplicite = Text(self.frameTableau, width=30, height=10)
+        self.tabAdjImplicite = Text(self.frameTableau, width=30, height=10, wrap=WORD)
         self.tabAdjImplicite.grid(row=2, column=3)
 
-        self.tabNomExplicite = Text(self.frameTableau, width=30, height=10)
+        self.tabNomExplicite = Text(self.frameTableau, width=30, height=10, wrap=WORD)
         self.tabNomExplicite.grid(row=3, column=1)
-        self.tabVerbeExplicite = Text(self.frameTableau, width=30, height=10)
+        self.tabVerbeExplicite = Text(self.frameTableau, width=30, height=10, wrap=WORD)
         self.tabVerbeExplicite.grid(row=3, column=2)
-        self.tabAdjExplicite = Text(self.frameTableau, width=30, height=10)
+        self.tabAdjExplicite = Text(self.frameTableau, width=30, height=10, wrap=WORD)
         self.tabAdjExplicite.grid(row=3, column=3)
 
-        self.tabNomSupp = Text(self.frameTableau, width=30, height=10)
+        self.tabNomSupp = Text(self.frameTableau, width=30, height=10, wrap=WORD)
         self.tabNomSupp.grid(row=4, column=1)
-        self.tabVerbeSupp = Text(self.frameTableau, width=30, height=10)
+        self.tabVerbeSupp = Text(self.frameTableau, width=30, height=10, wrap=WORD)
         self.tabVerbeSupp.grid(row=4, column=2)
-        self.tabAdjSupp = Text(self.frameTableau, width=30, height=10)
+        self.tabAdjSupp = Text(self.frameTableau, width=30, height=10, wrap=WORD)
         self.tabAdjSupp.grid(row=4, column=3)
+        
+    def getSelectedText(self):
+        if self.txtEnonce.tag_ranges("sel"):
+            selected=self.txtEnonce.selection_get()
+            print(selected)
+            if len(self.tabNomImplicite.get("1.0", END)) == 1:
+                self.tabNomImplicite.insert(END, selected)
+            else:
+                self.tabNomImplicite.insert(END, "\n"+selected)
+        else:
+            pass
         
     def importEnonce(self):
         filePath = self.openTxtFile()
