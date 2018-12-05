@@ -26,13 +26,13 @@ class Vue():
         self.frameScenario = Frame(self.frameModuleCU,bg="#282E3F", width = 998, height = 800)
         self.frameBorder = Frame(self.frameModuleCU,bg = "black", width = 2, height = 800)
         self.canevasCasUsage = Canvas(self.frameCasUsage,bg="#282E3F",bd=0, highlightthickness=0, width = 200, height = 800)
-        self.canevasCasUsage.grid(row = 0, column = 0, sticky = "nsew")
+        self.canevasCasUsage.grid(row = 0, column = 1, sticky = "nsew")
         self.canevasScenario = Canvas(self.frameScenario, bg="#282E3F",bd=0, highlightthickness=0, width = 998, height = 800)
         self.canevasScenario.pack()
 
         self.frameModuleCU.pack()
 
-        self.frameCasUsage.grid(row = 0, column = 1, sticky = "nse")
+        self.frameCasUsage.grid(row = 0, column = 0, sticky = "nse")
         self.frameBorder.grid(row = 0, column =2, sticky = "ns")
         self.frameScenario.grid(row = 0, column = 3, sticky = "nse")
 
