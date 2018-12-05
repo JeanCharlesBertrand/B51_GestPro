@@ -62,6 +62,13 @@ class Vue():
 			text="Nom de la table: ",fg="#4C9689",
 			font = ("Courier New", 10, "bold"),
 			bg="#282E3F")
+				
+		self.labelNTable = Label(
+			self.cadresplash,
+			bd=1,
+			text="",fg="#4C9689",
+			font = ("Courier New", 13, "bold"),
+			bg="#282E3F")
 			
 		self.entryNomTable=Entry(
 			bg="#4C9689",		
@@ -74,8 +81,8 @@ class Vue():
             bg="#4C9689",                                             
             relief = "raised",
             font = ("Courier New", 14, "bold"),
-            fg = "#dbdbdb")
-			#command=self.loginclient)  
+            fg = "#dbdbdb",
+			command=self.insertNom)  
 
 		self.labelNomChamp = Label(
 			self.cadresplash,
@@ -155,8 +162,8 @@ class Vue():
             bg="#4C9689",                                             
             relief = "raised",
             font = ("Courier New", 14, "bold"),
-            fg = "#dbdbdb")
-			#command=self.loginclient)  
+            fg = "#dbdbdb",
+			command=self.insertNom)  
 			
 		btnDelete=Button(                                    
             text=" DELETE ",
@@ -186,7 +193,7 @@ class Vue():
 		self.labelTypeChamp.place(x=270, y=140)
 
 		self.lineEntries = [ self.entryNomChamp, self.entryTypeChamp, self.entryKeyChamp, self.entryNNChamp, self.entryDefaultChamp]
-		
+
 
 		self.canevasplash.create_window(580,80,window=btnNew,width=60,height=30)
 		self.canevasplash.create_window(602,412,window=btnAdd,width=30,height=30)
@@ -195,6 +202,7 @@ class Vue():
 
 		self.entryNomTable.place(x=320, y= 70)
 		self.labelNomTable.place(x=160, y=70)
+		self.labelNTable.place(x=320,y=100)
 		self.labelNomCetteTable.place(x=160, y=100)
 		self.labelListeTables.place(x= 20, y=70)
 		self.listTables = Listbox(self.cadresplash,height=20, bg="#002887")
@@ -219,9 +227,11 @@ class Vue():
 			listbox.insert(listbox.size(), line[i])
 		
 		#print(line)
-	
-	
-	
+	def insertNom(self):
+		nom = self.entryNomTable.get()
+		print("monNom", nom)
+		self.labelNTable.config(text=nom)
+		print(nom)
 		
 	def fermerfenetre(self):
 		print("ONFERME la fenetre")
