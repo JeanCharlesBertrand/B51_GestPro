@@ -228,9 +228,13 @@ class Vue():
 
     def requeteProjet(self):
         if self.listeProjets.size() > 0:
-            pro=self.listeProjets.selection_get()
-            if pro:
-                self.parent.selectionProjet(pro)
+            try:
+                pro=self.listeProjets.selection_get()
+                if pro:
+                    self.parent.selectionProjet(pro)
+            except Exception as e:
+                if e:
+                    pass
     
 #===============================================================================
 #     Description: change le cadre et insère la liste des projets associés au membre dans la fenêtre de sélection d'un projet
@@ -553,7 +557,7 @@ class Vue():
         self.creerBoutonFrameModule()
     
     def creerBoutonFrameModule(self):
-        self.btnAnalyseTxt      = Button(text = "     Analyse textuel", command = self.requeteAnalyse)
+        self.btnAnalyseTxt      = Button(text = "     Analyse textuelle", command = self.requeteAnalyse)
         self.btnCasUsage        = Button(text = "     Cas d'usage", command = self.requeteCasUsages)
         self.btnScenario        = Button(text = "     Scenario")
         self.btnMaquette        = Button(text = "     Maquette", command = self.requeteMaquette)
