@@ -18,7 +18,7 @@ class Controleur():
         print("IN CONTROLEUR",sys.argv)
         self.createurId=Id
         self.modele=None
-        self.vue=Vue(self)
+        self.vue=Vue()
         self.vue.root.mainloop()
         self.idProjet=int(sys.argv[4])
         self.ipserveur=sys.argv[2]
