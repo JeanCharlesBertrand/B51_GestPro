@@ -31,11 +31,14 @@ class Controleur():
         ad="http://"+self.ipserveur+":"+self.nodeport
         self.serveur=ServerProxy(ad)
         
-    def saisirFiche(self,classe,proprietaire,collaboration,responsabilites, variables):
-        self.serveur.insertFicheCRC(self.idProjet,classe,proprietaire,collaboration,responsabilites, variables)
+    def saisirFiche(self,idFiche,classe,proprietaire,collaboration,responsabilites, variables):
+        print("enregistrer Fiche")
+        print(idFiche,classe,proprietaire,collaboration,responsabilites,variables)
+        #self.serveur.insertFicheCRC(self.idProjet,classe,proprietaire,collaboration,responsabilites, variables)
         
     def lireFiche(self):
-        print("id projet",self.idProjet)
+        print("lire dans BD")
+        print("id projet")
         #return self.serveur.getFicheCRC(self,self.idProjet)
 
         
