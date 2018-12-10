@@ -20,25 +20,27 @@ class Vue():
         
         
     def creerFrameCasUsage(self):
+        
         self.frameModuleCU = Frame(self.root, bg="red")
         
         self.listeCas = Frame(self.frameModuleCU)
         self.infoCas = Frame(self.frameModuleCU)
-        self.scenario = Frame(self.frameModuleCU)
+        self.scenario = Frame(self.frameModuleCU, bg="blue")
         
-        self.listeCas.grid(column=0, row=0, rowspan=2, sticky=E)
-        self.infoCas.grid(column=1, row=0, sticky=N)
-        self.scenario.grid(column=1, row=1, sticky=N)
+        self.listeCas.grid(column=0, row=0, rowspan=2, sticky=N+S+W+E)
+        self.infoCas.grid(column=1, row=0, sticky=N+S+W+E)
+        self.scenario.grid(column=1, row=1, sticky=N+S+W+E)
         
-        self.listeCasUsage = Listbox(self.listeCas, background="#4C9689", bd=0, height=50)
-        self.listeCasUsage.grid(row = 0, column = 0, sticky = "nsew")
+        ##    Liste cas d'usage    ##
+        
+        self.listeCasUsage = Listbox(self.listeCas, background="lightgreen",height=30)
+        self.listeCasUsage.pack(side=LEFT, expand=1, fill=BOTH)
         
         for i in range(500):
             self.listeCasUsage.insert(END, i)
         
         self.scrollCasUsage = Scrollbar(self.listeCas)
-        self.scrollCasUsage.grid(row = 0, column = 1, sticky = "nsew")
-        
+        self.scrollCasUsage.pack(side=LEFT, fill=Y)
         self.listeCasUsage.config(yscrollcommand=self.scrollCasUsage.set)
         self.scrollCasUsage.config(command=self.listeCasUsage.yview)
         
@@ -46,22 +48,33 @@ class Vue():
         self.frameModuleCU.columnconfigure(1, weight=3)
         
         self.frameModuleCU.rowconfigure(0, weight=1)
-        self.frameModuleCU.rowconfigure(1, weight=2)
+        self.frameModuleCU.rowconfigure(1, weight=3)
         
-   
         
+        ##    Cas d'usage entry    ##
+        
+        self.infoCas.rowconfigure(0, weight=1)
+        self.infoCas.rowconfigure(1, weight=1)
         
         self.labelTitreModule = Label(self.infoCas, text="Scénario d'utilisation", font=("Arial", 25, "bold"))
-        self.labelTitreModule.grid(row=0, column=0, sticky=N)
+        self.labelTitreModule.grid(row=0, column=0)
         
-        self.entryCas = Entry(self.infoCas, width=75)
-        self.entryCas.grid(row=1, column=0, sticky=S)
-
+        self.entryCas = Entry(self.infoCas)
+        self.entryCas.grid(row=1, column=0)
+  
+       
+       ##    Scénario    ##
+       
         self.scenario.columnconfigure(0, weight=1)
         self.scenario.columnconfigure(1, weight=1)
         self.scenario.columnconfigure(2, weight=1)
-
         
+        self.scenario.rowconfigure(0, weight=1)
+        self.scenario.rowconfigure(1, weight=1)
+        self.scenario.rowconfigure(2, weight=5)
+        
+        
+            #Label
         self.labelUsager = Label(self.scenario, text="Usager", font=("Arial", 12, "bold"))
         self.labelUsager.grid(row=0, column=0)
         
@@ -70,43 +83,64 @@ class Vue():
         
         self.labelAutre = Label(self.scenario, text="Autre", font=("Arial", 12, "bold"))
         self.labelAutre.grid(row=0, column=2)
+        
+            #Entry
+        self.entryUsager = Entry(self.scenario)
+        self.entryUsager.grid(row=1, column=0)
+        
+        self.entryOrdi = Entry(self.scenario)
+        self.entryOrdi.grid(row=1, column=1)
+        
+        self.entryAutre = Entry(self.scenario)
+        self.entryAutre.grid(row=1, column=2)
+        
+        self.entryUsager = Entry(self.scenario)
+        self.entryCas.grid(row=1, column=0)
+        
+            #ListBox
+            
+                #Usager
+        self.listeUsager = Listbox(self.scenario, background="red")
+        self.listeUsager.grid(row=2, column=0, sticky=N+S+W+E)
+    
+        self.scrollUsager = Scrollbar(self.listeUsager)
+        self.scrollUsager.pack(side=LEFT, fill=Y)
+        self.listeUsager.config(yscrollcommand=self.scrollUsager.set)
+        self.scrollUsager.config(command=self.listeUsager.yview)
+        
+                #Ordi
+        self.listeOrdi = Listbox(self.scenario, background="red")
+        self.listeOrdi.grid(row=2, column=1, sticky=N+S+W+E)
+
+        self.scrollOrdi = Scrollbar(self.listeOrdi)
+        self.scrollOrdi.pack(side=LEFT, fill=Y)
+        self.listeOrdi.config(yscrollcommand=self.scrollOrdi.set)
+        self.scrollOrdi.config(command=self.listeOrdi.yview)
+        
+                #Autre
+        self.listeAutre = Listbox(self.scenario, background="red")
+        self.listeAutre.grid(row=2, column=2, sticky=N+S+W+E)
+    
+        self.scrollAutre = Scrollbar(self.listeAutre)
+        self.scrollAutre.pack(side=LEFT, fill=Y)
+        self.listeAutre.config(yscrollcommand=self.scrollAutre.set)
+        self.scrollAutre.config(command=self.listeAutre.yview)
+        
+        
+        
+        ###
+        
+        self.frameModuleCU.columnconfigure(0, weight=1)
+        self.frameModuleCU.columnconfigure(1, weight=3)
                 
-        self.frameModuleCU.pack()
+        self.frameModuleCU.pack(expand=1,fill=BOTH)
         
         
 
-    def creerFrameCasUsage1(self):
-        self.frameModuleCU = Frame(self.root, bg="red")
-        
-        self.frameCasUsage = Frame(self.frameModuleCU,bg=self.couleur500)
-        self.frameScenario = Frame(self.frameModuleCU,bg=self.couleur500)
-
-
-        self.frameModuleCU.pack
-        self.frameCasUsage.place
-        self.frameScenario.grid(row = 0, column = 1, sticky = "nse")
-
+    def inscrireCasUsageEntryDansListe(self):
+        self.texteCas = self.entryCas.get()
         
         
-        
-        self.listeCasUsage = Listbox(self.frameCasUsage, background="#4C9689", bd=0, height=50)
-        self.listeCasUsage.grid(row = 0, column = 0, sticky = "nsew")
-        
-        self.scrollCasUsage = Scrollbar(self.frameCasUsage)
-        self.scrollCasUsage.grid(row = 0, column = 1, sticky = "nsew")
-        
-        self.listeCasUsage.config(yscrollcommand=self.scrollCasUsage.set)
-        self.scrollCasUsage.config(command=self.listeCasUsage.yview)
-        
-        self.creerScenario()
-        
-        
-
-    #def creerLabel(self):
-       #texte = self.entCasUsage.get()
-       #self.listeCasUsage.insert(END, texte)
-
-
 
 
 
