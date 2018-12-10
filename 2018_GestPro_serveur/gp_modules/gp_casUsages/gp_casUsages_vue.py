@@ -6,7 +6,7 @@ class Vue():
     def __init__(self):
         self.root = Tk()
         self.root.title("Omada")
-        self.root.geometry('1200x800')
+        #self.root.geometry('1200x800')
 
         self.couleur500 = "#282E3F"
         self.couleur800 = ""
@@ -15,94 +15,99 @@ class Vue():
         self.couleurTexte2 = "#FFFFFF"
         self.couleurAccent = "#4C9689"
         self.couleurSelection = "#FF4181"
-        
-        self.incrementLabel = 10
-
+   
         self.creerFrameCasUsage()
-
+        
+        
     def creerFrameCasUsage(self):
-        self.frameModuleCU = Frame(self.root)
-        self.frameCasUsage = Frame(self.frameModuleCU,bg=self.couleur500, width = 200, height = 800)
-        self.frameScenario = Frame(self.frameModuleCU,bg="#282E3F", width = 998, height = 800)
-        self.frameBorder = Frame(self.frameModuleCU,bg = "black", width = 2, height = 800)
-        self.canevasCasUsage = Canvas(self.frameCasUsage,bg="#282E3F",bd=0, highlightthickness=0, width = 200, height = 800)
-        self.canevasCasUsage.grid(row = 0, column = 1, sticky = "nsew")
-        self.canevasScenario = Canvas(self.frameScenario, bg="#282E3F",bd=0, highlightthickness=0, width = 998, height = 800)
-        self.canevasScenario.pack()
+        self.frameModuleCU = Frame(self.root, bg="red")
+        
+        self.listeCas = Frame(self.frameModuleCU)
+        self.infoCas = Frame(self.frameModuleCU)
+        self.scenario = Frame(self.frameModuleCU)
+        
+        self.listeCas.grid(column=0, row=0, rowspan=2, sticky=E)
+        self.infoCas.grid(column=1, row=0, sticky=N)
+        self.scenario.grid(column=1, row=1, sticky=N)
+        
+        self.listeCasUsage = Listbox(self.listeCas, background="#4C9689", bd=0, height=50)
+        self.listeCasUsage.grid(row = 0, column = 0, sticky = "nsew")
+        
+        for i in range(500):
+            self.listeCasUsage.insert(END, i)
+        
+        self.scrollCasUsage = Scrollbar(self.listeCas)
+        self.scrollCasUsage.grid(row = 0, column = 1, sticky = "nsew")
+        
+        self.listeCasUsage.config(yscrollcommand=self.scrollCasUsage.set)
+        self.scrollCasUsage.config(command=self.listeCasUsage.yview)
+        
+        self.frameModuleCU.columnconfigure(0, weight=1)
+        self.frameModuleCU.columnconfigure(1, weight=3)
+        
+        self.frameModuleCU.rowconfigure(0, weight=1)
+        self.frameModuleCU.rowconfigure(1, weight=2)
+        
+   
+        
+        
+        self.labelTitreModule = Label(self.infoCas, text="Scénario d'utilisation", font=("Arial", 25, "bold"))
+        self.labelTitreModule.grid(row=0, column=0, sticky=N)
+        
+        self.entryCas = Entry(self.infoCas, width=75)
+        self.entryCas.grid(row=1, column=0, sticky=S)
 
+        self.scenario.columnconfigure(0, weight=1)
+        self.scenario.columnconfigure(1, weight=1)
+        self.scenario.columnconfigure(2, weight=1)
+
+        
+        self.labelUsager = Label(self.scenario, text="Usager", font=("Arial", 12, "bold"))
+        self.labelUsager.grid(row=0, column=0)
+        
+        self.labelOrdinateur = Label(self.scenario, text="Ordinateur", font=("Arial", 12, "bold"))
+        self.labelOrdinateur.grid(row=0, column=1)
+        
+        self.labelAutre = Label(self.scenario, text="Autre", font=("Arial", 12, "bold"))
+        self.labelAutre.grid(row=0, column=2)
+                
         self.frameModuleCU.pack()
-
-        self.frameCasUsage.grid(row = 0, column = 0, sticky = "nse")
-        self.frameBorder.grid(row = 0, column =2, sticky = "ns")
-        self.frameScenario.grid(row = 0, column = 3, sticky = "nse")
-
-        self.frameCasUsage.grid_rowconfigure(60, weight = 0)
-        self.frameCasUsage.grid_columnconfigure(1, weight =0)
         
-        self.listeCasUsage = Listbox(self.canevasCasUsage)
-        self.listeCasUsage.pack()
         
-        self.scrollCasUsage = Scrollbar(self.canevasCasUsage)
-        self.scrollCasUsage.pack(side = LEFT, fill=Y)
+
+    def creerFrameCasUsage1(self):
+        self.frameModuleCU = Frame(self.root, bg="red")
+        
+        self.frameCasUsage = Frame(self.frameModuleCU,bg=self.couleur500)
+        self.frameScenario = Frame(self.frameModuleCU,bg=self.couleur500)
+
+
+        self.frameModuleCU.pack
+        self.frameCasUsage.place
+        self.frameScenario.grid(row = 0, column = 1, sticky = "nse")
+
+        
+        
+        
+        self.listeCasUsage = Listbox(self.frameCasUsage, background="#4C9689", bd=0, height=50)
+        self.listeCasUsage.grid(row = 0, column = 0, sticky = "nsew")
+        
+        self.scrollCasUsage = Scrollbar(self.frameCasUsage)
+        self.scrollCasUsage.grid(row = 0, column = 1, sticky = "nsew")
         
         self.listeCasUsage.config(yscrollcommand=self.scrollCasUsage.set)
         self.scrollCasUsage.config(command=self.listeCasUsage.yview)
         
         self.creerScenario()
+        
+        
 
-    def creerLabel(self):
-       texte = self.entCasUsage.get()
-       self.listeCasUsage.insert(END, texte)
-
-
-    def creerBtnModule(self, module):
-        self.module.config(
-            bg="#282E3F",
-            fg = "#dbdbdb",                            
-            font = ("Arial", 15),
-            relief="flat",
-            activebackground = "#4C9689", 
-            width = 15, 
-            anchor = W)
-
-    def creerBtnEtapeProjet(self,etapeProjet):
-        self.etapeProjet.config(
-            bg="#282E3F",
-            fg = "#4C9689",                            
-            justify='left',
-            font = ("Arial", 16),
-            relief="flat",
-            activebackground = "#4C9689", 
-            width = 15,
-            anchor = W)
-
-    def creerScenario(self):
-        self.nomFenetre = "Scenario d'utilisation"
-        self.lblNomFentre = Label(text = self.nomFenetre, bg = "#282E3F", fg = "#4C9689", font = ("Arial", 25, "bold"))
-        self.entCasUsage = Entry(   
-            bg=self.couleurAccent,        
-            relief = "sunken",
-            font = ("Courier New", 12, "bold"),
-            fg = self.couleurTexte1,justify='center')
-
-
-        self.canevasScenario.create_window(400,200, window = self.entCasUsage, width = 700, height = 30)
-        self.canevasScenario.create_window(450,50, window = self.lblNomFentre)
-
-        self.btnCommit = Button(text = "Commit",bg="#4C9689",fg = "#dbdbdb",font = ("Arial", 12), relief="raised", activebackground = "#4C9689", width = 12, command = self.creerLabel)
-        self.canevasScenario.create_window(850,765, window = self.btnCommit, width = 200, height = 25)
+    #def creerLabel(self):
+       #texte = self.entCasUsage.get()
+       #self.listeCasUsage.insert(END, texte)
 
 
 
-    def creerLabelInfo(self,labelInfo):
-        self.labelInfo.config(
-            bg="#282E3F",                            
-            justify='left',
-            relief="flat",
-            font = ("Arial", 12),
-            activebackground = "#4C9689", 
-            width = 35,
-            anchor = W)
 
 
 if __name__ == '__main__':
