@@ -109,7 +109,7 @@ class Vue():
         self.btnImportEnonce.grid(row=0, column=0)
         self.btnSaveEnonce = ttk.Button(self.frameBtnCentre, text="Sauvegarder", command=self.parent.insertIntoAnalyse)
         self.btnSaveEnonce.grid(row=0, column=1)
-        self.btnExportEnonce = ttk.Button(self.frameBtnCentre, text="Exporter", command=self.getSelectedText)
+        self.btnExportEnonce = ttk.Button(self.frameBtnCentre, text="Exporter", command=self.saveToTxtFile)
         self.btnExportEnonce.grid(row=0, column=2)
         
                 
@@ -213,11 +213,8 @@ class Vue():
         except Exception as e:
             pass
 
-    def getTxtField(self):
-        #input = self.txtEnonce.get("1.0", END)
-        #print(input)
-        pass
     
+    # Importer un fichier texte pour l'enonce
     def readTxtFile(self, filePath):
         try:
             with open(filePath, 'r') as file:
@@ -226,22 +223,18 @@ class Vue():
                     self.txtEnonce.insert(END, line)
         except IOError as e:
             print("File not found")
+    
+    # Sauvegarde l'enonce dans un fichier texte        
+    def saveToTxtFile(self):
+        file_path = filedialog.asksaveasfile()
+        content=self.txtEnonce.get("1.0", END)
+        file_path.write(content)
+        file_path.close()
 
-    # A EFFACER
-    def readTxtFileOld(self, filePath):
-        fileReader = open(filePath, 'r')
-        for line in fileReader:
-            print(line)
-            self.txtEnonce.insert(END, line)
-        fileReader.close()
-
+    # Fenetre pour sélectionner un fichier à ouvrir
     def openTxtFile(self):
         file_path = filedialog.askopenfilename()
-        #print(file_path)
         return file_path
-
-    def saveToTxtFile(self):
-        pass
         
     def fermerfenetre(self):
         print("ONFERME la fenetre")
