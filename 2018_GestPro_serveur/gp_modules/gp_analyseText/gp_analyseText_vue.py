@@ -169,6 +169,9 @@ class Vue():
         filePath = self.openTxtFile()
         txtContent = self.readTxtFile(filePath)
         
+    def exportEnonce(self):
+        pass
+        
     def prepaInsertList(self):
         ListInsert = list()
         ListInsert.append(self.txtEnonce.get("1.0", END))
@@ -214,8 +217,18 @@ class Vue():
         #input = self.txtEnonce.get("1.0", END)
         #print(input)
         pass
-
+    
     def readTxtFile(self, filePath):
+        try:
+            with open(filePath, 'r') as file:
+                file = file.read()
+                for line in file:
+                    self.txtEnonce.insert(END, line)
+        except IOError as e:
+            print("File not found")
+
+    # A EFFACER
+    def readTxtFileOld(self, filePath):
         fileReader = open(filePath, 'r')
         for line in fileReader:
             print(line)
