@@ -35,6 +35,11 @@ class Vue():
 #==========================================================================================       
 # 
 #       Lynda last version : 4dec 2018
+#       a faire : lien avec la bd **
+#       ecrire dans les cartes de la bd
+#       arranger le scroll
+#       
+#       
 #==========================================================================================
         
     def changemode(self,cadre):
@@ -116,6 +121,7 @@ class Vue():
         self.listeFiches.append( Fiche(self,self.frameX,self.frameY))
         self.idFiche+=1
 
+
     def OnMouseWheel(self, event):
         #Scroll maison des FIches 
         #self.canevasplash.yview("scroll",event.delta,"units")
@@ -134,7 +140,7 @@ class Vue():
     def saisirFiche(self):
         for f in self.listeFiches:
             f.saisirFiche()
-            self.parent.saisirFiche(f.idFiche,f.classe,f.proprietaire,f.collaboration,f.responsabilites,f.variables)
+            self.parent.insertIntoCRC(f.idFiche,f.classe,f.proprietaire,f.collaboration,f.responsabilites,f.parametres)
         
     def afficherFiche(self):
         #creer x Fiches, rempli les champs avec les infos de la BD si existe
@@ -158,7 +164,7 @@ class Fiche():
         self.proprietaire=""
         self.collaboration=""
         self.responsabilites=""
-        self.variables=""
+        self.parametres=""
         
         self.creerFrameFiche()
 
@@ -229,11 +235,11 @@ class Fiche():
             font = ("Courier New", 12, "bold"),
             bg="#282E3F")
         
-        self.labelVariables = Label(
+        self.labelParametres = Label(
             self.frameFiche, 
             bd=1, 
             relief=RIDGE, 
-            text="Variables",fg="#4C9689",
+            text="Parametres",fg="#4C9689",
             font = ("Courier New", 12, "bold"),
             bg="#282E3F")
 
@@ -241,7 +247,7 @@ class Fiche():
         self.canevasFiche.create_window(80,60, window = self.labelProprietaire,width=150, height=15)
         self.canevasFiche.create_window(250,20, window = self.labelCollaboration,width=150, height=15)
         self.canevasFiche.create_window(80,100, window = self.labelResponsabilites,width=150, height=15)
-        self.canevasFiche.create_window(250,100, window = self.labelVariables,width=150, height=15)
+        self.canevasFiche.create_window(250,100, window = self.labelParametres,width=150, height=15)
 
 
     def creerChampsTexteFiche(self):
@@ -249,7 +255,7 @@ class Fiche():
         self.champProprietaire = Entry()
         self.champCollaboration = Text()
         self.champResponsabilites = Text()
-        self.champVariables = Text()
+        self.champParametres = Text()
 
         self.champClasse.config(
             bg='white',
@@ -275,7 +281,7 @@ class Fiche():
             font = ("Courier New", 12, "bold"),
             fg = "#4C9689")
         
-        self.champVariables.config(
+        self.champParametres.config(
             bg='white',
             relief = "sunken",
             font = ("Courier New", 12, "bold"),
@@ -285,19 +291,14 @@ class Fiche():
         self.canevasFiche.create_window(80,80,window=self.champProprietaire, width=150, height=20)
         self.canevasFiche.create_window(250,60, window = self.champCollaboration,width=150, height=50)
         self.canevasFiche.create_window(85,165, window = self.champResponsabilites,width=160, height=110)
-        self.canevasFiche.create_window(250,165, window = self.champVariables,width=160, height=110)
+        self.canevasFiche.create_window(250,165, window = self.champParametres,width=160, height=110)
         
-        #scroller dans texte
-        #self.enonceScrollb = ttk.Scrollbar(self.frameFiche, command=self.champResponsabilites.yview)
-        #self.enonceScrollb.pack()
-        #self.champResponsabilites['yscrollcommand'] = self.enonceScrollb.set
-
     def saisirFiche(self):
         self.classe=self.champClasse.get()
         self.proprietaire=self.champProprietaire.get()
         self.collaboration=self.champCollaboration.get('0.0',END)
         self.responsabilites=self.champResponsabilites.get('0.0',END)
-        self.variables=self.champVariables.get('0.0',END)
+        self.parametres=self.champParametres.get('0.0',END)
         
 
 
