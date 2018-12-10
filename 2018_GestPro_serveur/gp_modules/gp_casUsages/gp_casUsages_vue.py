@@ -1,6 +1,8 @@
 
 
 from tkinter import *
+from tkinter import *
+import random
 
 class Vue():
     def __init__(self):
@@ -36,8 +38,6 @@ class Vue():
         self.listeCasUsage = Listbox(self.listeCas, background="lightgreen",height=30)
         self.listeCasUsage.pack(side=LEFT, expand=1, fill=BOTH)
         
-        for i in range(500):
-            self.listeCasUsage.insert(END, i)
         
         self.scrollCasUsage = Scrollbar(self.listeCas)
         self.scrollCasUsage.pack(side=LEFT, fill=Y)
@@ -55,12 +55,16 @@ class Vue():
         
         self.infoCas.rowconfigure(0, weight=1)
         self.infoCas.rowconfigure(1, weight=1)
+        self.infoCas.rowconfigure(2, weight=1)
         
         self.labelTitreModule = Label(self.infoCas, text="Scénario d'utilisation", font=("Arial", 25, "bold"))
-        self.labelTitreModule.grid(row=0, column=0)
+        self.labelTitreModule.grid(row=0, column=0, sticky=W+E)
         
         self.entryCas = Entry(self.infoCas)
         self.entryCas.grid(row=1, column=0)
+        
+        self.boutonCasUsage = Button(self.infoCas, text="Ajouter à la liste", command=self.inscrireCasUsageEntryDansListe)
+        self.boutonCasUsage.grid(row=2, column=0, sticky=W+E)
   
        
        ##    Scénario    ##
@@ -68,10 +72,12 @@ class Vue():
         self.scenario.columnconfigure(0, weight=1)
         self.scenario.columnconfigure(1, weight=1)
         self.scenario.columnconfigure(2, weight=1)
+        self.scenario.columnconfigure(3, weight=1)
         
         self.scenario.rowconfigure(0, weight=1)
         self.scenario.rowconfigure(1, weight=1)
-        self.scenario.rowconfigure(2, weight=5)
+        self.scenario.rowconfigure(2, weight=1)
+        self.scenario.rowconfigure(3, weight=5)
         
         
             #Label
@@ -86,60 +92,93 @@ class Vue():
         
             #Entry
         self.entryUsager = Entry(self.scenario)
-        self.entryUsager.grid(row=1, column=0)
+        self.entryUsager.grid(row=1, column=0, sticky=N+S+W+E)
         
         self.entryOrdi = Entry(self.scenario)
-        self.entryOrdi.grid(row=1, column=1)
+        self.entryOrdi.grid(row=1, column=1, sticky=N+S+W+E)
         
         self.entryAutre = Entry(self.scenario)
-        self.entryAutre.grid(row=1, column=2)
+        self.entryAutre.grid(row=1, column=2, sticky=N+S+W+E)
         
-        self.entryUsager = Entry(self.scenario)
-        self.entryCas.grid(row=1, column=0)
+        
+        
+            #Bouton
+        self.boutonLigneUsager = Button(self.scenario, text="+", command=self.inscrireLigneUsager)
+        self.boutonLigneUsager.grid(row=2, column=0, sticky=W+E)    
+        
+        self.boutonLigneOrdi = Button(self.scenario, text="+", command=self.inscrireLigneOrdi)
+        self.boutonLigneOrdi.grid(row=2, column=1, sticky=W+E)    
+        
+        self.boutonLigneAutre = Button(self.scenario, text="+", command=self.inscrireLigneAutre)
+        self.boutonLigneAutre.grid(row=2, column=2, sticky=W+E)    
+    
         
             #ListBox
             
+                #ScrollBar 
+        self.scrollScenario = Scrollbar(self.scenario, command=self.scrollListes)
+        self.scrollScenario.grid(row=3,column=3, sticky=N+S)
+            
                 #Usager
-        self.listeUsager = Listbox(self.scenario, background="red")
-        self.listeUsager.grid(row=2, column=0, sticky=N+S+W+E)
+        self.listeUsager = Listbox(self.scenario, background="red", yscrollcommand=self.scrollScenario.set)
+        self.listeUsager.grid(row=3, column=0, sticky=N+S+W+E)
     
-        self.scrollUsager = Scrollbar(self.listeUsager)
-        self.scrollUsager.pack(side=LEFT, fill=Y)
-        self.listeUsager.config(yscrollcommand=self.scrollUsager.set)
-        self.scrollUsager.config(command=self.listeUsager.yview)
-        
                 #Ordi
-        self.listeOrdi = Listbox(self.scenario, background="red")
-        self.listeOrdi.grid(row=2, column=1, sticky=N+S+W+E)
+        self.listeOrdi = Listbox(self.scenario, background="red", yscrollcommand=self.scrollScenario.set)
+        self.listeOrdi.grid(row=3, column=1, sticky=N+S+W+E)
 
-        self.scrollOrdi = Scrollbar(self.listeOrdi)
-        self.scrollOrdi.pack(side=LEFT, fill=Y)
-        self.listeOrdi.config(yscrollcommand=self.scrollOrdi.set)
-        self.scrollOrdi.config(command=self.listeOrdi.yview)
-        
                 #Autre
-        self.listeAutre = Listbox(self.scenario, background="red")
-        self.listeAutre.grid(row=2, column=2, sticky=N+S+W+E)
-    
-        self.scrollAutre = Scrollbar(self.listeAutre)
-        self.scrollAutre.pack(side=LEFT, fill=Y)
-        self.listeAutre.config(yscrollcommand=self.scrollAutre.set)
-        self.scrollAutre.config(command=self.listeAutre.yview)
+        self.listeAutre = Listbox(self.scenario, background="red", yscrollcommand=self.scrollScenario.set)
+        self.listeAutre.grid(row=3, column=2, sticky=N+S+W+E)
         
+        self.pseudodata()
+       
         
-        
-        ###
+
+                ################
         
         self.frameModuleCU.columnconfigure(0, weight=1)
         self.frameModuleCU.columnconfigure(1, weight=3)
                 
         self.frameModuleCU.pack(expand=1,fill=BOTH)
         
+    def scrollListes(self, *args):
+        self.listeUsager.yview(*args)
+        self.listeOrdi.yview(*args)
+        self.listeAutre.yview(*args)
+        
+    def pseudodata(self):
+        test=["ok","jim","bill","joe","sam","chan",
+              "bat","spidey","ironman","pete","carl","bob",]
+        for i in range(200):
+            self.listeUsager.insert(END,random.choice(test))
+            self.listeOrdi.insert(END,random.choice(test))
+            self.listeAutre.insert(END,random.choice(test))
         
 
     def inscrireCasUsageEntryDansListe(self):
         self.texteCas = self.entryCas.get()
+        self.listeCasUsage.insert(END, self.texteCas)
+       
         
+    def inscrireLigneUsager(self):
+        self.texteLigne = self.entryUsager.get()
+        self.listeUsager.insert(END, self.texteLigne)
+        self.listeOrdi.insert(END, "")
+        self.listeAutre.insert(END, "")
+        
+    def inscrireLigneOrdi(self):
+        self.texteLigne = self.entryOrdi.get()
+        self.listeOrdi.insert(END, self.texteLigne)
+        self.listeUsager.insert(END, "")
+        self.listeAutre.insert(END, "")
+        
+        
+    def inscrireLigneAutre(self):
+        self.texteLigne = self.entryAutre.get()
+        self.listeAutre.insert(END, self.texteLigne)
+        self.listeOrdi.insert(END, "")
+        self.listeUsager.insert(END, "")
         
 
 
