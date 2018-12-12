@@ -701,7 +701,7 @@ class Vue():
         self.lblTeamMsg             = Label(text = "Message de l'equipe: ",font = ("Arial", 10),fg = "#4C9689",bg="#282E3F")
         self.lblUser                = Label(text = '@' + self.parent.monnom, font = ("Arial", 10),fg = "#4C9689",bg="#282E3F")
         self.listeLabelInfo = [self.lblDeadline,self.lblDate,self.lblMember,self.lblTimer,self.lblTimeLeft ] #,self.member1,self.member2,self.member3,self.member4, self.member5,self.member6
-        self.canevasInfo.create_window(475,45, window = self.lblNomProjet)
+        self.canevasInfo.create_window(998/2,45, window = self.lblNomProjet)
         self.canevasInfo.create_window(200,100, window = self.lblMember)
         self.canevasInfo.create_window(177,205, window = self.listeMembres)
         self.canevasInfo.create_window(205,310, window = self.entryNomMembreAjout)
