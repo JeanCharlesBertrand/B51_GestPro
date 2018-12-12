@@ -177,11 +177,28 @@ class ControleurServeur(object):
         curseurListe = dbUtilisateurs.c.execute('SELECT nom FROM projet WHERE id IN (SELECT id_projet FROM user_projet WHERE id_user=?)', (identifiant,))
         liste = curseurListe.fetchall()
         self.resetCurseur()
-        return liste        
+        return liste      
 
+#===============================================================================
+#    Description: fonction entree recoit string requete sql pour entree des éléments dans la bd et fonction sortie recoit string requete sql pour sortir des éléments de la bd
+#    Creator: Guillaume Geoffroy
+#    Last modified: 2018/12/12 - 9h40
+#===============================================================================
+    
+    def entreeGenerique(self,requete):
+        try:
+            dbUtilisateurs.c.execute(requete)
+            dbUtilisateurs.conn.commit()
+        except Exception as e:
+            self.trace = str(e)
+        self.resetCurseur()
+        return self.trace
 
-    def requeteGenerique(self,requete):
-        curseurListe = dbUtilisateurs.c.execute(requete)
+    def sortieGenerique(self,requete):
+        try:
+            curseurListe = dbUtilisateurs.c.execute(requete)
+        except Exception as e:
+            print(str(e))
         liste = curseurListe.fetchall()
         self.resetCurseur()
         return liste
