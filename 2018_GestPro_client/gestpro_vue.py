@@ -569,11 +569,11 @@ class Vue():
         self.btnDebriefing      = Button(text = "     Debriefing")
         self.btnCalendrier      = Button(text = "     Debriefing")
         self.btnStats           = Button(text = "     Statistique")
-        self.btnPlanif          = Button(text = " Planification")
-        self.btnImplementation  = Button(text = " Implementation")
-        self.btnSyntheseStats   = Button(text = " Synthese et stats")
-        self.btnChat            = Button(text = " Chat")
-        self.btnQuitter         = Button(text = " Quitter")
+        self.btnPlanif          = Button(text = "     Planification", command = self.requetePlanifGlobale)
+        self.btnImplementation  = Button(text = "     Implementation")
+        self.btnSyntheseStats   = Button(text = "     Synthese et stats")
+        self.btnChat            = Button(text = "     Chat")
+        self.btnQuitter         = Button(text = "     Quitter")
         
         self.lblVersion = Label(bd=1, text="Version 1.0",fg="#4C9689",font = ("Arial", 10),bg="#282E3F")
 
@@ -809,6 +809,10 @@ class Vue():
     
     def requeteModelisation(self):
         mod="modelisation"
+        self.parent.requetemodule(mod)
+    
+    def requetePlanifGlobale(self):
+        mod="planifGlobale"
         self.parent.requetemodule(mod)  
         
     def closeprocess(self):
