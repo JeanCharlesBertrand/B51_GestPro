@@ -42,6 +42,8 @@ class Vue():
         self.creercadres()
         self.changecadre(self.frameLogin)
         self.erreurAjout=None
+        self.root.resizable(False, False)
+
 
 #===============================================================================
 #     Description: cadre temporaire pour tester les fonctionnalités
@@ -119,7 +121,6 @@ class Vue():
             self.description==""
             print("2")
         
-
         return infosValides
 
 #===============================================================================
@@ -543,8 +544,8 @@ class Vue():
         self.frameModule = Frame(self.frameAccueil,bg="#282E3F", width = 200, height = 800)
         self.frameInfo = Frame(self.frameAccueil,bg="#282E3F", width = 998, height = 800)
         self.frameBorder = Frame(self.frameAccueil,bg = "black", width = 2, height = 800)
-        self.canevasModule = Canvas(self.frameModule,bg="#282E3F",bd=0, highlightthickness=0, width = 200, height = 800)
-        self.canevasModule.grid(row = 0, column = 0, sticky = "nsew")
+        #self.canevasModule = Canvas(self.frameModule,bg="#282E3F",bd=0, highlightthickness=0, width = 200, height = 800)
+        #self.canevasModule.grid(row = 0, column = 0, sticky = "nsew")
         #self.canevasInfo = Canvas(self.frameInfo, bg="#282E3F",bd=0, highlightthickness=0, width = 998, height = 800)
 
         self.frameModule.grid(row = 0, column = 1, sticky = "nse")
@@ -554,60 +555,96 @@ class Vue():
 
         self.frameModule.grid_rowconfigure(20, weight = 0)
         self.frameModule.grid_columnconfigure(2, weight =0)
-        self.creerBoutonFrameModule()
+        #self.creerBoutonFrameModule()
     
     def creerBoutonFrameModule(self):
-        self.btnAnalyseTxt      = Button(text = "     Analyse textuelle", command = self.requeteAnalyse)
-        self.btnCasUsage        = Button(text = "     Cas d'usage", command = self.requeteCasUsages)
-        self.btnScenario        = Button(text = "     Scenario")
-        self.btnMaquette        = Button(text = "     Maquette", command = self.requeteMaquette)
-        self.btnCRC             = Button(text = "     CRC", command = self.requeteCrc)
-        self.btnDonnee          = Button(text = "     Donnee", command = self.requeteModelisation)
-        self.btnCreationSprint  = Button(text = "     Creation sprint")
-        self.btnScrum           = Button(text = "     Scrum(s)")
-        self.btnProbleme        = Button(text = "     Probleme")
-        self.btnDebriefing      = Button(text = "     Debriefing")
-        self.btnCalendrier      = Button(text = "     Debriefing")
-        self.btnStats           = Button(text = "     Statistique")
-        self.btnPlanif          = Button(text = "     Planification", command = self.requetePlanifGlobale)
-        self.btnImplementation  = Button(text = "     Implementation")
-        self.btnSyntheseStats   = Button(text = "     Synthese et stats")
-        self.btnChat            = Button(text = "     Chat")
-        self.btnQuitter         = Button(text = "     Quitter")
+        
+        self.canevasModule = Canvas(self.frameModule,bg="#282E3F",bd=0, highlightthickness=0, width = 200, height = 800)
+        self.canevasModule.grid(row = 0, column = 0, sticky = "nsew")
+        
+        y=130
+        cles=[*self.parent.getModulesDisponibles()]
+        
+        for cle in cles:
+            btnX = Button(text=cle,
+                          bg="#282E3F",
+                          fg = "#dbdbdb",                            
+                          font = ("Arial", 15),
+                          relief="flat",
+                          activebackground = "#4C9689", 
+                          width = 15, 
+                          anchor = W)
+        
+            btnX.bind("<ButtonRelease-1>", self.requeteModule)
+            self.canevasModule.create_window(100, y, window=btnX,width=200,height=30)
+            y+=60
+            
+        #self.btnAnalyseTxt      = Button(text = "     Analyse textuelle", command = self.requeteAnalyse)
+        #self.btnCasUsage        = Button(text = "     Cas d'usage", command = self.requeteCasUsages)
+        #self.btnScenario        = Button(text = "     Scenario")
+        #self.btnMaquette        = Button(text = "     Maquette", command = self.requeteMaquette)
+        #self.btnCRC             = Button(text = "     CRC", command = self.requeteCrc)
+        #self.btnDonnee          = Button(text = "     Donnee", command = self.requeteModelisation)
+        #self.btnCreationSprint  = Button(text = "     Creation sprint")
+        #self.btnScrum           = Button(text = "     Scrum(s)")
+        #self.btnProbleme        = Button(text = "     Probleme")
+        #self.btnDebriefing      = Button(text = "     Debriefing")
+        #self.btnCalendrier      = Button(text = "     Debriefing")
+        #self.btnStats           = Button(text = "     Statistique")
+        self.btnPlanif          = Button(text = "       Planification", bg="#282E3F",
+            fg = "#4C9689",                            
+            justify='left',
+            font = ("Arial", 16),
+            relief="flat",
+            activebackground = "#4C9689", 
+            width = 15,
+            anchor = W)
+        #self.btnImplementation  = Button(text = "     Implementation")
+        #self.btnSyntheseStats   = Button(text = "     Synthese et stats")
+        #self.btnChat            = Button(text = "     Chat")
+        
+        self.btnQuitter = Button(text = "          Quitter", bg="#282E3F",
+            fg = "#4C9689",                            
+            justify='left',
+            font = ("Arial", 16),
+            relief="flat",
+            activebackground = "#4C9689", 
+            width = 15,
+            anchor = W)
         
         self.lblVersion = Label(bd=1, text="Version 1.0",fg="#4C9689",font = ("Arial", 10),bg="#282E3F")
 
-        self.listeModule = [self.btnAnalyseTxt, self.btnCasUsage, self.btnScenario, self.btnMaquette, 
-                            self.btnCRC, self.btnDonnee,self.btnCreationSprint,self.btnScrum,self.btnProbleme,
-                            self.btnDebriefing,self.btnCalendrier,self.btnStats]
+        #self.listeModule = [self.btnAnalyseTxt, self.btnCasUsage, self.btnScenario, self.btnMaquette, 
+                            #self.btnCRC, self.btnDonnee,self.btnCreationSprint,self.btnScrum,self.btnProbleme,
+                            #self.btnDebriefing,self.btnCalendrier,self.btnStats]
 
-        self.listeEtapeProjet = [self.btnPlanif, self.btnImplementation, self.btnSyntheseStats, self.btnChat, self.btnQuitter]
+        #self.listeEtapeProjet = [self.btnPlanif, self.btnImplementation, self.btnSyntheseStats, self.btnChat, self.btnQuitter]
 
-        for self.etapeProjet in self.listeEtapeProjet:
-            self.creerBtnEtapeProjet(self.etapeProjet)
+        #for self.etapeProjet in self.listeEtapeProjet:
+        #    self.creerBtnEtapeProjet(self.etapeProjet)
 
-        for self.module in self.listeModule:
-            self.creerBtnModule(self.module)
+       # for self.module in self.listeModule:
+       #     self.creerBtnModule(self.module)
 
-        self.canevasModule.create_window(100,55, window=self.btnAnalyseTxt,width=200,height=30)
-        self.canevasModule.create_window(100,85, window=self.btnCasUsage,width=200,height=30)
-        self.canevasModule.create_window(100,115, window=self.btnScenario,width=200,height=30)
-        self.canevasModule.create_window(100,145, window=self.btnMaquette,width=200,height=30)
-        self.canevasModule.create_window(100,175, window=self.btnCRC,width=200,height=30)
-        self.canevasModule.create_window(100,205, window=self.btnDonnee,width=200,height=30)
-        self.canevasModule.create_window(100,280, window=self.btnCreationSprint,width=200,height=30)
-        self.canevasModule.create_window(100,310, window=self.btnScrum,width=200,height=30)
-        self.canevasModule.create_window(100,340, window=self.btnProbleme,width=200,height=30)
-        self.canevasModule.create_window(100,370, window=self.btnDebriefing,width=200,height=30)
-        self.canevasModule.create_window(100,435, window=self.btnCalendrier,width=200,height=30)
-        self.canevasModule.create_window(100,465, window=self.btnStats,width=200,height=30)
+        #self.canevasModule.create_window(100,55, window=self.btnAnalyseTxt,width=200,height=30)
+        #self.canevasModule.create_window(100,85, window=self.btnCasUsage,width=200,height=30)
+        #self.canevasModule.create_window(100,115, window=self.btnScenario,width=200,height=30)
+        #self.canevasModule.create_window(100,145, window=self.btnMaquette,width=200,height=30)
+        #self.canevasModule.create_window(100,175, window=self.btnCRC,width=200,height=30)
+        #self.canevasModule.create_window(100,205, window=self.btnDonnee,width=200,height=30)
+        #self.canevasModule.create_window(100,280, window=self.btnCreationSprint,width=200,height=30)
+        #self.canevasModule.create_window(100,310, window=self.btnScrum,width=200,height=30)
+        #self.canevasModule.create_window(100,340, window=self.btnProbleme,width=200,height=30)
+        #self.canevasModule.create_window(100,370, window=self.btnDebriefing,width=200,height=30)
+        #self.canevasModule.create_window(100,435, window=self.btnCalendrier,width=200,height=30)
+        #self.canevasModule.create_window(100,465, window=self.btnStats,width=200,height=30)
         self.canevasModule.create_window(160,790,window=self.lblVersion, width=75, height=30)
 
-        self.canevasModule.create_window(100,25, window=self.btnPlanif,width=200,height=30)
-        self.canevasModule.create_window(100,250, window=self.btnImplementation,width=200,height=30)
-        self.canevasModule.create_window(100,405, window=self.btnSyntheseStats,width=200,height=30)
-        self.canevasModule.create_window(100,510, window=self.btnChat,width=200,height=30)
-        self.canevasModule.create_window(100,550, window=self.btnQuitter,width=200,height=30)
+        self.canevasModule.create_window(100,75, window=self.btnPlanif,width=200,height=30)
+        #self.canevasModule.create_window(100,250, window=self.btnImplementation,width=200,height=30)
+        #self.canevasModule.create_window(100,405, window=self.btnSyntheseStats,width=200,height=30)
+        #self.canevasModule.create_window(100,510, window=self.btnChat,width=200,height=30)
+        self.canevasModule.create_window(100,y, window=self.btnQuitter,width=200,height=30)
 
     def creerBtnModule(self, module):
         self.module.config(
@@ -790,8 +827,8 @@ class Vue():
 #     Last modified: 2018/11/12 - 10h00 
 #===============================================================================
 
-    def requeteAnalyse(self):
-        mod="analyseText"
+    def requeteModule(self,event):
+        mod=event.widget.cget("text")
         self.parent.requetemodule(mod)    
         
     def requeteCrc(self):
