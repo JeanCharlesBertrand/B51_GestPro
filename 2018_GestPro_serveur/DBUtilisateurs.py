@@ -12,8 +12,9 @@ class DbUtilisateurs:
 		self.creationChat()
 		self.creationMandat()
 		self.creationAnalyseTextuelle()
+		self.creationScenario
 		self.creationCasUsage()
-		self.creationScenarioUtilisation()
+		self.creationLiaisonCasLigne()
 		self.creationCRC()
 		self.creationBlocTemps()
 
@@ -104,14 +105,48 @@ class DbUtilisateurs:
 				CONSTRAINT fk_bloc_projet	FOREIGN KEY (id_projet) REFERENCES projet(id)
 														) ''')
 		
-	def creationCasUsage(self):
-		self.c.execute('''CREATE TABLE IF NOT EXISTS cas_usage(
+	def creationScenario(self):
+		self.c.execute('''CREATE TABLE IF NOT EXISTS scenario(
 				id				INTEGER		PRIMARY KEY AUTOINCREMENT,
 				id_projet		INTEGER		NOT NULL,
-				description		TEXT,
+				id_cas			INTEGER,
 				
-				CONSTRAINT fk_casusage_projet	FOREIGN KEY (id_projet) REFERENCES projet(id)
+				CONSTRAINT fk_sceanrio_projet	FOREIGN KEY (id_projet) REFERENCES projet(id)
+				CONSTRAINT fk_scenario_cas		FOREIGN KEY (id_cas) REFERENCES cas_usage(id)
 														) ''')
+	
+
+	def creationCasUsage(self):
+		self.c.execute('''CREATE TABLE IF NOT EXISTS cas_usage(
+				id					INTEGER		PRIMARY KEY AUTOINCREMENT,
+				description			TEXT,
+				id_liste_lignes		INTEGER,
+				
+				CONSTRAINT fk_casusage_ligne	FOREIGN KEY (id_liste_lignes) REFERENCES liaison_cas_ligne(id)
+														) ''')
+		
+	def creationLiaisonCasLigne(self):
+		self.c.execute('''CREATE TABLE IF NOT EXISTS liaison_cas_ligne(
+				id					INTEGER		PRIMARY KEY AUTOINCREMENT,
+				id_cas				INTEGER,
+				id_ligne			INTEGER,
+				
+				CONSTRAINT fk_casusage_scenario	FOREIGN KEY (id_cas) REFERENCES cas_usage(id)
+				CONSTRAINT fk_casusage_ligne	FOREIGN KEY (id_ligne) REFERENCES ligne_cas(id)
+														) ''')
+			
+				
+	def creationLigneCasUsage(self):
+		self.c.execute('''CREATE TABLE IF NOT EXISTS ligne_cas(
+				id						INTEGER		PRIMARY KEY AUTOINCREMENT,
+				id_lisaison_cas_ligne	INTEGER,
+				type					TEXT,
+				description				TEXT,
+				
+				CONSTRAINT fk_ligne				FOREIGN KEY (id_lisaison_cas_ligne) REFERENCES liaison_cas_ligne(id)
+														) ''')
+		
+	
 		
 	def creationScenarioUtilisation(self):
 		self.c.execute('''CREATE TABLE IF NOT EXISTS scenario_utilisation(	
