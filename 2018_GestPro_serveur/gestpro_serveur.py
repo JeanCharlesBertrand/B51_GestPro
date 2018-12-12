@@ -179,6 +179,13 @@ class ControleurServeur(object):
         self.resetCurseur()
         return liste        
 
+
+    def requeteGenerique(self,requete):
+        curseurListe = dbUtilisateurs.c.execute(requete)
+        liste = curseurListe.fetchall()
+        self.resetCurseur()
+        return liste
+        
 #===============================================================================
 #    Description: retourne la liste de tout les usagers inscrits 
 #    Creator: Guillaume Geoffroy
@@ -241,12 +248,9 @@ class ControleurServeur(object):
                 messageErreur = str(e)
                 print('%r' % e)
         
-        
         self.resetCurseur()
         return messageErreur
                 
-
-
 #===============================================================================
 #    Description: retourne l'id d'un projet dont on connait le nom (à ce stade pour la sélection du projet dans lequel le client veut travailler)
 #    Creator: Guillaume Geoffroy
