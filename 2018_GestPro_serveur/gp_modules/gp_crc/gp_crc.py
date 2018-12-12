@@ -38,12 +38,13 @@ class Controleur():
     
     def insertIntoCRC(self,idFiche,classe,proprietaire,collaboration,responsabilites,parametres):
         print("enregistrer Fiche")
-        #print(idFiche,classe,proprietaire,collaboration,responsabilites,parametres)
         self.serveur.insertIntoCRC(self.idProjet,idFiche,classe,proprietaire,collaboration,responsabilites,parametres)
+
         
     def selectFromCRC(self):
         print("lire dans BD")
-        #return self.serveur.selectFromCRC(self,self.NomProjet())
+        return self.serveur.selectFromCRC(self.idProjet)
+        #self.serveur.requeteGenerique()
 
     def getFiche(self, idProjet,NomFiche):
         print("lire dans BD par Fiche")

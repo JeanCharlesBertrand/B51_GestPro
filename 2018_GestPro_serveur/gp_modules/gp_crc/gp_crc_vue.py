@@ -22,6 +22,8 @@ class Vue():
 
         self.listeFiches =[]
         self.listeFramesFiches=[]
+        self.listeBD = self.parent.selectFromCRC()
+        self.listeBDFiche = []
         self.idFiche=0
         
         #reference X-Y pour fenetres FichesCRC qui poppent
@@ -30,17 +32,6 @@ class Vue():
 
         self.creercadres()
         self.changecadre(self.cadresplash)
-
-
-#==========================================================================================       
-# 
-#       Lynda last version : 4dec 2018
-#       a faire : lien avec la bd **
-#       ecrire dans les cartes de la bd
-#       arranger le scroll
-#       
-#       
-#==========================================================================================
         
     def changemode(self,cadre):
         if self.modecourant:
@@ -67,21 +58,12 @@ class Vue():
     def creercadresplash(self):
         self.cadresplash=Frame(self.root)
         self.canevasplash=Canvas(self.cadresplash,width=1200,height=1200,bg="#282E3F")
-
-        #scrollbar tests
-        #self.canevasplash.config(scrollregion=(0,0,1200,2500))
-        #self.sbar = ttk.Scrollbar(self.root)
-        #self.sbar.config(command=self.canevasplash.yview)                   
-        #self.canevasplash.config(yscrollcommand=self.sbar.set)
-        #self.sbar.pack(side=RIGHT, fill=Y)
-
-
+        
         self.canevasplash.bind("<MouseWheel>", self.OnMouseWheel)
         
         self.cadresplash.update_idletasks()
         
-        self.canevasplash.pack(side=LEFT, expand=YES, fill=BOTH)       
-
+        self.canevasplash.pack(side=LEFT, expand=YES, fill=BOTH)
       
     def creerBoutons(self):
         self.frameBoutons = Frame(
@@ -89,8 +71,6 @@ class Vue():
             bd=1, 
             relief=RIDGE,
             bg='#282E3F')
-
-        #self.frameBoutons.place (x=0,y=0,width=self.largeur,height=100)
         
         self.canevasBoutons=Canvas(                                
             self.frameBoutons,
@@ -107,14 +87,23 @@ class Vue():
             fg = "#dbdbdb",command=self.creerFiche)
         
         self.btnEnregistrerFiche=Button(                                    
-            text="Enregistrer Fiche",
+            text="Enregistrer",
             bg="#4C9689",                                             
             relief = "raised",
             font = ("Courier New", 12, "bold"),
             fg = "#dbdbdb",command=self.saisirFiche)
 
-        self.canevasBoutons.create_window(500,70,window=self.btnAjouterFiche,width=250,height=40)
-        self.canevasBoutons.create_window(800,70,window=self.btnEnregistrerFiche,width=250,height=40)
+        self.btnLireBD=Button(                                    
+            text="Importer Fiches du Projet",
+            bg="#4C9689",                                             
+            relief = "raised",
+            font = ("Courier New", 12, "bold"),
+            fg = "#dbdbdb",command=self.afficherFiches)
+
+        self.canevasBoutons.create_window(300,70,window=self.btnAjouterFiche,width=250,height=40)
+        self.canevasBoutons.create_window(600,70,window=self.btnEnregistrerFiche,width=250,height=40)
+        self.canevasBoutons.create_window(900,70,window=self.btnLireBD,width=250,height=40)
+
         self.frameBoutons.pack()
 
     def creerFiche(self):
@@ -135,17 +124,27 @@ class Vue():
                     fy = ff.winfo_y() + event.delta
                     ff.place(x=fx,y=fy,width=350,height=250)
                     
-
-    
     def saisirFiche(self):
         for f in self.listeFiches:
-            f.saisirFiche()
+            f.saisirFicheIndividuelle()
             self.parent.insertIntoCRC(f.idFiche,f.classe,f.proprietaire,f.collaboration,f.responsabilites,f.parametres)
+            print(f.idFiche,f.classe,f.proprietaire,f.collaboration,f.responsabilites,f.parametres)  
         
-    def afficherFiche(self):
-        #creer x Fiches, rempli les champs avec les infos de la BD si existe
-        listeFichesCRC=self.parent.lireFiche
-        pass
+    def afficherFiches(self):
+
+        for liste in self.listeBD:
+            self.creerFiche()
+            for l in liste:
+                self.listeBDFiche.append(l)
+            
+        for f in self.listeFiches:
+            f.idFiche = int(self.listeBDFiche[2])
+            f.classe = str(self.listeBDFiche[3])
+            f.proprietaire = str(self.listeBDFiche[4])
+            f.collaboration = str(self.listeBDFiche[5])
+            f.responsabilities = str(self.listeBDFiche[6])
+            f.parametres = str(self.listeBDFiche[7])
+            f.afficherFiche()
 
     def fermerfenetre(self):
         print("ONFERME la fenetre")
@@ -293,12 +292,25 @@ class Fiche():
         self.canevasFiche.create_window(85,165, window = self.champResponsabilites,width=160, height=110)
         self.canevasFiche.create_window(250,165, window = self.champParametres,width=160, height=110)
         
-    def saisirFiche(self):
+    def saisirFicheIndividuelle(self):
         self.classe=self.champClasse.get()
         self.proprietaire=self.champProprietaire.get()
         self.collaboration=self.champCollaboration.get('0.0',END)
         self.responsabilites=self.champResponsabilites.get('0.0',END)
         self.parametres=self.champParametres.get('0.0',END)
+
+    def afficherFiche(self):
+        self.champClasse.delete(0,END)
+        self.champClasse.insert(0,self.classe)
+        self.champProprietaire.delete(0,END)
+        self.champProprietaire.insert(0,self.proprietaire)
+        self.champCollaboration.delete('0.0',self.END)
+        self.champCollaboration.insert('0.0',self.collaboration)
+        self.champResponsabilites.delete('0.0',END)
+        self.champResponsabilites.insert('0.0',self.responsabilites)
+        self.champParametres.delete('0.0',END)
+        self.champParametres.insert('0.0',self.parametres)
+        
         
 
 
