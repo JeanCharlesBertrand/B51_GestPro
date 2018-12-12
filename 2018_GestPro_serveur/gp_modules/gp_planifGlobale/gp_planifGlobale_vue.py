@@ -10,7 +10,6 @@ from helper import Helper as hlp
 class Vue():
     def __init__(self,parent,largeur=800,hauteur=600):
         self.root=Tk()
-        self.root.title(self.parent.getNomProjet())
         self.root.protocol("WM_DELETE_WINDOW", self.fermerfenetre)
         self.parent=parent
         self.modele=None
@@ -19,6 +18,7 @@ class Vue():
         self.images={}
         self.cadreactif=None
         self.creercadres()
+        self.root.title(self.parent.getNomProjet())
         
     def changemode(self,cadre):
         if self.modecourant:
@@ -47,7 +47,7 @@ class Vue():
         
     def mainWindow(self):
         # Main Frame
-        self.mainFrame = ttk.Frame(root)
+        self.mainFrame = ttk.Frame(self.root)
         self.mainFrame.pack()
         
         # Barre de bouton du haut
