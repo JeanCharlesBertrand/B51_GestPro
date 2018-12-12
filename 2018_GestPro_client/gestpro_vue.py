@@ -577,7 +577,7 @@ class Vue():
         
             btnX.bind("<ButtonRelease-1>", self.requeteModule)
             self.canevasModule.create_window(100, y, window=btnX,width=200,height=30)
-            y+=60
+            y+=(600)/len(cles)
             
         #self.btnAnalyseTxt      = Button(text = "     Analyse textuelle", command = self.requeteAnalyse)
         #self.btnCasUsage        = Button(text = "     Cas d'usage", command = self.requeteCasUsages)
