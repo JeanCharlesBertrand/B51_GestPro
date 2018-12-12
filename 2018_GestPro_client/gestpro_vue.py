@@ -635,7 +635,6 @@ class Vue():
         self.canevasInfo = Canvas(self.frameInfo, bg="#282E3F",bd=0, highlightthickness=0, width = 998, height = 800)
         self.canevasInfo.grid(row = 0, column = 0, sticky = "nsew")
 
-        
         self.nomProjet = "Project name"
         self.date = "2018/12/21"
         self.sprintNumber = 1
