@@ -342,14 +342,14 @@ class ControleurServeur(object):
             self.resetCurseur()
             
             if crcrows is None:
-                dbUtilisateurs.c.execute('INSERT INTO crc(id_projet,id_fiche,classe,proprietaire,collaboration,responsabilites,parametres) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',(idProjet,idFiche,classe,proprietaire,collaboration,responsabilites,parametres,))
+                dbUtilisateurs.c.execute('INSERT INTO crc(id_projet,id_fiche,classe,proprietaire,collaboration,responsabilites,parametres) VALUES (?, ?, ?, ?, ?, ?, ?)',(idProjet,idFiche,classe,proprietaire,collaboration,responsabilites,parametres,))
                 dbUtilisateurs.conn.commit()
                 self.resetCurseur()
 
         
-    def selectFromCRC(self, id):
-                curseurListe = dbUtilisateurs.c.execute('SELECT * FROM crc WHERE id_projet = ?', (id,))
-                liste = curseurListe.fetchone()
+    def selectFromCRC(self, idProjet):
+                curseurListe = dbUtilisateurs.c.execute('SELECT * FROM crc WHERE id_projet = ?', (idProjet,))
+                liste = curseurListe.fetchall()
                 self.resetCurseur()
                 for l in liste:
                     print( l)
