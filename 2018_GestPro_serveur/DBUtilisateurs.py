@@ -137,7 +137,7 @@ class DbUtilisateurs:
 				proprietaire            TEXT,
                                 collaboration           TEXT,
                                 responsabilites         TEXT,
-                                variables               TEXT,
+                                parametres               TEXT,
 				
 				CONSTRAINT fk_crc_projet	FOREIGN KEY (id_projet) REFERENCES projet(id)
 														) ''')
