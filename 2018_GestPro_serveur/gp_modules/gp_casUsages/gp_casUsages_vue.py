@@ -8,7 +8,7 @@ class Vue():
     def __init__(self):
         self.root = Tk()
         self.root.title("Omada")
-        #self.root.geometry('1200x800')
+        self.root.geometry('1200x800')
 
         self.couleur500 = "#282E3F"
         self.couleur800 = ""
@@ -26,7 +26,7 @@ class Vue():
         self.frameModuleCU = Frame(self.root, bg="red")
         
         self.listeCas = Frame(self.frameModuleCU)
-        self.infoCas = Frame(self.frameModuleCU)
+        self.infoCas = Frame(self.frameModuleCU, background="Black")
         self.scenario = Frame(self.frameModuleCU, bg="blue")
         
         self.listeCas.grid(column=0, row=0, rowspan=2, sticky=N+S+W+E)
@@ -37,7 +37,6 @@ class Vue():
         
         self.listeCasUsage = Listbox(self.listeCas, background="lightgreen",height=30)
         self.listeCasUsage.pack(side=LEFT, expand=1, fill=BOTH)
-        
         
         self.scrollCasUsage = Scrollbar(self.listeCas)
         self.scrollCasUsage.pack(side=LEFT, fill=Y)
@@ -55,16 +54,18 @@ class Vue():
         
         self.infoCas.rowconfigure(0, weight=1)
         self.infoCas.rowconfigure(1, weight=1)
-        self.infoCas.rowconfigure(2, weight=1)
+       
+        self.infoCas.columnconfigure(0, weight=5)
+        #self.infoCas.columnconfigure(1, weight=1)
         
-        self.labelTitreModule = Label(self.infoCas, text="Scénario d'utilisation", font=("Arial", 25, "bold"))
-        self.labelTitreModule.grid(row=0, column=0, sticky=W+E)
+        self.labelTitreModule = Label(self.infoCas, text="Scénario d'utilisation", font=("Arial", 25, "bold"), background="Yellow")
+        self.labelTitreModule.grid(row=0, column=0, columnspan=2, sticky=N+S+W+E)
         
         self.entryCas = Entry(self.infoCas)
-        self.entryCas.grid(row=1, column=0)
+        self.entryCas.grid(row=1, column=0, sticky=W+E)
         
-        self.boutonCasUsage = Button(self.infoCas, text="Ajouter à la liste", command=self.inscrireCasUsageEntryDansListe)
-        self.boutonCasUsage.grid(row=2, column=0, sticky=W+E)
+        #self.boutonCasUsage = Button(self.infoCas, text="+", command=self.inscrireCasUsageEntryDansListe)
+        #self.boutonCasUsage.grid(row=1, column=1, sticky=W+E)
   
        
        ##    Scénario    ##
@@ -78,7 +79,8 @@ class Vue():
         self.scenario.rowconfigure(1, weight=1)
         self.scenario.rowconfigure(2, weight=1)
         self.scenario.rowconfigure(3, weight=5)
-        
+        self.scenario.rowconfigure(4, weight=2)
+        self.scenario.rowconfigure(5, weight=1)
         
             #Label
         self.labelUsager = Label(self.scenario, text="Usager", font=("Arial", 12, "bold"))
@@ -117,7 +119,7 @@ class Vue():
             
                 #ScrollBar 
         self.scrollScenario = Scrollbar(self.scenario, command=self.scrollListes)
-        self.scrollScenario.grid(row=3,column=3, sticky=N+S)
+        self.scrollScenario.grid(row=3,column=3, sticky=N+S+W)
             
                 #Usager
         self.listeUsager = Listbox(self.scenario, background="red", yscrollcommand=self.scrollScenario.set)
@@ -131,7 +133,17 @@ class Vue():
         self.listeAutre = Listbox(self.scenario, background="red", yscrollcommand=self.scrollScenario.set)
         self.listeAutre.grid(row=3, column=2, sticky=N+S+W+E)
         
-        self.pseudodata()
+        
+        self.boutonCommit = Button(self.scenario, text="commit", command=self.commit)
+        self.boutonCommit.grid(row=4, column=0, columnspan=3, sticky=W+E)
+        
+        self.boutonEffacerLigne = Button(self.scenario, text="Effacer ligne", command=self.effacerLigne)
+        self.boutonEffacerLigne.grid(row=5, column=0, sticky=W+E)
+        
+        self.boutonEffacerListe = Button(self.scenario, text="Effacer tableau", command=self.effacerListBox)
+        self.boutonEffacerListe.grid(row=5, column=2, sticky=W+E)
+        
+        #self.pseudodata()
        
         
 
@@ -146,7 +158,8 @@ class Vue():
         self.listeUsager.yview(*args)
         self.listeOrdi.yview(*args)
         self.listeAutre.yview(*args)
-        
+     
+    '''    
     def pseudodata(self):
         test=["ok","jim","bill","joe","sam","chan",
               "bat","spidey","ironman","pete","carl","bob",]
@@ -154,11 +167,12 @@ class Vue():
             self.listeUsager.insert(END,random.choice(test))
             self.listeOrdi.insert(END,random.choice(test))
             self.listeAutre.insert(END,random.choice(test))
-        
+    '''    
 
     def inscrireCasUsageEntryDansListe(self):
         self.texteCas = self.entryCas.get()
         self.listeCasUsage.insert(END, self.texteCas)
+        self.entryCas.delete(0, END)
        
         
     def inscrireLigneUsager(self):
@@ -166,12 +180,14 @@ class Vue():
         self.listeUsager.insert(END, self.texteLigne)
         self.listeOrdi.insert(END, "")
         self.listeAutre.insert(END, "")
+        self.entryUsager.delete(0, END)
         
     def inscrireLigneOrdi(self):
         self.texteLigne = self.entryOrdi.get()
         self.listeOrdi.insert(END, self.texteLigne)
         self.listeUsager.insert(END, "")
         self.listeAutre.insert(END, "")
+        self.entryOrdi.delete(0, END)
         
         
     def inscrireLigneAutre(self):
@@ -179,9 +195,22 @@ class Vue():
         self.listeAutre.insert(END, self.texteLigne)
         self.listeOrdi.insert(END, "")
         self.listeUsager.insert(END, "")
+        self.entryAutre.delete(0, END)
         
-
-
+    def effacerLigne(self):
+        self.listeUsager.delete(END, END)
+        self.listeOrdi.delete(END, END)
+        self.listeAutre.delete(END, END)
+        
+    def effacerListBox(self):
+        self.listeUsager.delete(0, END)
+        self.listeOrdi.delete(0, END)
+        self.listeAutre.delete(0, END)
+        
+    def commit(self):
+        self.inscrireCasUsageEntryDansListe()
+        self.effacerListBox()
+        
 
 if __name__ == '__main__':
     m=Vue()
