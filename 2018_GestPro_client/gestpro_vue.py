@@ -545,12 +545,12 @@ class Vue():
         self.frameBorder = Frame(self.frameAccueil,bg = "black", width = 2, height = 800)
         self.canevasModule = Canvas(self.frameModule,bg="#282E3F",bd=0, highlightthickness=0, width = 200, height = 800)
         self.canevasModule.grid(row = 0, column = 0, sticky = "nsew")
-        self.canevasInfo = Canvas(self.frameInfo, bg="#282E3F",bd=0, highlightthickness=0, width = 998, height = 800)
+        #self.canevasInfo = Canvas(self.frameInfo, bg="#282E3F",bd=0, highlightthickness=0, width = 998, height = 800)
 
         self.frameModule.grid(row = 0, column = 1, sticky = "nse")
         self.frameBorder.grid(row = 0, column =2, sticky = "ns")
         self.frameInfo.grid(row = 0, column = 3, sticky = "nse")
-        self.canevasInfo.grid(row = 0, column = 0, sticky = "nsew")
+        #self.canevasInfo.grid(row = 0, column = 0, sticky = "nsew")
 
         self.frameModule.grid_rowconfigure(20, weight = 0)
         self.frameModule.grid_columnconfigure(2, weight =0)
@@ -631,17 +631,37 @@ class Vue():
             anchor = W)
 
     def creerInfoProjet(self):
+        
+        self.canevasInfo = Canvas(self.frameInfo, bg="#282E3F",bd=0, highlightthickness=0, width = 998, height = 800)
+        self.canevasInfo.grid(row = 0, column = 0, sticky = "nsew")
+
         self.nomProjet = "Project name"
         self.date = "2018/12/21"
         self.sprintNumber = 1
         self.timeRemaining = "2 Days 18h"
         nomProjet = self.parent.getNomProjet()
         self.lblNomProjet           = Label(text = nomProjet, bg = "#282E3F", fg = "#4C9689", font = ("Arial", 25, "bold"))
-        self.lblDeadline            = Label(text = "Deadline: ", fg = "#4C9689")
+        self.lblDeadline            = Label(text = "Add: ", fg = "#4C9689")
         self.lblDate                = Label(text = self.date, fg = "#dbdbdb")
         self.lblMember              = Label(text = "Member:", fg = "#4C9689")
         self.lblTimer               = Label(text = "Time left before the end of the Sprint #" + str(self.sprintNumber), fg = "#4C9689")
         self.lblTimeLeft            = Label(text = self.timeRemaining, fg = "#dbdbdb")
+        
+        
+        def changerProjet(*args):
+            self.nom1=self.v.get()
+            self.nom1=self.nom1[2:-3]
+            self.parent.selectionProjet(self.nom1)
+        
+        listeOptions = self.parent.selectProjetDuMembre()
+        self.v = StringVar()
+        self.v.set(self.parent.getNomProjet())
+        self.v.trace("w", changerProjet)
+        self.om = OptionMenu(self.canevasInfo,  self.v, *listeOptions)
+        self.om.config(font=('calibri',(12)),bg="#4C9689",width=14)
+        
+        
+        self.canevasInfo.create_window(870, 102, window = self.om)
         
         self.listeMembres=Listbox(
             bg="#282E3F",                            #Bleu-gris
@@ -675,26 +695,28 @@ class Vue():
         #self.member5                = Label(text ="Jack Thompson", fg = "#dbdbdb")
         #self.member6                = Label(text ="Amelia Johnson", fg = "#dbdbdb")
         
+        
+        
         self.lblProjectDescription    = Label(text = "Description du projet: ", font = ("Arial", 10),fg = "#4C9689",bg="#282E3F")
         self.lblTeamMsg             = Label(text = "Message de l'equipe: ",font = ("Arial", 10),fg = "#4C9689",bg="#282E3F")
         self.lblUser                = Label(text = '@' + self.parent.monnom, font = ("Arial", 10),fg = "#4C9689",bg="#282E3F")
         self.listeLabelInfo = [self.lblDeadline,self.lblDate,self.lblMember,self.lblTimer,self.lblTimeLeft ] #,self.member1,self.member2,self.member3,self.member4, self.member5,self.member6
-        self.canevasInfo.create_window(175,45, window = self.lblNomProjet)
-        self.canevasInfo.create_window(200,150, window = self.lblMember)
-        self.canevasInfo.create_window(177,255, window = self.listeMembres)
-        self.canevasInfo.create_window(216,150, window = self.entryNomMembreAjout)
-        self.canevasInfo.create_window(335,150, window = self.btnAjouterMembre)
+        self.canevasInfo.create_window(475,45, window = self.lblNomProjet)
+        self.canevasInfo.create_window(200,100, window = self.lblMember)
+        self.canevasInfo.create_window(177,205, window = self.listeMembres)
+        self.canevasInfo.create_window(205,310, window = self.entryNomMembreAjout)
+        self.canevasInfo.create_window(315,310, window = self.btnAjouterMembre)
         #self.canevasInfo.create_window(275,175, window = self.member1)
         #self.canevasInfo.create_window(275,200, window = self.member2)
         #self.canevasInfo.create_window(275,225, window = self.member3)
         #self.canevasInfo.create_window(275,250, window = self.member4)
         #self.canevasInfo.create_window(275,275, window = self.member5)
         #self.canevasInfo.create_window(275,300, window = self.member6)
-        self.canevasInfo.create_window(600,100, window = self.lblTimer)
-        self.canevasInfo.create_window(680,130, window = self.lblTimeLeft)
-        self.canevasInfo.create_window(200,100, window = self.lblDeadline)
-        self.canevasInfo.create_window(275,100, window = self.lblDate)
-        self.canevasInfo.create_window(115,355, window = self.lblProjectDescription)
+        #self.canevasInfo.create_window(600,100, window = self.lblTimer)
+        #self.canevasInfo.create_window(680,130, window = self.lblTimeLeft)
+        self.canevasInfo.create_window(205,310, window = self.lblDeadline)
+        #self.canevasInfo.create_window(275,100, window = self.lblDate)
+        self.canevasInfo.create_window(110,355, window = self.lblProjectDescription)
         self.canevasInfo.create_window(110,453, window = self.lblTeamMsg)
         self.canevasInfo.create_window(72, 638, window = self.lblUser)
         self.canevasInfo.create_line(40,70,950,70,fill="#4C9689")
