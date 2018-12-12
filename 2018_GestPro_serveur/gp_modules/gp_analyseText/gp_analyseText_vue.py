@@ -105,11 +105,11 @@ class Vue():
         self.frameBtnCentre = ttk.Frame(self.mainFrame, style='My.TFrame')
         self.frameBtnCentre.pack(pady=20)
         
-        self.btnImportEnonce = ttk.Button(self.frameBtnCentre, text="Importer", command=self.importEnonce)
+        self.btnImportEnonce = ttk.Button(self.frameBtnCentre, text="Importer un énoncé", command=self.importEnonce)
         self.btnImportEnonce.grid(row=0, column=0)
-        self.btnSaveEnonce = ttk.Button(self.frameBtnCentre, text="Sauvegarder", command=self.parent.insertIntoAnalyse)
+        self.btnSaveEnonce = ttk.Button(self.frameBtnCentre, text="Sauvegarder dans la BD", command=self.parent.insertIntoAnalyse)
         self.btnSaveEnonce.grid(row=0, column=1)
-        self.btnExportEnonce = ttk.Button(self.frameBtnCentre, text="Exporter", command=self.saveToTxtFile)
+        self.btnExportEnonce = ttk.Button(self.frameBtnCentre, text="Exporter l'énoncé vers un fichier texte", command=self.saveToTxtFile)
         self.btnExportEnonce.grid(row=0, column=2)
         
                 
