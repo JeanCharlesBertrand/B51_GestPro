@@ -23,6 +23,10 @@ class Vue():
         self.listeFiches =[]
         self.listeFramesFiches=[]
         self.listeBD = self.parent.selectFromCRC()
+<<<<<<< HEAD
+=======
+        self.listeBDFiche = []
+>>>>>>> master
         self.idFiche=0
         
         #reference X-Y pour fenetres FichesCRC qui poppent
@@ -63,9 +67,12 @@ class Vue():
         self.cadresplash.update_idletasks()
         
         self.canevasplash.pack(side=LEFT, expand=YES, fill=BOTH)
+<<<<<<< HEAD
 
         #=== LOAD LES FICHES PRESENTES DANS LE PROJET ====
         self.afficherFichesBD()
+=======
+>>>>>>> master
       
     def creerBoutons(self):
         self.frameBoutons = Frame(
@@ -107,6 +114,20 @@ class Vue():
         self.canevasBoutons.create_window(600,70,window=self.btnEnregistrerFiche,width=250,height=40)
         #self.canevasBoutons.create_window(900,70,window=self.btnLireBD,width=250,height=40)
 
+<<<<<<< HEAD
+=======
+        self.btnLireBD=Button(                                    
+            text="Importer Fiches du Projet",
+            bg="#4C9689",                                             
+            relief = "raised",
+            font = ("Courier New", 12, "bold"),
+            fg = "#dbdbdb",command=self.afficherFiches)
+
+        self.canevasBoutons.create_window(300,70,window=self.btnAjouterFiche,width=250,height=40)
+        self.canevasBoutons.create_window(600,70,window=self.btnEnregistrerFiche,width=250,height=40)
+        self.canevasBoutons.create_window(900,70,window=self.btnLireBD,width=250,height=40)
+
+>>>>>>> master
         self.frameBoutons.pack()
 
     def creerFiche(self):
@@ -130,6 +151,7 @@ class Vue():
     def saisirFiche(self):
         for f in self.listeFiches:
             f.saisirFicheIndividuelle()
+<<<<<<< HEAD
             if(f.classe !=""):
                 self.parent.insertIntoCRC(f.idFiche,f.classe,f.proprietaire,f.collaboration,f.responsabilites,f.parametres)
             "print(f.idFiche,f.classe,f.proprietaire,f.collaboration,f.responsabilites,f.parametres)  
@@ -146,6 +168,25 @@ class Vue():
             f.collaboration = liste[5]
             f.responsabilites = liste[6]
             f.parametres = liste[7]
+=======
+            self.parent.insertIntoCRC(f.idFiche,f.classe,f.proprietaire,f.collaboration,f.responsabilites,f.parametres)
+            print(f.idFiche,f.classe,f.proprietaire,f.collaboration,f.responsabilites,f.parametres)  
+        
+    def afficherFiches(self):
+
+        for liste in self.listeBD:
+            self.creerFiche()
+            for l in liste:
+                self.listeBDFiche.append(l)
+            
+        for f in self.listeFiches:
+            f.idFiche = int(self.listeBDFiche[2])
+            f.classe = str(self.listeBDFiche[3])
+            f.proprietaire = str(self.listeBDFiche[4])
+            f.collaboration = str(self.listeBDFiche[5])
+            f.responsabilities = str(self.listeBDFiche[6])
+            f.parametres = str(self.listeBDFiche[7])
+>>>>>>> master
             f.afficherFiche()
 
     def fermerfenetre(self):
@@ -300,6 +341,23 @@ class Fiche():
         self.collaboration=self.champCollaboration.get('0.0',END)
         self.responsabilites=self.champResponsabilites.get('0.0',END)
         self.parametres=self.champParametres.get('0.0',END)
+<<<<<<< HEAD
+=======
+
+    def afficherFiche(self):
+        self.champClasse.delete(0,END)
+        self.champClasse.insert(0,self.classe)
+        self.champProprietaire.delete(0,END)
+        self.champProprietaire.insert(0,self.proprietaire)
+        self.champCollaboration.delete('0.0',self.END)
+        self.champCollaboration.insert('0.0',self.collaboration)
+        self.champResponsabilites.delete('0.0',END)
+        self.champResponsabilites.insert('0.0',self.responsabilites)
+        self.champParametres.delete('0.0',END)
+        self.champParametres.insert('0.0',self.parametres)
+        
+        
+>>>>>>> master
 
     def afficherFiche(self):
         self.champClasse.delete(0,END)

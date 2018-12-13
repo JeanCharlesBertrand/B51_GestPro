@@ -42,7 +42,11 @@ class Controleur():
     def selectFromCRC(self):
         print("lire dans BD")
         return self.serveur.selectFromCRC(self.idProjet)
+<<<<<<< HEAD
 
+=======
+        #self.serveur.requeteGenerique()
+>>>>>>> master
 
     def getFiche(self, idProjet,NomFiche):
         print("lire dans BD par Fiche")

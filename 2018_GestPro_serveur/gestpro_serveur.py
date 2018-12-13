@@ -338,6 +338,7 @@ class ControleurServeur(object):
 #===============================================================================
 
     def insertIntoCRC(self,idProjet,idFiche,classe,proprietaire,collaboration,responsabilites,parametres):
+<<<<<<< HEAD
         print("idP",idProjet,"idFiche ",idFiche,"classe ",classe," proprio",proprietaire,"collaboration",collaboration,"responsabilies",responsabilites,"parametre",parametres)
 
         try:
@@ -348,11 +349,34 @@ class ControleurServeur(object):
             if crcrows is None:
                 print("N'existe pas dans la base de données, elle a été ajoutée")
                 dbUtilisateurs.c.execute('INSERT INTO crc(id_projet,id_fiche,classe,proprietaire,collaboration,responsabilites,parametres) VALUES (?, ?, ?, ?, ?, ?, ?)',(idProjet,idFiche,classe,proprietaire,collaboration,responsabilites,parametres,))
-                dbUtilisateurs.conn.commit()
+=======
+            print("enregistrer Fiche")
+            print(idProjet,idFiche,classe,proprietaire,collaboration,responsabilites,parametres)
+            try:
+                dbUtilisateurs.c.execute('UPDATE crc SET  id_fiche = ?, classe = ?, proprietaire = ?, collaboration = ?, responsabilites = ?, parametres = ? WHERE id_projet = ?', (idFiche,classe,proprietaire,collaboration,responsabilites,parametres,idProjet))
                 self.resetCurseur()
+>>>>>>> master
+                dbUtilisateurs.conn.commit()
+                crc = dbUtilisateurs.c.execute('SELECT * FROM crc WHERE id_projet = ?', (idProjet,))
+                crcrows = crc.fetchone()
+                self.resetCurseur()
+<<<<<<< HEAD
             else:
                 print("Existe dans la base de données,elle a été modifiée")
                 dbUtilisateurs.c.execute('UPDATE crc SET  classe = ?, proprietaire = ?, collaboration = ?, responsabilites = ?, parametres = ? WHERE id_projet = ? AND id_fiche = ? ', (classe,proprietaire,collaboration,responsabilites,parametres,idProjet,idFiche))
+=======
+                
+                if crcrows is None:
+                    dbUtilisateurs.c.execute('INSERT INTO crc(id_projet,id_fiche,classe,proprietaire,collaboration,responsabilites,parametres) VALUES (?, ?, ?, ?, ?, ?, ?)',(idProjet,idFiche,classe,proprietaire,collaboration,responsabilites,parametres,))
+                    dbUtilisateurs.conn.commit()
+                    self.resetCurseur()
+            except Exception as e:
+                print(str(e))
+        
+    def selectFromCRC(self, idProjet):
+                curseurListe = dbUtilisateurs.c.execute('SELECT * FROM crc WHERE id_projet = ?', (idProjet,))
+                liste = curseurListe.fetchall()
+>>>>>>> master
                 self.resetCurseur()
                 dbUtilisateurs.conn.commit()
                 self.resetCurseur()
