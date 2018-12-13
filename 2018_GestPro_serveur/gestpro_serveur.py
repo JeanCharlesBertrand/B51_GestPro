@@ -332,20 +332,21 @@ class ControleurServeur(object):
 
     def insertIntoCRC(self,idProjet,idFiche,classe,proprietaire,collaboration,responsabilites,parametres):
             print("enregistrer Fiche")
-            #print(idProjet,idFiche,classe,proprietaire,collaboration,responsabilites,parametres)
-            
-            dbUtilisateurs.c.execute('UPDATE crc SET  classe = ?, proprietaire = ?, collaboration = ?, responsabilites = ?, parametres = ?, WHERE id_projet = ? AND id_fiche = ?', (classe,proprietaire,collaboration,responsabilites,parametres,idProjet,idFiche,))
-            self.resetCurseur()
-            dbUtilisateurs.conn.commit()
-            crc = dbUtilisateurs.c.execute('SELECT * FROM crc WHERE id_projet = ?', (idProjet,))
-            crcrows = crc.fetchone()
-            self.resetCurseur()
-            
-            if crcrows is None:
-                dbUtilisateurs.c.execute('INSERT INTO crc(id_projet,id_fiche,classe,proprietaire,collaboration,responsabilites,parametres) VALUES (?, ?, ?, ?, ?, ?, ?)',(idProjet,idFiche,classe,proprietaire,collaboration,responsabilites,parametres,))
-                dbUtilisateurs.conn.commit()
+            print(idProjet,idFiche,classe,proprietaire,collaboration,responsabilites,parametres)
+            try:
+                dbUtilisateurs.c.execute('UPDATE crc SET  id_fiche = ?, classe = ?, proprietaire = ?, collaboration = ?, responsabilites = ?, parametres = ? WHERE id_projet = ?', (idFiche,classe,proprietaire,collaboration,responsabilites,parametres,idProjet))
                 self.resetCurseur()
-
+                dbUtilisateurs.conn.commit()
+                crc = dbUtilisateurs.c.execute('SELECT * FROM crc WHERE id_projet = ?', (idProjet,))
+                crcrows = crc.fetchone()
+                self.resetCurseur()
+                
+                if crcrows is None:
+                    dbUtilisateurs.c.execute('INSERT INTO crc(id_projet,id_fiche,classe,proprietaire,collaboration,responsabilites,parametres) VALUES (?, ?, ?, ?, ?, ?, ?)',(idProjet,idFiche,classe,proprietaire,collaboration,responsabilites,parametres,))
+                    dbUtilisateurs.conn.commit()
+                    self.resetCurseur()
+            except Exception as e:
+                print(str(e))
         
     def selectFromCRC(self, idProjet):
                 curseurListe = dbUtilisateurs.c.execute('SELECT * FROM crc WHERE id_projet = ?', (idProjet,))
