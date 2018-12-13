@@ -18,8 +18,6 @@ class Controleur():
         print("IN CONTROLEUR",sys.argv)
         self.createurId=Id
         self.modele=None
-        #self.vue=Vue(self)
-        #self.vue.root.mainloop()
         self.idProjet=int(sys.argv[4])
         self.ipserveur=sys.argv[2]
         self.nodeport=sys.argv[3]
@@ -44,7 +42,7 @@ class Controleur():
     def selectFromCRC(self):
         print("lire dans BD")
         return self.serveur.selectFromCRC(self.idProjet)
-        #self.serveur.requeteGenerique()
+
 
     def getFiche(self, idProjet,NomFiche):
         print("lire dans BD par Fiche")

@@ -339,20 +339,24 @@ class ControleurServeur(object):
 
     def insertIntoCRC(self,idProjet,idFiche,classe,proprietaire,collaboration,responsabilites,parametres):
         print("idP",idProjet,"idFiche ",idFiche,"classe ",classe," proprio",proprietaire,"collaboration",collaboration,"responsabilies",responsabilites,"parametre",parametres)
-            
+
         try:
-            dbUtilisateurs.c.execute('UPDATE crc SET  classe = ?, proprietaire = ?, collaboration = ?, responsabilites = ?, parametres = ?, WHERE id_projet = ? AND id_Fiche = ?', (classe,proprietaire,collaboration,responsabilites,parametres,idProjet,idFiche,))
-            self.resetCurseur()
-            dbUtilisateurs.conn.commit()
-            test = dbUtilisateurs.c.execute('SELECT * FROM crc WHERE id_projet = ?', (idProjet,))
+            test = dbUtilisateurs.c.execute('SELECT * FROM crc WHERE id_projet = ? AND id_fiche = ?', (idProjet,idFiche,))
             crcrows = test.fetchone()
             self.resetCurseur()
-                
+
             if crcrows is None:
-                print("pas dans la base de données, elle a été ajoutée")
+                print("N'existe pas dans la base de données, elle a été ajoutée")
                 dbUtilisateurs.c.execute('INSERT INTO crc(id_projet,id_fiche,classe,proprietaire,collaboration,responsabilites,parametres) VALUES (?, ?, ?, ?, ?, ?, ?)',(idProjet,idFiche,classe,proprietaire,collaboration,responsabilites,parametres,))
                 dbUtilisateurs.conn.commit()
                 self.resetCurseur()
+            else:
+                print("Existe dans la base de données,elle a été modifiée")
+                dbUtilisateurs.c.execute('UPDATE crc SET  classe = ?, proprietaire = ?, collaboration = ?, responsabilites = ?, parametres = ? WHERE id_projet = ? AND id_fiche = ? ', (classe,proprietaire,collaboration,responsabilites,parametres,idProjet,idFiche))
+                self.resetCurseur()
+                dbUtilisateurs.conn.commit()
+                self.resetCurseur()
+                
         except Exception as e:
                 print(str(e))
 
@@ -364,26 +368,9 @@ class ControleurServeur(object):
             liste = curseurListe.fetchall()
             self.resetCurseur()
             print(liste)
-            print("len liste",len(liste))
-            for l in liste:
-                print(l)
-                print("len l",len(l))
-                for x in l:
-                    print(x)
-
             return liste
         except Exception as e:
             print(str(e))
-        
-
-    def getFiche(self, idProjet, NomFiche):
-                curseurIDP = dbUtilisateurs.c.execute('SELECT * FROM projet WHERE id = ? AND nomFiche = ?', (idProjet,nomFiche,))
-                fiche = curseurIDP.fetchone()
-                self.resetCurseur()
-                return fiche
-
-
-
 
 #===============================================================================
 
