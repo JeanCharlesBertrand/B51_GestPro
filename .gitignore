@@ -1,5 +1,7 @@
 *.db
 *.pyc
+.vscode
+inscription.bd
 __pycache__
 /.settings
 .project
