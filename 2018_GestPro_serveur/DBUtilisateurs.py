@@ -162,7 +162,7 @@ class DbUtilisateurs:
 														) ''')
 				
 	def creationCRC(self):
-		self.c.execute('''CREATE TABLE crc(	
+		self.c.execute('''CREATE TABLE IF NOT EXISTS crc(	
 				id				INTEGER		PRIMARY KEY AUTOINCREMENT,
 				id_projet		INTEGER		NOT NULL,
 				id_fiche		INTEGER         NOT NULL,
@@ -172,9 +172,7 @@ class DbUtilisateurs:
                                 responsabilites         TEXT,
                                 parametres               TEXT,
 				
-				CONSTRAINT fk_crc_projet	FOREIGN KEY (id_projet) REFERENCES projet(id),
-				CONSTRAINT uc_id_fiche		UNIQUE(id_fiche),
-				CONSTRAINT uc_classe		UNIQUE(classe)				
+				CONSTRAINT fk_crc_projet	FOREIGN KEY (id_projet) REFERENCES projet(id)				
 														) ''')
 			###CONSTRAINT fk_crc_utilisateur	FOREIGN KEY (id_utilisateur) REFERENCES utilisateurs(id)
 				

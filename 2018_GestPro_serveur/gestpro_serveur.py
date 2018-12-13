@@ -179,6 +179,13 @@ class ControleurServeur(object):
         self.resetCurseur()
         return liste      
 
+
+    def requeteGenerique(self,requete):
+        curseurListe = dbUtilisateurs.c.execute(requete)
+        liste = curseurListe.fetchall()
+        self.resetCurseur()
+        return liste
+        
 #===============================================================================
 #    Description: fonction entree recoit string requete sql pour entree des éléments dans la bd et fonction sortie recoit string requete sql pour sortir des éléments de la bd
 #    Creator: Guillaume Geoffroy
@@ -326,44 +333,38 @@ class ControleurServeur(object):
                 
 #===============================================================================
 #===============================================================================
-#    Description: server insertion et select pour CRC
+#    Description: server insertion et select pour CRC -Lynda - 2018/12/13
 #
 #===============================================================================
 
     def insertIntoCRC(self,idProjet,idFiche,classe,proprietaire,collaboration,responsabilites,parametres):
-            print("enregistrer Fiche")
-            print(idProjet,idFiche,classe,proprietaire,collaboration,responsabilites,parametres)
-            try:
-                dbUtilisateurs.c.execute('UPDATE crc SET  id_fiche = ?, classe = ?, proprietaire = ?, collaboration = ?, responsabilites = ?, parametres = ? WHERE id_projet = ?', (idFiche,classe,proprietaire,collaboration,responsabilites,parametres,idProjet))
+        try:
+            test = dbUtilisateurs.c.execute('SELECT * FROM crc WHERE id_projet = ? AND id_fiche = ? AND classe = ?', (idProjet,idFiche,classe))
+            crcrows = test.fetchone()
+            self.resetCurseur()
+
+            if crcrows is None:
+                print("Fiche "+classe+" ajoutée")
+                dbUtilisateurs.c.execute('INSERT INTO crc(id_projet,id_fiche,classe,proprietaire,collaboration,responsabilites,parametres) VALUES (?, ?, ?, ?, ?, ?, ?)',(idProjet,idFiche,classe,proprietaire,collaboration,responsabilites,parametres,))
+                dbUtilisateurs.conn.commit()
+                self.resetCurseur()
+            else:
+                print("Fiche "+classe+" modifiée")
+                dbUtilisateurs.c.execute('UPDATE crc SET  classe = ?, proprietaire = ?, collaboration = ?, responsabilites = ?, parametres = ? WHERE id_projet = ? AND id_fiche = ? ', (classe,proprietaire,collaboration,responsabilites,parametres,idProjet,idFiche))
                 self.resetCurseur()
                 dbUtilisateurs.conn.commit()
-                crc = dbUtilisateurs.c.execute('SELECT * FROM crc WHERE id_projet = ?', (idProjet,))
-                crcrows = crc.fetchone()
-                self.resetCurseur()
                 
-                if crcrows is None:
-                    dbUtilisateurs.c.execute('INSERT INTO crc(id_projet,id_fiche,classe,proprietaire,collaboration,responsabilites,parametres) VALUES (?, ?, ?, ?, ?, ?, ?)',(idProjet,idFiche,classe,proprietaire,collaboration,responsabilites,parametres,))
-                    dbUtilisateurs.conn.commit()
-                    self.resetCurseur()
-            except Exception as e:
+        except Exception as e:
                 print(str(e))
         
     def selectFromCRC(self, idProjet):
-                curseurListe = dbUtilisateurs.c.execute('SELECT * FROM crc WHERE id_projet = ?', (idProjet,))
-                liste = curseurListe.fetchall()
-                self.resetCurseur()
-                for l in liste:
-                    print( l)
-                return liste
-
-    def getFiche(self, idProjet, NomFiche):
-                curseurIDP = dbUtilisateurs.c.execute('SELECT * FROM projet WHERE id = ? AND nomFiche = ?', (idProjet,nomFiche,))
-                fiche = curseurIDP.fetchone()
-                self.resetCurseur()
-                return fiche
-
-
-
+        try:
+            curseurListe = dbUtilisateurs.c.execute('SELECT * FROM crc WHERE id_projet = ?', (idProjet,))
+            liste = curseurListe.fetchall()
+            self.resetCurseur()
+            return liste
+        except Exception as e:
+            print(str(e))
 
 #===============================================================================
 
