@@ -27,8 +27,6 @@ class Vue():
 		self.listTables.delete(0,'end')
 		for nomTable in self.parent.serveur.getTablesMod(self.parent.idProjet):
 			self.listTables.insert(self.listTables.size(), nomTable)
-
-		
 		
 	def changemode(self,cadre):
 		if self.modecourant:
@@ -89,21 +87,37 @@ class Vue():
 		self.canevasplash=Canvas(self.cadresplash,width=640,height=480,bg="#282E3F")
 		self.canevasplash.pack()
 		self.listTables = Listbox(self.cadresplash,height=15, width=12, bg="#002887", font = ('Courier New',13), fg = 'white')
-		self.listTables.place(x= 20, y=100)
+		self.listTables.place(x= 15, y=100)
 
-		self.scrollbar = Scrollbar(orient="vertical")
-	
+		self.scrollbar = Scrollbar( orient='vertical')
 		
-		self.listNom = Listbox(self.cadresplash,  height=500, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0, yscrollcommand=self.scrollbar.set)
+		self.listNom = Listbox(self.cadresplash,  height=500, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0,yscrollcommand=self.yscroll1)
+		self.listNom.pack(fill='y', side='left')
+
 		self.listNom.place(x= 150, y=160,width=65, height=235)
-		self.listType = Listbox(self.cadresplash, width=20, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0, yscrollcommand=self.scrollbar.set)
+		
+		self.listType = Listbox(self.cadresplash, width=20, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0, yscrollcommand=self.yscroll2)
+		self.listType.pack(fill='y', side='left')
+
 		self.listType.place(x= 230, y=160,width=65, height=235)
-		self.listKey = Listbox(self.cadresplash, width=20, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0, yscrollcommand=self.scrollbar.set)
+		
+		
+		self.scrollbar.config(command=self.yview)
+		self.scrollbar.pack(side='right', fill='y')
+
+		
+		self.listKey = Listbox(self.cadresplash, width=20, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0, yscrollcommand=self.yscroll1)
 		self.listKey.place(x= 310, y=160,width=65, height=235)
-		self.listNN = Listbox(self.cadresplash, width=20, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0, yscrollcommand=self.scrollbar.set)
+		self.listNN = Listbox(self.cadresplash, width=20, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0, yscrollcommand=self.yscroll1)
 		self.listNN.place(x= 390, y=160,width=65, height=235)
-		self.listDefault = Listbox(self.cadresplash, width=20, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0, yscrollcommand=self.scrollbar.set)
+		self.listDefault = Listbox(self.cadresplash, width=20, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0, yscrollcommand=self.yscroll1)
 		self.listDefault.place(x= 470, y=160,width=65, height=235)
+		
+	
+		self.scrollbar.config(command=self.yview)
+		self.scrollbar.pack(side='right', fill='y')
+		
+			
 		self.listBoxes = [ self.listNom, self.listType, self.listKey, self.listNN, self.listDefault ]
 		
 
@@ -271,7 +285,15 @@ class Vue():
 			text="Table active: ",fg="#4C9689",
 			font = ("Courier New", 12, "bold"),
 			bg="#282E3F")
-			
+		
+	
+		self.labelMessageErreur = Label(
+			self.cadresplash,
+			bd=1,
+			text=" UNE ERREUUUUR ",fg="#4C9689",
+			font = ("Courier New", 12, "bold"),
+			bg= "pink")
+
 		
 		self.labelDefaultChamp.place(x=470, y=140)
 		self.entryDefaultChamp.place(x=470, y= 400)
@@ -284,6 +306,7 @@ class Vue():
 		self.labelNomChamp.place(x=160, y=140)
 		self.entryTypeChamp.place(x=230, y= 400)
 		self.labelTypeChamp.place(x=240, y=140)
+		
 
 		self.lineEntries = [ self.entryNomChamp, self.entryTypeChamp, self.entryKeyChamp, self.entryNNChamp, self.entryDefaultChamp]
 
@@ -302,6 +325,27 @@ class Vue():
 		self.labelNTable.place(x=320,y=100)
 		self.labelNomCetteTable.place(x=160, y=100)
 		self.labelListeTables.place(x= 20, y=70)
+		#self.labelMessageErreur.place(160, 300)
+		
+				
+	def yscroll1(self, *args):
+		if self.listType.yview() != self.list1.yview():
+			self.listType.yview_moveto(args[0])
+		self.scrollbar.set(*args)
+	
+	def yscroll2(self, *args):
+		if self.listNom.yview() != self.list2.yview():
+			self.listNom.yview_moveto(args[0])
+		self.scrollbar.set(*args)
+
+	def yview(self, *args): 	
+		self.listNom.yview(*args)
+		self.listType.yview(*args)
+
+		
+		
+		
+		
 		
 	def	updateLigne(self):
 		numLigne = int(self.entryNumLigne.get())
@@ -318,6 +362,9 @@ class Vue():
 		for i in range(5):
 			listbox = self.listBoxes[i]
 			listbox.insert(listbox.size(), line[i])
+	
+	
+	
 	
 	def clearTable(self):
 		for i in self.listBoxes:

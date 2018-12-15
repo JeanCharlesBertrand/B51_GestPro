@@ -89,18 +89,53 @@ class Vue():
 		self.listTables = Listbox(self.cadresplash,height=15, width=12, bg="#002887", font = ('Courier New',13), fg = 'white')
 		self.listTables.place(x= 15, y=100)
 
-		self.scrollbar = Scrollbar(orient="vertical")
+		self.scrollbar = Scrollbar(self, orient='vertical')
 		
-		self.listNom = Listbox(self.cadresplash,  height=500, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0, yscrollcommand=self.scrollbar.set)
+		self.listNom = Listbox(self.cadresplash,  height=500, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0,yscrollcommand=self.yscroll1)
+		self.listNom.pack(fill='y', side='left')
+
 		self.listNom.place(x= 150, y=160,width=65, height=235)
-		self.listType = Listbox(self.cadresplash, width=20, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0, yscrollcommand=self.scrollbar.set)
+		
+		self.listType = Listbox(self.cadresplash, width=20, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0, yscrollcommand=self.yscroll2)
+		self.listType.pack(fill='y', side='left')
+
 		self.listType.place(x= 230, y=160,width=65, height=235)
-		self.listKey = Listbox(self.cadresplash, width=20, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0, yscrollcommand=self.scrollbar.set)
+		
+		
+		self.scrollbar.config(command=self.yview)
+		self.scrollbar.pack(side='right', fill='y')
+
+		
+		self.listKey = Listbox(self.cadresplash, width=20, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0, yscrollcommand=self.yscroll1)
 		self.listKey.place(x= 310, y=160,width=65, height=235)
-		self.listNN = Listbox(self.cadresplash, width=20, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0, yscrollcommand=self.scrollbar.set)
+		self.listNN = Listbox(self.cadresplash, width=20, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0, yscrollcommand=self.yscroll1)
 		self.listNN.place(x= 390, y=160,width=65, height=235)
-		self.listDefault = Listbox(self.cadresplash, width=20, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0, yscrollcommand=self.scrollbar.set)
+		self.listDefault = Listbox(self.cadresplash, width=20, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0, yscrollcommand=self.yscroll1)
 		self.listDefault.place(x= 470, y=160,width=65, height=235)
+		
+	
+		self.scrollbar.config(command=self.yview)
+		self.scrollbar.pack(side='right', fill='y')
+		
+	def yscroll1(self, *args):
+		if self.listType.yview() != self.list1.yview():
+			self.listType.yview_moveto(args[0])
+		self.scrollbar.set(*args)
+	
+	def yscroll2(self, *args):
+		if self.listNom.yview() != self.list2.yview():
+			self.listNom.yview_moveto(args[0])
+		self.scrollbar.set(*args)
+
+	def yview(self, *args): 	
+		self.listNom.yview(*args)
+		self.listType.yview(*args)
+
+		
+		
+		
+		
+			
 		self.listBoxes = [ self.listNom, self.listType, self.listKey, self.listNN, self.listDefault ]
 		
 
@@ -326,39 +361,7 @@ class Vue():
 			listbox = self.listBoxes[i]
 			listbox.insert(listbox.size(), line[i])
 	
-	def validerEntryNomsChamps(self):
-		
-		self.nomChamp = self.entryNomChamp.get()
-        self.champType = self.entryTypeChamp.get()
-        self.champKey = self.entryKeyChamp.get()
-        self.champNN = self.entryNNChamp.get()
-        self.champDefault = self.entryDefaultChamp.get()
-
-         
-        infosValides = True
-        
-        if self.nomChamp is "" :
-            infosValides=False
-            print("Veuillez entrer un nom")
-        
-        if self.champType == "":
-            self.champType=""
-            print("Veuillez entrer un type")
-
-        
-      	if self.champKey == "":
-            self.champKey = ""
-            print("Veuillez entrer une clé")
-        
-        if self.champNN == "":
-            self.champNN = ""
-            print("Veuillez spécifier si nul, ou non null")
-            
-        if self.champDefault == "":
-            self.champDefault = ""
-            print("Veuillez spécifier la valeur par défaut")
-            
-        return infosValides
+	
 	
 	
 	

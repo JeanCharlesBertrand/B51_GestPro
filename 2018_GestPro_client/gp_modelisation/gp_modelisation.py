@@ -25,7 +25,7 @@ class Controleur():
         self.vue=Vue(self)
         self.vue.root.mainloop()
 
-    def lierServeur(self): 
+    def lierServeur(self):
         ad="http://"+self.ipserveur+":"+self.nodeport
         self.serveur=ServerProxy(ad)
         
