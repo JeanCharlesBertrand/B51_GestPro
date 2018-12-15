@@ -85,18 +85,16 @@ class Vue():
 	def creercadresplash(self):
 		self.cadresplash=Frame(self.root)
 		self.canevasplash=Canvas(self.cadresplash,width=640,height=480,bg="#282E3F")
-		self.canevasplash.pack()
+		self.canevasplash.pack(side=LEFT, expand=1,fill=BOTH)
 		self.listTables = Listbox(self.cadresplash,height=15, width=12, bg="#002887", font = ('Courier New',13), fg = 'white')
 		self.listTables.place(x= 15, y=100)
 
-		self.scrollbar = Scrollbar(self, orient='vertical')
+		self.scrollbar = Scrollbar(self.cadresplash,orient=VERTICAL,command=self.monscroll)
 		
-		self.listNom = Listbox(self.cadresplash,  height=500, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0,yscrollcommand=self.yscroll1)
-		self.listNom.pack(fill='y', side='left')
-
+		self.listNom = Listbox(self.cadresplash,  height=500, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0,,yscrollcommand=self.scroll.set
 		self.listNom.place(x= 150, y=160,width=65, height=235)
 		
-		self.listType = Listbox(self.cadresplash, width=20, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0, yscrollcommand=self.yscroll2)
+		self.listType = Listbox(self.cadresplash, width=20, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0, ,yscrollcommand=self.scroll.set)
 		self.listType.pack(fill='y', side='left')
 
 		self.listType.place(x= 230, y=160,width=65, height=235)
@@ -106,35 +104,28 @@ class Vue():
 		self.scrollbar.pack(side='right', fill='y')
 
 		
-		self.listKey = Listbox(self.cadresplash, width=20, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0, yscrollcommand=self.yscroll1)
+		self.listKey = Listbox(self.cadresplash, width=20, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0, ,yscrollcommand=self.scroll.set)
 		self.listKey.place(x= 310, y=160,width=65, height=235)
-		self.listNN = Listbox(self.cadresplash, width=20, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0, yscrollcommand=self.yscroll1)
+		self.listNN = Listbox(self.cadresplash, width=20, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0, ,yscrollcommand=self.scroll.set)
 		self.listNN.place(x= 390, y=160,width=65, height=235)
-		self.listDefault = Listbox(self.cadresplash, width=20, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0, yscrollcommand=self.yscroll1)
+		self.listDefault = Listbox(self.cadresplash, width=20, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0, ,yscrollcommand=self.scroll.set)
 		self.listDefault.place(x= 470, y=160,width=65, height=235)
 		
 	
-		self.scrollbar.config(command=self.yview)
-		self.scrollbar.pack(side='right', fill='y')
-		
-	def yscroll1(self, *args):
-		if self.listType.yview() != self.list1.yview():
-			self.listType.yview_moveto(args[0])
-		self.scrollbar.set(*args)
-	
-	def yscroll2(self, *args):
-		if self.listNom.yview() != self.list2.yview():
-			self.listNom.yview_moveto(args[0])
-		self.scrollbar.set(*args)
+		# on place les listes et le scrollbar
+        self.listNom.pack(side=LEFT,expand=1,fill=BOTH)
+        self.listType.pack(side=LEFT,expand=1,fill=BOTH)
+        self.listeKey.pack(side=LEFT,expand=1,fill=BOTH)
+		self.listeNN.pack(side=LEFT,expand=1,fill=BOTH)
+        self.listeDefault.pack(side=LEFT,expand=1,fill=BOTH)
 
-	def yview(self, *args): 	
-		self.listNom.yview(*args)
-		self.listType.yview(*args)
+        self.scroll.pack(side=LEFT,fill=Y)
+		
+	def monscroll(self,*args):
+        self.liste1.yview(*args)
+        self.liste2.yview(*args)
+        self.liste3.yview(*args)
 
-		
-		
-		
-		
 			
 		self.listBoxes = [ self.listNom, self.listType, self.listKey, self.listNN, self.listDefault ]
 		

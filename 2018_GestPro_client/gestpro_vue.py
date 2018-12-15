@@ -811,7 +811,7 @@ class Vue():
 
       
 #===============================================================================
-#     Description: update listBox liste membre écran infoProjet
+#     Description: update listBox liste membre ï¿½cran infoProjet
 #     Creator: GuillaumeGeoffroy
 #     Last modified: 2018/11/28 - 19h00 
 #===============================================================================
