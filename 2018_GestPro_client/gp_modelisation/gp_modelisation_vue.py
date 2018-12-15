@@ -92,6 +92,7 @@ class Vue():
 		self.listTables.place(x= 20, y=100)
 
 		self.scrollbar = Scrollbar(orient="vertical")
+	
 		
 		self.listNom = Listbox(self.cadresplash,  height=500, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0, yscrollcommand=self.scrollbar.set)
 		self.listNom.place(x= 150, y=160,width=65, height=235)
