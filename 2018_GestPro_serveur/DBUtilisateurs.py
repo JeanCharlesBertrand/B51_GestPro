@@ -17,6 +17,7 @@ class DbUtilisateurs:
 		self.creationLiaisonCasLigne()
 		self.creationCRC()
 		self.creationBlocTemps()
+		self.creationModelisation()
 
 	def creationInscription(self):
 		self.c.execute(''' CREATE TABLE IF NOT EXISTS utilisateurs(
@@ -32,6 +33,17 @@ class DbUtilisateurs:
 				CONSTRAINT uc_user_courriel		UNIQUE(courriel),
 				CONSTRAINT uc_user_identifiant	UNIQUE(identifiant)
 														) ''') 
+		
+	def creationModelisation(self):
+		self.c.execute(''' CREATE TABLE IF NOT EXISTS modelisation(
+				id				INTEGER		PRIMARY KEY AUTOINCREMENT,
+				id_projet		INTEGER		NOT NULL,
+				texte_table		TEXT		NOT NULL,
+				nom_table		TEXT		NOT NULL,
+
+				CONSTRAINT uc_id_projet		UNIQUE(id_projet, nom_table)
+														) ''')
+	
 	
 	def creationProjet(self):
 		self.c.execute(''' CREATE TABLE IF NOT EXISTS projet(

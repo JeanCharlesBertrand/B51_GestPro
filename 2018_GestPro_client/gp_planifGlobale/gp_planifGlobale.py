@@ -7,7 +7,7 @@ import socket
 from subprocess import Popen 
 import math
 #from sm_projet_modele import *
-from gp_modelisation_vue import *
+from gp_planifGlobale_vue import *
 from helper import Helper as hlp
 from IdMaker import Id
 from xmlrpc.client import ServerProxy
@@ -25,9 +25,13 @@ class Controleur():
         self.vue=Vue(self)
         self.vue.root.mainloop()
 
+    def getNomProjet(self):
+        self.nomProjet = self.serveur.getNomProjet(self.idProjet)
+        return self.nomProjet
+    
     def lierServeur(self):
         ad="http://"+self.ipserveur+":"+self.nodeport
-        self.serveur=ServerProxy(ad)
+        self.serveur=ServerProxy(ad) 
         
 if __name__ == '__main__':
     c=Controleur()

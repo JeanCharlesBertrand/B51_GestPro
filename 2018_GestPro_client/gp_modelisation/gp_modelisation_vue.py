@@ -27,6 +27,8 @@ class Vue():
 		self.listTables.delete(0,'end')
 		for nomTable in self.parent.serveur.getTablesMod(self.parent.idProjet):
 			self.listTables.insert(self.listTables.size(), nomTable)
+
+		
 		
 	def changemode(self,cadre):
 		if self.modecourant:
@@ -87,7 +89,7 @@ class Vue():
 		self.canevasplash=Canvas(self.cadresplash,width=640,height=480,bg="#282E3F")
 		self.canevasplash.pack()
 		self.listTables = Listbox(self.cadresplash,height=15, width=12, bg="#002887", font = ('Courier New',13), fg = 'white')
-		self.listTables.place(x= 15, y=100)
+		self.listTables.place(x= 20, y=100)
 
 		self.scrollbar = Scrollbar(orient="vertical")
 		
@@ -268,14 +270,6 @@ class Vue():
 			text="Table active: ",fg="#4C9689",
 			font = ("Courier New", 12, "bold"),
 			bg="#282E3F")
-		
-	
-		self.labelMessageErreur = Label(
-			self.cadresplash,
-			bd=1,
-			text=" UNE ERREUUUUR ",fg="#4C9689",
-			font = ("Courier New", 12, "bold"),
-			bg= "pink")
 			
 		
 		self.labelDefaultChamp.place(x=470, y=140)
@@ -289,7 +283,6 @@ class Vue():
 		self.labelNomChamp.place(x=160, y=140)
 		self.entryTypeChamp.place(x=230, y= 400)
 		self.labelTypeChamp.place(x=240, y=140)
-		
 
 		self.lineEntries = [ self.entryNomChamp, self.entryTypeChamp, self.entryKeyChamp, self.entryNNChamp, self.entryDefaultChamp]
 
@@ -308,7 +301,6 @@ class Vue():
 		self.labelNTable.place(x=320,y=100)
 		self.labelNomCetteTable.place(x=160, y=100)
 		self.labelListeTables.place(x= 20, y=70)
-		self.labelMessageErreur.place(160, 300)
 		
 	def	updateLigne(self):
 		numLigne = int(self.entryNumLigne.get())
@@ -325,42 +317,6 @@ class Vue():
 		for i in range(5):
 			listbox = self.listBoxes[i]
 			listbox.insert(listbox.size(), line[i])
-	
-	def validerEntryNomsChamps(self):
-		
-		self.nomChamp = self.entryNomChamp.get()
-        self.champType = self.entryTypeChamp.get()
-        self.champKey = self.entryKeyChamp.get()
-        self.champNN = self.entryNNChamp.get()
-        self.champDefault = self.entryDefaultChamp.get()
-
-         
-        infosValides = True
-        
-        if self.nomChamp is "" :
-            infosValides=False
-            print("Veuillez entrer un nom")
-        
-        if self.champType == "":
-            self.champType=""
-            print("Veuillez entrer un type")
-
-        
-      	if self.champKey == "":
-            self.champKey = ""
-            print("Veuillez entrer une clé")
-        
-        if self.champNN == "":
-            self.champNN = ""
-            print("Veuillez spécifier si nul, ou non null")
-            
-        if self.champDefault == "":
-            self.champDefault = ""
-            print("Veuillez spécifier la valeur par défaut")
-            
-        return infosValides
-	
-	
 	
 	def clearTable(self):
 		for i in self.listBoxes:

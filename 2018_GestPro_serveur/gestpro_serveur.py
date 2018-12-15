@@ -288,6 +288,49 @@ class ControleurServeur(object):
         id=int(idT[0])
         return id
 
+    
+#===============================================================================
+#     Description: insert d'une nouvelle table a partir de Modelisation vers la BD
+#     Creator: Vincent Trudel et Yasmine Kaddouri
+#     Last modified: 2018/12/10 - 10h00
+#===============================================================================
+    
+
+
+    def getTablesMod(self, id):
+        curseurListe = dbUtilisateurs.c.execute('SELECT nom_table FROM modelisation WHERE id_projet = ?', (id,))
+        liste = curseurListe.fetchall()
+        self.resetCurseur()
+        print(str(liste))
+        return liste
+    
+    def loadTable(self, nomTable, idProjet):
+        print(nomTable+", "+str(idProjet))
+        curseurListe = dbUtilisateurs.c.execute('SELECT texte_table FROM modelisation WHERE id_projet = ? AND nom_table = ?', (str(idProjet),nomTable))
+        texte_table = curseurListe.fetchall()[0]
+        self.resetCurseur()
+        return texte_table
+        
+    def entreeGenerique(self,requete, params):
+        self.trace = "ok"
+        try:
+            dbUtilisateurs.c.execute(requete, params)
+            dbUtilisateurs.conn.commit()
+        except Exception as e:
+            self.trace = str(e)
+        self.resetCurseur()
+        return self.trace
+
+    def sortieGenerique(self,requete):
+        self.trace = "Good!"
+        try:
+            curseurListe = dbUtilisateurs.c.execute(requete)
+        except Exception as e:
+            print(str(e))
+        liste = curseurListe.fetchall()
+        self.resetCurseur()
+        return liste
+        
 #===============================================================================
 #    Description: server insertion et select pour chat
 #    Creator: Guillaume Geoffroy
@@ -330,7 +373,7 @@ class ControleurServeur(object):
         liste = curseurListe.fetchone()
         self.resetCurseur()
         return liste
-                
+
 #===============================================================================
 #===============================================================================
 #    Description: server insertion et select pour CRC -Lynda - 2018/12/13
@@ -367,8 +410,6 @@ class ControleurServeur(object):
             print(str(e))
 
 #===============================================================================
-
-
 
     def requetemodule(self,mod):
         if mod in self.modele.modulesdisponibles.keys():

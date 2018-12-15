@@ -7,10 +7,11 @@ import socket
 from subprocess import Popen 
 import math
 #from sm_projet_modele import *
-from gp_modelisation_vue import *
+from gp_crc_vue import *
 from helper import Helper as hlp
 from IdMaker import Id
 from xmlrpc.client import ServerProxy
+
 
 class Controleur():
     def __init__(self):
@@ -28,6 +29,20 @@ class Controleur():
     def lierServeur(self):
         ad="http://"+self.ipserveur+":"+self.nodeport
         self.serveur=ServerProxy(ad)
+
+    def getNomProjet(self):
+        self.nomProjet = self.serveur.getNomProjet(self.idProjet)
+        return self.nomProjet
+    
+    def insertIntoCRC(self,idFiche,classe,proprietaire,collaboration,responsabilites,parametres):
+        print("enregistrer Fiche")
+        self.serveur.insertIntoCRC(self.idProjet,idFiche,classe,proprietaire,collaboration,responsabilites,parametres)
+
         
+    def selectFromCRC(self):
+        print("lire dans BD")
+        return self.serveur.selectFromCRC(self.idProjet)
+
+     
 if __name__ == '__main__':
     c=Controleur()
