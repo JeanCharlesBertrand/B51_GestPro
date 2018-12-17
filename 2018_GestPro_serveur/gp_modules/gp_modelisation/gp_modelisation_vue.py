@@ -27,6 +27,8 @@ class Vue():
 		self.listTables.delete(0,'end')
 		for nomTable in self.parent.serveur.getTablesMod(self.parent.idProjet):
 			self.listTables.insert(self.listTables.size(), nomTable)
+
+		
 		
 	def changemode(self,cadre):
 		if self.modecourant:
@@ -70,14 +72,14 @@ class Vue():
 		self.insertNom()
 	
 	def selectLine(self, event):
-		indexLine = self.listNom.nearest(event.y) #détermine l'index du texte cliqué en fonction du y de la souris
+		indexLine = self.listNom.nearest(event.y) #determine l'index du texte clique en fonction du y de la souris
 		selected = ""
 		for i in range(5):
 			selected = self.listBoxes[i].get(indexLine) #prend le texte choisi dans la listbox
-			self.listBoxes[i].selection_clear(0, END) #annule la sélection dans la listbox
+			self.listBoxes[i].selection_clear(0, END) #annule la selection dans la listbox
 			self.listBoxes[i].selection_set(indexLine)#selectionne l'index choisi dans chaque listbox
 			self.lineEntries[i].delete(0, 'end') # enleve le text des entries
-			self.lineEntries[i].insert(0,selected) #set le text des entries pour le text selectionné
+			self.lineEntries[i].insert(0,selected) #set le text des entries pour le text selectionne
 			
 		self.entryNumLigne.delete(0, 'end')
 		self.entryNumLigne.insert(0, indexLine)
@@ -85,51 +87,22 @@ class Vue():
 	def creercadresplash(self):
 		self.cadresplash=Frame(self.root)
 		self.canevasplash=Canvas(self.cadresplash,width=640,height=480,bg="#282E3F")
-		self.canevasplash.pack(side=LEFT, expand=1,fill=BOTH)
+		self.canevasplash.pack()
 		self.listTables = Listbox(self.cadresplash,height=15, width=12, bg="#002887", font = ('Courier New',13), fg = 'white')
-		self.listTables.place(x= 15, y=100)
-
-		self.scrollbar = Scrollbar(self.cadresplash,orient=VERTICAL,command=self.monscroll)
+		self.listTables.place(x= 20, y=100)
 		
-		self.listNom = Listbox(self.cadresplash,  height=500, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0,,yscrollcommand=self.scroll.set
+		self.listNom = Listbox(self.cadresplash,  height=500, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0)
 		self.listNom.place(x= 150, y=160,width=65, height=235)
-		
-		self.listType = Listbox(self.cadresplash, width=20, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0, ,yscrollcommand=self.scroll.set)
-		self.listType.pack(fill='y', side='left')
-
+		self.listType = Listbox(self.cadresplash, width=20, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0)
 		self.listType.place(x= 230, y=160,width=65, height=235)
-		
-		
-		self.scrollbar.config(command=self.yview)
-		self.scrollbar.pack(side='right', fill='y')
-
-		
-		self.listKey = Listbox(self.cadresplash, width=20, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0, ,yscrollcommand=self.scroll.set)
+		self.listKey = Listbox(self.cadresplash, width=20, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0)
 		self.listKey.place(x= 310, y=160,width=65, height=235)
-		self.listNN = Listbox(self.cadresplash, width=20, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0, ,yscrollcommand=self.scroll.set)
+		self.listNN = Listbox(self.cadresplash, width=20, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0)
 		self.listNN.place(x= 390, y=160,width=65, height=235)
-		self.listDefault = Listbox(self.cadresplash, width=20, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0, ,yscrollcommand=self.scroll.set)
+		self.listDefault = Listbox(self.cadresplash, width=20, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0)
 		self.listDefault.place(x= 470, y=160,width=65, height=235)
-		
-	
-		# on place les listes et le scrollbar
-        self.listNom.pack(side=LEFT,expand=1,fill=BOTH)
-        self.listType.pack(side=LEFT,expand=1,fill=BOTH)
-        self.listeKey.pack(side=LEFT,expand=1,fill=BOTH)
-		self.listeNN.pack(side=LEFT,expand=1,fill=BOTH)
-        self.listeDefault.pack(side=LEFT,expand=1,fill=BOTH)
-
-        self.scroll.pack(side=LEFT,fill=Y)
-		
-	def monscroll(self,*args):
-        self.liste1.yview(*args)
-        self.liste2.yview(*args)
-        self.liste3.yview(*args)
-
-			
 		self.listBoxes = [ self.listNom, self.listType, self.listKey, self.listNN, self.listDefault ]
 		
-
 		for listbox in self.listBoxes:
 			listbox.bind("<Button-1>", self.selectLine)
 		
@@ -169,20 +142,20 @@ class Vue():
 			font = ("Courier New", 12, "bold"),
 			fg = "#dbdbdb",justify='center')
 			
-		btnNew=Button(                                    
-            text=" CREATE ",
-            bg="#4C9689",                                             
-            relief = "raised",
-            font = ("Courier New", 14, "bold"),
-            fg = "#dbdbdb",
+		btnNew=Button(									  
+			text=" CREATE ",
+			bg="#4C9689",											  
+			relief = "raised",
+			font = ("Courier New", 14, "bold"),
+			fg = "#dbdbdb",
 			command=self.nouvelleTable)
 			
-		#btnClear=Button(                                    
-        #    text=" CLEAR ",
-        #    bg="#4C9689",                                             
-        #    relief = "raised",
-        #    font = ("Courier New", 14, "bold"),
-        #    fg = "#dbdbdb",
+		#btnClear=Button(									 
+		#	 text=" CLEAR ",
+		#	 bg="#4C9689",											   
+		#	 relief = "raised",
+		#	 font = ("Courier New", 14, "bold"),
+		#	 fg = "#dbdbdb",
 		#	command=self.clearTable)  
 
 		self.labelNomChamp = Label(
@@ -214,7 +187,7 @@ class Vue():
 		self.labelKeyChamp = Label(
 			self.cadresplash,
 			bd=1,
-			text="Clé ",fg="#4C9689",
+			text="Cle ",fg="#4C9689",
 			font = ("Courier New", 12, "bold"),
 			bg="#282E3F")
 			
@@ -240,7 +213,7 @@ class Vue():
 		self.labelDefaultChamp = Label(
 			self.cadresplash,
 			bd=1,
-			text="Défaut ",fg="#4C9689",
+			text="Defaut ",fg="#4C9689",
 			font = ("Courier New", 12, "bold"),
 			bg="#282E3F")
 			
@@ -250,36 +223,36 @@ class Vue():
 			font = ("Courier New", 10, "bold"),
 			fg = "#dbdbdb",justify='center', width= 8)
 			
-		btnAdd=Button(                                    
-            text="+Ligne",
-            bg="#4C9689",                                             
-            relief = "raised",
-            font = ("Courier New", 12, "bold"),
-            fg = "#dbdbdb",
+		btnAdd=Button(									  
+			text="+Ligne",
+			bg="#4C9689",											  
+			relief = "raised",
+			font = ("Courier New", 12, "bold"),
+			fg = "#dbdbdb",
 			command=self.insertLineToTable)
 			
-		btnUpdate=Button(                                    
-            text="UPDATE",
-            bg="#4C9689",                                             
-            relief = "raised",
-            font = ("Courier New", 12, "bold"),
-            fg = "#dbdbdb",
+		btnUpdate=Button(									 
+			text="UPDATE",
+			bg="#4C9689",											  
+			relief = "raised",
+			font = ("Courier New", 12, "bold"),
+			fg = "#dbdbdb",
 			command=self.updateLigne)
 			
-		btnSave=Button(                                    
-            text=" Save ",
-            bg="#4C9689",                                             
-            relief = "raised",
-            font = ("Courier New", 14, "bold"),
-            fg = "#dbdbdb",
+		btnSave=Button(									   
+			text=" Save ",
+			bg="#4C9689",											  
+			relief = "raised",
+			font = ("Courier New", 14, "bold"),
+			fg = "#dbdbdb",
 			command= self.saveTable)  
 			
-		btnDelete=Button(                                    
-            text=" DELETE ",
-            bg="#4C9689",                                             
-            relief = "raised",
-            font = ("Courier New", 14, "bold"),
-            fg = "#dbdbdb", command=self.deleteTable)
+		btnDelete=Button(									 
+			text=" DELETE ",
+			bg="#4C9689",											  
+			relief = "raised",
+			font = ("Courier New", 14, "bold"),
+			fg = "#dbdbdb", command=self.deleteTable)
 			
 		self.labelNumLigne = Label(
 			self.cadresplash,
@@ -294,14 +267,6 @@ class Vue():
 			text="Table active: ",fg="#4C9689",
 			font = ("Courier New", 12, "bold"),
 			bg="#282E3F")
-		
-	
-		self.labelMessageErreur = Label(
-			self.cadresplash,
-			bd=1,
-			text=" UNE ERREUUUUR ",fg="#4C9689",
-			font = ("Courier New", 12, "bold"),
-			bg= "pink")
 			
 		
 		self.labelDefaultChamp.place(x=470, y=140)
@@ -315,7 +280,6 @@ class Vue():
 		self.labelNomChamp.place(x=160, y=140)
 		self.entryTypeChamp.place(x=230, y= 400)
 		self.labelTypeChamp.place(x=240, y=140)
-		
 
 		self.lineEntries = [ self.entryNomChamp, self.entryTypeChamp, self.entryKeyChamp, self.entryNNChamp, self.entryDefaultChamp]
 
@@ -334,7 +298,6 @@ class Vue():
 		self.labelNTable.place(x=320,y=100)
 		self.labelNomCetteTable.place(x=160, y=100)
 		self.labelListeTables.place(x= 20, y=70)
-		self.labelMessageErreur.place(160, 300)
 		
 	def	updateLigne(self):
 		numLigne = int(self.entryNumLigne.get())
@@ -351,10 +314,6 @@ class Vue():
 		for i in range(5):
 			listbox = self.listBoxes[i]
 			listbox.insert(listbox.size(), line[i])
-	
-	
-	
-	
 	
 	def clearTable(self):
 		for i in self.listBoxes:

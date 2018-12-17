@@ -28,6 +28,6 @@ class Controleur():
     def lierServeur(self):
         ad="http://"+self.ipserveur+":"+self.nodeport
         self.serveur=ServerProxy(ad)
-        
+
 if __name__ == '__main__':
     c=Controleur()
