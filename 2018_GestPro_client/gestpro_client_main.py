@@ -53,6 +53,7 @@ class Controleur():
 			#C'est dans le serveur que se passent les vÃ©rifications dans la BD
 			if rep!=0: # Rep sera 0 si l'utilisateur n'est pas trouvÃ© ou si le pw ne match pas
 				self.identifiant=self.serveur.getIdMembre(identifiant) #sauvegarde du cÃ´tÃ© client le id de utilisateur
+				self.monip = ipserveur
 				self.vue.chargerSelectProjet(self.selectProjetDuMembre()) #charge fenÃªtre intermÃ©diaire de sÃ©lection/crÃ©ation de projet
 			else:
 				print("Nous n'avons pas rÃ©ussi Ã  vous connecter avec ces informations")

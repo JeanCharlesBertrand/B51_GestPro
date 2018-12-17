@@ -196,7 +196,6 @@ class Vue():
             activebackground = "#4C9689",
             command=self.creerProjet)
         
-        
         self.canevasCreation.create_window(                           
             150,180,window=btnConfirmerCreation,width=200,height=25)
         self.btnQuitter = Button( text='X', command=self.frameCreateProject.destroy, bg="red", relief = "sunken" )
@@ -246,7 +245,8 @@ class Vue():
     def chargerSelectProjet(self, liste):
         self.listeProjets.delete(0,'end')
         for i in liste:
-            self.listeProjets.insert(END,i)
+            for n in i:
+                self.listeProjets.insert(END,n)
         self.changecadre(self.frameSelectProjet)
 
 #===============================================================================
@@ -291,7 +291,7 @@ class Vue():
         self.creerFrameSelectProjet()
 
 #===============================================================================
-#     Description: CrÃ©ation du frame de login pour l'usager
+#     Description: Cr�ation du frame de login pour l'usager
 #     Creator: Julien DesgagnÃ©
 #     Last modified: 2018/11/05 - 8h00
 #===============================================================================
@@ -557,8 +557,7 @@ class Vue():
         self.frameModule.grid_columnconfigure(2, weight =0)
         #self.creerBoutonFrameModule()
     
-    def creerBoutonFrameModule(self):
-        
+    def creerBoutonFrameModule(self):       
         self.canevasModule = Canvas(self.frameModule,bg="#282E3F",bd=0, highlightthickness=0, width = 200, height = 800)
         self.canevasModule.grid(row = 0, column = 0, sticky = "nsew")
         
@@ -667,8 +666,7 @@ class Vue():
             width = 15,
             anchor = W)
 
-    def creerInfoProjet(self):
-        
+    def creerInfoProjet(self): 
         self.canevasInfo = Canvas(self.frameInfo, bg="#282E3F",bd=0, highlightthickness=0, width = 998, height = 800)
         self.canevasInfo.grid(row = 0, column = 0, sticky = "nsew")
 
@@ -677,26 +675,28 @@ class Vue():
         self.sprintNumber = 1
         self.timeRemaining = "2 Days 18h"
         nomProjet = self.parent.getNomProjet()
-        self.lblNomProjet           = Label(text = nomProjet, bg = "#282E3F", fg = "#4C9689", font = ("Arial", 25, "bold"))
+        self.lblNomProjet           = Label(text = nomProjet[0], bg = "#282E3F", fg = "#4C9689", font = ("Arial", 25, "bold"))
         self.lblDeadline            = Label(text = "Add: ", fg = "#4C9689")
         self.lblDate                = Label(text = self.date, fg = "#dbdbdb")
         self.lblMember              = Label(text = "Member:", fg = "#4C9689")
         self.lblTimer               = Label(text = "Time left before the end of the Sprint #" + str(self.sprintNumber), fg = "#4C9689")
         self.lblTimeLeft            = Label(text = self.timeRemaining, fg = "#dbdbdb")
-        
-        
+               
         def changerProjet(*args):
             self.nom1=self.v.get()
             self.nom1=self.nom1[2:-3]
             self.parent.selectionProjet(self.nom1)
-        
+          
         listeOptions = self.parent.selectProjetDuMembre()
+        #for n in listeOptions:
+        #    for i in n:
+        #        listeOptions.append(i)
+            
         self.v = StringVar()
         self.v.set(self.parent.getNomProjet())
         self.v.trace("w", changerProjet)
         self.om = OptionMenu(self.canevasInfo,  self.v, *listeOptions)
         self.om.config(font=('calibri',(12)),bg="#4C9689",width=14)
-        
         
         self.canevasInfo.create_window(870, 102, window = self.om)
         
@@ -723,16 +723,6 @@ class Vue():
                                         relief = "flat",
                                         font = ("Courier New", 12, "bold"),
                                         fg = "#dbdbdb", command=self.ajouterMembre)
-
-        
-        #self.member1                = Label(text ="John Smith", fg = "#dbdbdb")
-        #self.member2                = Label(text ="Ricky Jones", fg = "#dbdbdb")
-        #self.member3                = Label(text ="Sofia Brown", fg = "#dbdbdb")
-        #self.member4                = Label(text ="Alexe Anderson", fg = "#dbdbdb")
-        #self.member5                = Label(text ="Jack Thompson", fg = "#dbdbdb")
-        #self.member6                = Label(text ="Amelia Johnson", fg = "#dbdbdb")
-        
-        
         
         self.lblProjectDescription    = Label(text = "Description du projet: ", font = ("Arial", 10),fg = "#4C9689",bg="#282E3F")
         self.lblTeamMsg             = Label(text = "Message de l'equipe: ",font = ("Arial", 10),fg = "#4C9689",bg="#282E3F")
@@ -743,16 +733,7 @@ class Vue():
         self.canevasInfo.create_window(177,205, window = self.listeMembres)
         self.canevasInfo.create_window(205,310, window = self.entryNomMembreAjout)
         self.canevasInfo.create_window(315,310, window = self.btnAjouterMembre)
-        #self.canevasInfo.create_window(275,175, window = self.member1)
-        #self.canevasInfo.create_window(275,200, window = self.member2)
-        #self.canevasInfo.create_window(275,225, window = self.member3)
-        #self.canevasInfo.create_window(275,250, window = self.member4)
-        #self.canevasInfo.create_window(275,275, window = self.member5)
-        #self.canevasInfo.create_window(275,300, window = self.member6)
-        #self.canevasInfo.create_window(600,100, window = self.lblTimer)
-        #self.canevasInfo.create_window(680,130, window = self.lblTimeLeft)
         self.canevasInfo.create_window(205,310, window = self.lblDeadline)
-        #self.canevasInfo.create_window(275,100, window = self.lblDate)
         self.canevasInfo.create_window(110,355, window = self.lblProjectDescription)
         self.canevasInfo.create_window(110,453, window = self.lblTeamMsg)
         self.canevasInfo.create_window(72, 638, window = self.lblUser)
@@ -801,14 +782,13 @@ class Vue():
         self.txtTeam.config(state='normal')
         self.txtTeam.delete("1.0",END)
         listeChat=self.parent.getContentChat()
-        #print(listeChat)
+
         for i in listeChat:
             print(i)
             self.txtTeam.insert('1.0', '@'+i[1]+" --- " +i[4] + "\n" + i[3] + "\n")
             
         self.txtUser.delete("1.0",END)
         self.txtTeam.config(state=DISABLED)
-
       
 #===============================================================================
 #     Description: update listBox liste membre �cran infoProjet
@@ -819,7 +799,8 @@ class Vue():
     def updateListeMembres(self):
         self.listeMembres.delete(0, END)
         for i in self.parent.getListeMembres():
-            self.listeMembres.insert(END, i)   
+            for n in i:
+                self.listeMembres.insert(END, n)   
             
 #===============================================================================
 #     Description: requette module xyz
