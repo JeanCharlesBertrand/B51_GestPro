@@ -144,7 +144,7 @@ class Vue():
             f.saisirFicheIndividuelle()
             if(f.classe !=""):
                 self.parent.insertIntoCRC(f.idFiche,f.classe,f.proprietaire,f.collaboration,f.responsabilites,f.parametres)
-            #print(f.idFiche,f.classe,f.proprietaire,f.collaboration,f.responsabilites,f.parametres)  
+
         
     def afficherFichesBD(self):
         for liste in self.listeBD:
@@ -277,14 +277,12 @@ class Fiche():
             fg = "#4C9689",justify='center')
         
         self.varProprio = StringVar()
-        self.fetchValeur = varProprio.get()
+        self.fetchValeur =self.varProprio.get()
         
         self.comboProprietaire = ttk.Combobox(self.frameFiche,font=("Courier New", 12, "bold"),textvariable=self.fetchValeur,state='readonly')
         self.comboProprietaire.bind('<<ComboboxSelected>>',self.selectProprietaire)
-        
         self.comboProprietaire['values'] = self.parent.recupererListeMembres()
         self.frameFiche.option_add('*TCombobox*Listbox.font',("Courier New", 12, "bold"))
-        
         self.comboProprietaire.current(0)
 
         self.champCollaboration.config(
@@ -313,7 +311,7 @@ class Fiche():
         
     def saisirFicheIndividuelle(self):
         self.classe=self.champClasse.get()
-        self.proprietaire=self.champProprietaire.get()
+        self.proprietaire=self.comboProprietaire.get()
         self.collaboration=self.champCollaboration.get('0.0',END)
         self.responsabilites=self.champResponsabilites.get('0.0',END)
         self.parametres=self.champParametres.get('0.0',END)
@@ -322,21 +320,25 @@ class Fiche():
     def afficherFiche(self):
         self.champClasse.delete(0,END)
         self.champClasse.insert(0,self.classe)
-        
-        self.comboProprietaire.set(self.proprietaire)
-        
-        self.varProprio = self.proprietaire
-        
         self.champCollaboration.delete('0.0',END)
         self.champCollaboration.insert('0.0',self.collaboration)
         self.champResponsabilites.delete('0.0',END)
         self.champResponsabilites.insert('0.0',self.responsabilites)
         self.champParametres.delete('0.0',END)
         self.champParametres.insert('0.0',self.parametres)
+
+        self.listeMembres= self.parent.recupererListeMembres()
+        index = 0
+        for i in self.listeMembres:
+            print("valeur de bd",self.proprietaire)
+            print("valeur de i",i[0])
+            if(i[0]==self.proprietaire):
+                self.comboProprietaire.current(index)
+            index+=1
         
     def selectProprietaire(self,evt):
         self.proprietaire=self.comboProprietaire.get()
-        print("proprietaire :",self.proprietaire)
+
     
 
 
