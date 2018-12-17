@@ -330,8 +330,6 @@ class Fiche():
         self.listeMembres= self.parent.recupererListeMembres()
         index = 0
         for i in self.listeMembres:
-            print("valeur de bd",self.proprietaire)
-            print("valeur de i",i[0])
             if(i[0]==self.proprietaire):
                 self.comboProprietaire.current(index)
             index+=1
