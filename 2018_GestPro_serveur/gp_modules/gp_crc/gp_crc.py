@@ -33,6 +33,11 @@ class Controleur():
     def getNomProjet(self):
         self.nomProjet = self.serveur.getNomProjet(self.idProjet)
         return self.nomProjet
+
+    def getListeMembres(self):
+        self.listeMembre = self.serveur.getListeMembres(self.idProjet)
+        print(self.listeMembre)
+        return self.listeMembre
     
     def insertIntoCRC(self,idFiche,classe,proprietaire,collaboration,responsabilites,parametres):
         print("enregistrer Fiche")

@@ -11,9 +11,9 @@ from helper import Helper as hlp
 class Vue():
     def __init__(self,parent,largeur=1200,hauteur=600):
         self.root=tix.Tk()
-        self.root.title(os.path.basename(sys.argv[0]))
         self.root.protocol("WM_DELETE_WINDOW", self.fermerfenetre)
         self.parent=parent
+        self.root.title(self.parent.getNomProjet())
         self.modele=None
         self.largeur=largeur
         self.hauteur=hauteur
@@ -52,23 +52,32 @@ class Vue():
     def creercadres(self):
         self.creerBoutons()
         self.creercadresplash()
-        #self.cadrejeu=Frame(self.root,bg="blue")
-        #self.modecourant=None
                 
     def creercadresplash(self):
         self.cadresplash=Frame(self.root)
         self.canevasplash=Canvas(self.cadresplash,width=1200,height=1200,bg="#282E3F")
         
+        self.labelTitre = Label(
+            self.cadresplash, 
+            bd=1, 
+            relief=RIDGE, 
+            text="Module CRC ",fg="#4C9689",
+            font = ("Courier New", 15, "bold"),
+            bg="#282E3F")
+
         self.canevasplash.bind("<MouseWheel>", self.OnMouseWheel)
         
         self.cadresplash.update_idletasks()
         
         self.canevasplash.pack(side=LEFT, expand=YES, fill=BOTH)
+        
+
 
         #=== LOAD LES FICHES PRESENTES DANS LE PROJET ====
         self.afficherFichesBD()
       
     def creerBoutons(self):
+        
         self.frameBoutons = Frame(
             self.root, 
             bd=1, 
@@ -81,6 +90,14 @@ class Vue():
             height=100,
             bg='#282E3F')                                         
         self.canevasBoutons.pack(fill=X, padx=1, pady=1)
+
+        self.labelTitre = Label(
+            self.frameBoutons, 
+            bd=1, 
+            relief=RIDGE, 
+            text="Module CRC ",fg="#4C9689",
+            font = ("Courier New", 15, "bold"),
+            bg="#282E3F")
         
         self.btnAjouterFiche=Button(                                    
             text="Ajouter Fiche",
@@ -95,30 +112,20 @@ class Vue():
             relief = "raised",
             font = ("Courier New", 12, "bold"),
             fg = "#dbdbdb",command=self.saisirFiche)
-        '''
-        self.btnLireBD=Button(                                    
-            text="Importer Fiches du Projet",
-            bg="#4C9689",                                             
-            relief = "raised",
-            font = ("Courier New", 12, "bold"),
-            fg = "#dbdbdb",command=self.afficherFichesBD)
-        '''
+        
 
         self.canevasBoutons.create_window(300,70,window=self.btnAjouterFiche,width=250,height=40)
-        self.canevasBoutons.create_window(600,70,window=self.btnEnregistrerFiche,width=250,height=40)
-        #self.canevasBoutons.create_window(900,70,window=self.btnLireBD,width=250,height=40)
-
+        self.canevasBoutons.create_window(900,70,window=self.btnEnregistrerFiche,width=250,height=40)
+        self.canevasBoutons.create_window(600,30,window=self.labelTitre,width=250,height=40)
         self.frameBoutons.pack()
 
     def creerFiche(self):
         self.listeFiches.append( Fiche(self,self.frameX,self.frameY))
         self.idFiche+=1
 
-
     def OnMouseWheel(self, event):
         #Scroll maison des FIches 
-        #self.canevasplash.yview("scroll",event.delta,"units")
-        
+       
         firstFicheY = self.listeFramesFiches[0].winfo_y()+event.delta
        
         if(self.listeFramesFiches !=None):
@@ -127,6 +134,10 @@ class Vue():
                     fx = ff.winfo_x()
                     fy = ff.winfo_y() + event.delta
                     ff.place(x=fx,y=fy,width=350,height=250)
+
+    def recupererListeMembres(self):
+        return self.parent.getListeMembres()
+        
                     
     def saisirFiche(self):
         for f in self.listeFiches:
@@ -264,12 +275,17 @@ class Fiche():
             relief = "sunken",
             font = ("Courier New", 12, "bold"),
             fg = "#4C9689",justify='center')
-
-        self.champProprietaire.config(
-            bg='white',
-            relief = "sunken",
-            font = ("Courier New", 12, "bold"),
-            fg = "#4C9689",justify='center')
+        
+        self.varProprio = StringVar()
+        self.fetchValeur = varProprio.get()
+        
+        self.comboProprietaire = ttk.Combobox(self.frameFiche,font=("Courier New", 12, "bold"),textvariable=self.fetchValeur,state='readonly')
+        self.comboProprietaire.bind('<<ComboboxSelected>>',self.selectProprietaire)
+        
+        self.comboProprietaire['values'] = self.parent.recupererListeMembres()
+        self.frameFiche.option_add('*TCombobox*Listbox.font',("Courier New", 12, "bold"))
+        
+        self.comboProprietaire.current(0)
 
         self.champCollaboration.config(
             bg='white',
@@ -290,7 +306,7 @@ class Fiche():
             fg = "#4C9689")
      
         self.canevasFiche.create_window(80,40,window=self.champClasse, width=150, height=20)
-        self.canevasFiche.create_window(80,80,window=self.champProprietaire, width=150, height=20)
+        self.canevasFiche.create_window(80,80,window=self.comboProprietaire, width=150, height=20)
         self.canevasFiche.create_window(250,60, window = self.champCollaboration,width=150, height=50)
         self.canevasFiche.create_window(85,165, window = self.champResponsabilites,width=160, height=110)
         self.canevasFiche.create_window(250,165, window = self.champParametres,width=160, height=110)
@@ -306,8 +322,11 @@ class Fiche():
     def afficherFiche(self):
         self.champClasse.delete(0,END)
         self.champClasse.insert(0,self.classe)
-        self.champProprietaire.delete(0,END)
-        self.champProprietaire.insert(0,self.proprietaire)
+        
+        self.comboProprietaire.set(self.proprietaire)
+        
+        self.varProprio = self.proprietaire
+        
         self.champCollaboration.delete('0.0',END)
         self.champCollaboration.insert('0.0',self.collaboration)
         self.champResponsabilites.delete('0.0',END)
@@ -315,9 +334,11 @@ class Fiche():
         self.champParametres.delete('0.0',END)
         self.champParametres.insert('0.0',self.parametres)
         
-        
+    def selectProprietaire(self,evt):
+        self.proprietaire=self.comboProprietaire.get()
+        print("proprietaire :",self.proprietaire)
+    
 
-#self.serveur.getListeMembres(self.idProjet)
 
 
 
