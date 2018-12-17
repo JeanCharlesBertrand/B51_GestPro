@@ -196,7 +196,6 @@ class Vue():
             activebackground = "#4C9689",
             command=self.creerProjet)
         
-        
         self.canevasCreation.create_window(                           
             150,180,window=btnConfirmerCreation,width=200,height=25)
         self.btnQuitter = Button( text='X', command=self.frameCreateProject.destroy, bg="red", relief = "sunken" )
@@ -246,7 +245,8 @@ class Vue():
     def chargerSelectProjet(self, liste):
         self.listeProjets.delete(0,'end')
         for i in liste:
-            self.listeProjets.insert(END,i)
+            for n in i:
+                self.listeProjets.insert(END,n)
         self.changecadre(self.frameSelectProjet)
 
 #===============================================================================
@@ -291,7 +291,7 @@ class Vue():
         self.creerFrameSelectProjet()
 
 #===============================================================================
-#     Description: CrÃ©ation du frame de login pour l'usager
+#     Description: Cr�ation du frame de login pour l'usager
 #     Creator: Julien DesgagnÃ©
 #     Last modified: 2018/11/05 - 8h00
 #===============================================================================
@@ -557,8 +557,7 @@ class Vue():
         self.frameModule.grid_columnconfigure(2, weight =0)
         #self.creerBoutonFrameModule()
     
-    def creerBoutonFrameModule(self):
-        
+    def creerBoutonFrameModule(self):       
         self.canevasModule = Canvas(self.frameModule,bg="#282E3F",bd=0, highlightthickness=0, width = 200, height = 800)
         self.canevasModule.grid(row = 0, column = 0, sticky = "nsew")
         
@@ -667,8 +666,7 @@ class Vue():
             width = 15,
             anchor = W)
 
-    def creerInfoProjet(self):
-        
+    def creerInfoProjet(self): 
         self.canevasInfo = Canvas(self.frameInfo, bg="#282E3F",bd=0, highlightthickness=0, width = 998, height = 800)
         self.canevasInfo.grid(row = 0, column = 0, sticky = "nsew")
 
@@ -677,26 +675,28 @@ class Vue():
         self.sprintNumber = 1
         self.timeRemaining = "2 Days 18h"
         nomProjet = self.parent.getNomProjet()
-        self.lblNomProjet           = Label(text = nomProjet, bg = "#282E3F", fg = "#4C9689", font = ("Arial", 25, "bold"))
+        self.lblNomProjet           = Label(text = nomProjet[0], bg = "#282E3F", fg = "#4C9689", font = ("Arial", 25, "bold"))
         self.lblDeadline            = Label(text = "Add: ", fg = "#4C9689")
         self.lblDate                = Label(text = self.date, fg = "#dbdbdb")
         self.lblMember              = Label(text = "Member:", fg = "#4C9689")
         self.lblTimer               = Label(text = "Time left before the end of the Sprint #" + str(self.sprintNumber), fg = "#4C9689")
         self.lblTimeLeft            = Label(text = self.timeRemaining, fg = "#dbdbdb")
-        
-        
+               
         def changerProjet(*args):
             self.nom1=self.v.get()
             self.nom1=self.nom1[2:-3]
             self.parent.selectionProjet(self.nom1)
-        
+          
         listeOptions = self.parent.selectProjetDuMembre()
+        #for n in listeOptions:
+        #    for i in n:
+        #        listeOptions.append(i)
+            
         self.v = StringVar()
         self.v.set(self.parent.getNomProjet())
         self.v.trace("w", changerProjet)
         self.om = OptionMenu(self.canevasInfo,  self.v, *listeOptions)
         self.om.config(font=('calibri',(12)),bg="#4C9689",width=14)
-        
         
         self.canevasInfo.create_window(870, 102, window = self.om)
         
@@ -799,7 +799,8 @@ class Vue():
     def updateListeMembres(self):
         self.listeMembres.delete(0, END)
         for i in self.parent.getListeMembres():
-            self.listeMembres.insert(END, i)   
+            for n in i:
+                self.listeMembres.insert(END, n)   
             
 #===============================================================================
 #     Description: requette module xyz
