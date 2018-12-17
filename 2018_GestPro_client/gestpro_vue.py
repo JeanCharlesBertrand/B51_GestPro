@@ -723,16 +723,6 @@ class Vue():
                                         relief = "flat",
                                         font = ("Courier New", 12, "bold"),
                                         fg = "#dbdbdb", command=self.ajouterMembre)
-
-        
-        #self.member1                = Label(text ="John Smith", fg = "#dbdbdb")
-        #self.member2                = Label(text ="Ricky Jones", fg = "#dbdbdb")
-        #self.member3                = Label(text ="Sofia Brown", fg = "#dbdbdb")
-        #self.member4                = Label(text ="Alexe Anderson", fg = "#dbdbdb")
-        #self.member5                = Label(text ="Jack Thompson", fg = "#dbdbdb")
-        #self.member6                = Label(text ="Amelia Johnson", fg = "#dbdbdb")
-        
-        
         
         self.lblProjectDescription    = Label(text = "Description du projet: ", font = ("Arial", 10),fg = "#4C9689",bg="#282E3F")
         self.lblTeamMsg             = Label(text = "Message de l'equipe: ",font = ("Arial", 10),fg = "#4C9689",bg="#282E3F")
@@ -743,16 +733,7 @@ class Vue():
         self.canevasInfo.create_window(177,205, window = self.listeMembres)
         self.canevasInfo.create_window(205,310, window = self.entryNomMembreAjout)
         self.canevasInfo.create_window(315,310, window = self.btnAjouterMembre)
-        #self.canevasInfo.create_window(275,175, window = self.member1)
-        #self.canevasInfo.create_window(275,200, window = self.member2)
-        #self.canevasInfo.create_window(275,225, window = self.member3)
-        #self.canevasInfo.create_window(275,250, window = self.member4)
-        #self.canevasInfo.create_window(275,275, window = self.member5)
-        #self.canevasInfo.create_window(275,300, window = self.member6)
-        #self.canevasInfo.create_window(600,100, window = self.lblTimer)
-        #self.canevasInfo.create_window(680,130, window = self.lblTimeLeft)
         self.canevasInfo.create_window(205,310, window = self.lblDeadline)
-        #self.canevasInfo.create_window(275,100, window = self.lblDate)
         self.canevasInfo.create_window(110,355, window = self.lblProjectDescription)
         self.canevasInfo.create_window(110,453, window = self.lblTeamMsg)
         self.canevasInfo.create_window(72, 638, window = self.lblUser)
@@ -801,14 +782,13 @@ class Vue():
         self.txtTeam.config(state='normal')
         self.txtTeam.delete("1.0",END)
         listeChat=self.parent.getContentChat()
-        #print(listeChat)
+
         for i in listeChat:
             print(i)
             self.txtTeam.insert('1.0', '@'+i[1]+" --- " +i[4] + "\n" + i[3] + "\n")
             
         self.txtUser.delete("1.0",END)
         self.txtTeam.config(state=DISABLED)
-
       
 #===============================================================================
 #     Description: update listBox liste membre �cran infoProjet
