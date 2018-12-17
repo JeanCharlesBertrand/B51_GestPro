@@ -189,6 +189,7 @@ class ControleurServeur(object):
         try:
             dbUtilisateurs.c.execute(requete)
             dbUtilisateurs.conn.commit()
+            return dbUtilisateurs.c.fetchall()
         except Exception as e:
             self.trace = str(e)
         self.resetCurseur()

@@ -14,7 +14,6 @@ class DbUtilisateurs:
 		self.creationAnalyseTextuelle()
 		self.creationScenario
 		self.creationCasUsage()
-		self.creationLiaisonCasLigne()
 		self.creationCRC()
 		self.creationBlocTemps()
 
@@ -119,49 +118,24 @@ class DbUtilisateurs:
 	def creationCasUsage(self):
 		self.c.execute('''CREATE TABLE IF NOT EXISTS cas_usage(
 				id					INTEGER		PRIMARY KEY AUTOINCREMENT,
-				description			TEXT,
-				id_liste_lignes		INTEGER,
+				description			TEXT
+				) ''')		
 				
-				CONSTRAINT fk_casusage_ligne	FOREIGN KEY (id_liste_lignes) REFERENCES liaison_cas_ligne(id)
-														) ''')
-		
-	def creationLiaisonCasLigne(self):
-		self.c.execute('''CREATE TABLE IF NOT EXISTS liaison_cas_ligne(
-				id					INTEGER		PRIMARY KEY AUTOINCREMENT,
-				id_cas				INTEGER,
-				id_ligne			INTEGER,
-				
-				CONSTRAINT fk_casusage_scenario	FOREIGN KEY (id_cas) REFERENCES cas_usage(id)
-				CONSTRAINT fk_casusage_ligne	FOREIGN KEY (id_ligne) REFERENCES ligne_cas(id)
-														) ''')
-			
+				#CONSTRAINT fk_casusage_ligne	FOREIGN KEY (id_liste_lignes) REFERENCES ligne_cas(id)
+														
+	
 				
 	def creationLigneCasUsage(self):
 		self.c.execute('''CREATE TABLE IF NOT EXISTS ligne_cas(
 				id						INTEGER		PRIMARY KEY AUTOINCREMENT,
-				id_lisaison_cas_ligne	INTEGER,
+				id_cas					INTEGER,
 				type					TEXT,
 				description				TEXT,
 				
-				CONSTRAINT fk_ligne				FOREIGN KEY (id_lisaison_cas_ligne) REFERENCES liaison_cas_ligne(id)
+				CONSTRAINT fk_ligne				FOREIGN KEY (id_cas) REFERENCES cas_usage(id)
 														) ''')
 		
 	
-		
-	def creationScenarioUtilisation(self):
-		self.c.execute('''CREATE TABLE IF NOT EXISTS scenario_utilisation(	
-				id				INTEGER		PRIMARY KEY AUTOINCREMENT,
-				id_projet		INTEGER		NOT NULL,
-				id_cas_usage	INTEGER		NOT NULL,
-				fichUsage		TEXT,
-				fichOrdi		TEXT,
-				fichAutre		TEXT,
-				
-				CONSTRAINT fk_scenario_projet	FOREIGN KEY (id_projet) REFERENCES projet(id),
-				CONSTRAINT fk_scenario_casusage	FOREIGN KEY (id_cas_usage) REFERENCES cas_usage(id)
-														) ''')
-				
-	###CONSTRAINT fk_crc_utilisateur	FOREIGN KEY (id_utilisateur) REFERENCES utilisateurs(id)
 		
 	def creationCRC(self):
 		self.c.execute('''CREATE TABLE IF NOT EXISTS crc(	
@@ -170,9 +144,9 @@ class DbUtilisateurs:
 				id_fiche		INTEGER,
 				classe                  TEXT,
 				proprietaire            TEXT,
-                                collaboration           TEXT,
-                                responsabilites         TEXT,
-                                variables               TEXT,
+				collaboration           TEXT,
+                responsabilites         TEXT,
+				variables               TEXT,
 				
 				CONSTRAINT fk_crc_projet	FOREIGN KEY (id_projet) REFERENCES projet(id)
 														) ''')
