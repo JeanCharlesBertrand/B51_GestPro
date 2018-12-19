@@ -1,9 +1,9 @@
   #===============================================================================
 #     Nom fichier : gestpro_vue.py
-#     OrmÃ da
+#     OrmÃƒÂ da
 #     Creation date: 2018/10/22
-#     Description: CrÃ©ation du GUI et des Ã©lÃ©ments visuel du projet 
-#     Creator: Julien DesgagnÃ©
+#     Description: CrÃƒÂ©ation du GUI et des ÃƒÂ©lÃƒÂ©ments visuel du projet 
+#     Creator: Julien DesgagnÃƒÂ©
 #     Version 1.0
 #===============================================================================
 
@@ -19,7 +19,7 @@ import signal
 
 #===============================================================================
 #     Description: Classe principale d'affichage
-#     Creator: Julien DesgagnÃ©
+#     Creator: Julien DesgagnÃƒÂ©
 #     Last modified: 2018/10/22 - 21h40 
 #===============================================================================
 
@@ -46,13 +46,13 @@ class Vue():
 
 
 #===============================================================================
-#     Description: cadre temporaire pour tester les fonctionnalités
+#     Description: cadre temporaire pour tester les fonctionnalitÃ©s
 #     Creator: Guillaume Geoffroy
 #     Last modified: 2018/11/04 - 12h30
 #===============================================================================    
 
     def creerFrameSelectProjet(self):
-        self.frameSelectProjet = Frame(self.root)                         # Création frameSelectProjet
+        self.frameSelectProjet = Frame(self.root)                         # CrÃ©ation frameSelectProjet
         self.canevasSelectProjet=Canvas(                                # Ajout d'un canvas de le frame
             self.frameSelectProjet,
             width=600,
@@ -70,14 +70,14 @@ class Vue():
             font = ("Courier New", 12, "bold"),
             highlightbackground= "#282E3F")
         
-        btnSelection=Button(                                    # Création bouton connection
+        btnSelection=Button(                                    # CrÃ©ation bouton connection
             text="Selection Projet",
             bg="#4C9689",                                             # Couleur bouton [cyan]
             relief = "raised",
             font = ("Courier New", 12, "bold"),
             fg = "#dbdbdb",command=self.requeteProjet)
         
-        btnCreation=Button(                                       # Création bouton connection
+        btnCreation=Button(                                       # CrÃ©ation bouton connection
             text="Creer un projet",
             bg="#282E3F",                                        # Couleur bouton [cyan]
             relief = "flat",
@@ -130,8 +130,8 @@ class Vue():
 #===============================================================================    
     
     def creerProjet(self):
-        if self.validerInformationsCreationProjet(): #Si les champs ont été remplis
-            self.parent.creerSiDisponibles(self.nomProjet, self.description, self.nomOrganisation)#Envoie à  client_main
+        if self.validerInformationsCreationProjet(): #Si les champs ont Ã©tÃ© remplis
+            self.parent.creerSiDisponibles(self.nomProjet, self.description, self.nomOrganisation)#Envoie Ã Â  client_main
  
 #===============================================================================
 #     Description: Temporaire fenetre pop pour creer projet
@@ -180,7 +180,7 @@ class Vue():
         self.compteur = 0
         self.compteurY = 50
         
-        #usager, mot de passe, confirmation, email, question de sécurité, réponse sécurité, btnOk
+        #usager, mot de passe, confirmation, email, question de sÃ©curitÃ©, rÃ©ponse sÃ©curitÃ©, btnOk
         self.champnomProjet = Entry()
         self.champnomOrganisation = Entry()
         self.champdescription = Entry()
@@ -237,7 +237,7 @@ class Vue():
                     pass
     
 #===============================================================================
-#     Description: change le cadre et insère la liste des projets associés au membre dans la fenêtre de sélection d'un projet
+#     Description: change le cadre et insÃ¨re la liste des projets associÃ©s au membre dans la fenÃªtre de sÃ©lection d'un projet
 #     Creator: Guillaume Geoffroy
 #     Last modified: 2018/11/04 - 12h30
 #===============================================================================    
@@ -251,8 +251,8 @@ class Vue():
 
 #===============================================================================
 #     Description: Change le frame actif. Efface le frame actuel et le remplace
-#                  par le frame passÃ© en paramÃ¨tre.
-#     Creator: Julien DesgagnÃ©
+#                  par le frame passÃƒÂ© en paramÃƒÂ¨tre.
+#     Creator: Julien DesgagnÃƒÂ©
 #     Last modified: 2018/10/22 - 21h48 
 #===============================================================================
 
@@ -266,10 +266,10 @@ class Vue():
             self.cadreactif.pack()
 
 #===============================================================================
-#     Description: Affiche la liste des modules prÃ©sent dans le dossier du projet.
-#                  Cette fonction est appelÃ© dans le controlleur par la fontion
+#     Description: Affiche la liste des modules prÃƒÂ©sent dans le dossier du projet.
+#                  Cette fonction est appelÃƒÂ© dans le controlleur par la fontion
 #                  loginclient().
-#     Creator: Julien DesgagnÃ©
+#     Creator: Julien DesgagnÃƒÂ©
 #     Last modified: 2018/10/22 - 21h40 
 #===============================================================================
 
@@ -279,8 +279,8 @@ class Vue():
         self.changecadre(self.frameAccueil)
 
 #===============================================================================
-#     Description: CrÃ©er les diffÃ©rents frames utilisÃ©s dans le projet 
-#     Creator: Julien DesgagnÃ©
+#     Description: CrÃƒÂ©er les diffÃƒÂ©rents frames utilisÃƒÂ©s dans le projet 
+#     Creator: Julien DesgagnÃƒÂ©
 #     Last modified: 2018/10/22 - 21h40 
 #===============================================================================
         
@@ -291,13 +291,13 @@ class Vue():
         self.creerFrameSelectProjet()
 
 #===============================================================================
-#     Description: Cr�ation du frame de login pour l'usager
-#     Creator: Julien DesgagnÃ©
+#     Description: Création du frame de login pour l'usager
+#     Creator: Julien DesgagnÃƒÂ©
 #     Last modified: 2018/11/05 - 8h00
 #===============================================================================
 
     def creerFrameLogin(self):
-        self.frameLogin = Frame(self.root)                          # CrÃ©ation frameLogin
+        self.frameLogin = Frame(self.root)                          # CrÃƒÂ©ation frameLogin
         self.canevasLogin=Canvas(                                 # Ajout d'un canvas de le frame
             self.frameLogin,
             width=600,
@@ -313,14 +313,14 @@ class Vue():
         self.canevasLogin.create_image (                        # Dessiner logo sur le canevas
             x, y, image = self.img_logo2)
         self.canevasLogin.pack()
-        self.nomsplash=Entry(                                     # Champs entrÃ© no.1
+        self.nomsplash=Entry(                                     # Champs entrÃƒÂ© no.1
             bg="#4C9689",                                         # Couleur de fond [cyan]
             relief = "sunken",
             font = ("Courier New", 12, "bold"),
             fg = "#dbdbdb",justify='center')                    # Couleur de texte [blanc]
         
 
-        self.loginMDP=Entry(                                    # Champs entrÃ© no.2
+        self.loginMDP=Entry(                                    # Champs entrÃƒÂ© no.2
             bg="#4C9689",                                         # Couleur de fond [cyan]
             relief = "sunken",
             show = '*',
@@ -340,14 +340,14 @@ class Vue():
         #################################
         
                     # Placeholder password
-        btnConnecter=Button(                                    # CrÃ©ation bouton connection
+        btnConnecter=Button(                                    # CrÃƒÂ©ation bouton connection
             text="Connecter au serveur",
             bg="#4C9689",                                             # Couleur bouton [cyan]
             relief = "raised",
             font = ("Courier New", 12, "bold"),
             fg = "#dbdbdb",command=self.loginclient)            # Couleur de texte [blanc]
             
-        btnInscription=Button(                                        # CrÃ©ation bouton connection
+        btnInscription=Button(                                        # CrÃƒÂ©ation bouton connection
             text="S'inscrire",
             bg="#282E3F",                                         # Couleur bouton [cyan]
             relief = "flat",
@@ -399,7 +399,7 @@ class Vue():
 
 #===============================================================================
 #     Description: 
-#     Creator: Julien DesgagnÃ©
+#     Creator: Julien DesgagnÃƒÂ©
 #     Last modified: 2018/11/05 - 7h25 
 #===============================================================================
 
@@ -441,7 +441,7 @@ class Vue():
         self.frameSignIn.bind('<ButtonPress-1>', self.startMoveWindow)
         self.frameSignIn.bind('<B1-Motion>', self.MoveWindow)
 
-        #usager, mot de passe, confirmation, email, question de sÃ©curitÃ©, rÃ©ponse sÃ©curitÃ©, btnOk
+        #usager, mot de passe, confirmation, email, question de sÃƒÂ©curitÃƒÂ©, rÃƒÂ©ponse sÃƒÂ©curitÃƒÂ©, btnOk
         self.compteur = 0
         self.compteurY = 50
 
@@ -483,13 +483,13 @@ class Vue():
             self.compteurY += 43
             
         self.erreurIDInvalide = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Veuillez vous choisir un identifiant.")
-        self.erreurIDDejaUtilise = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Cet identifiant existe dÃ©jÃ , veuillez en choisir un autre")
-        self.erreurPWDifferents = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Les passwords entres sont diffÃ©rents.")
+        self.erreurIDDejaUtilise = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Cet identifiant existe dÃƒÂ©jÃƒÂ , veuillez en choisir un autre")
+        self.erreurPWDifferents = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Les passwords entres sont diffÃƒÂ©rents.")
         self.erreurCourrielInvalide = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Veuillez saisir un courriel valide.")
-        self.erreurCourrielDejaUtilise = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Cet courriel existe dÃ©jÃ , veuillez en choisir un autre")
+        self.erreurCourrielDejaUtilise = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Cet courriel existe dÃƒÂ©jÃƒÂ , veuillez en choisir un autre")
         self.erreurMPInvalide = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Veuillez saisir un mot de passe.")
-        self.erreurQSInvalide = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Veuillez saisir une question de sÃ©curitÃ©.")
-        self.erreurRSInvalide = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Veuillez saisir une rÃ©ponse a la question de sÃ©curitÃ©.")
+        self.erreurQSInvalide = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Veuillez saisir une question de sÃƒÂ©curitÃƒÂ©.")
+        self.erreurRSInvalide = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Veuillez saisir une rÃƒÂ©ponse a la question de sÃƒÂ©curitÃƒÂ©.")
         self.erreurAutre = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="")
     
     def construitEntry(self, entry, champsTexte, v):
@@ -534,7 +534,7 @@ class Vue():
 
 #===============================================================================
 #     Description: 
-#     Creator: Julien DesgagnÃ©
+#     Creator: Julien DesgagnÃƒÂ©
 #     Last modified: 2018/10/23 - 9h15 
 #===============================================================================
     
@@ -687,15 +687,19 @@ class Vue():
             self.nom1=self.nom1[2:-3]
             self.parent.selectionProjet(self.nom1)
           
-        listeOptions = self.parent.selectProjetDuMembre()
-        #for n in listeOptions:
-        #    for i in n:
-        #        listeOptions.append(i)
-            
+        self.listeOptions=list()
+        tata = self.parent.selectProjetDuMembre()
+        for k in tata:
+            for g in k:
+                self.listeOptions.append(g)
+        
+        #print (self.listeOptions
         self.v = StringVar()
-        self.v.set(self.parent.getNomProjet())
+        x=self.parent.getNomProjet()
+        x=x[0]
+        self.v.set(x)
         self.v.trace("w", changerProjet)
-        self.om = OptionMenu(self.canevasInfo,  self.v, *listeOptions)
+        self.om = OptionMenu(self.canevasInfo,  self.v, *self.listeOptions)
         self.om.config(font=('calibri',(12)),bg="#4C9689",width=14)
         
         self.canevasInfo.create_window(870, 102, window = self.om)
@@ -717,7 +721,7 @@ class Vue():
             font = ("Courier New", 12, "bold"),
             fg = "#dbdbdb",justify='center')
         
-        self.btnAjouterMembre = Button(                                       # Création bouton connection
+        self.btnAjouterMembre = Button(                                       # CrÃ©ation bouton connection
                                         text="+",
                                         bg="#282E3F",                                        # Couleur bouton [cyan]
                                         relief = "flat",
@@ -791,7 +795,7 @@ class Vue():
         self.txtTeam.config(state=DISABLED)
       
 #===============================================================================
-#     Description: update listBox liste membre �cran infoProjet
+#     Description: update listBox liste membre ï¿½cran infoProjet
 #     Creator: GuillaumeGeoffroy
 #     Last modified: 2018/11/28 - 19h00 
 #===============================================================================
@@ -840,9 +844,9 @@ class Vue():
         identifiant=self.nomsplash.get() # noter notre identifiant
         motDePasse = self.loginMDP.get() #Lit le mot de passe
 
-        connexionValide = True #VÃ©rifier si les champs sont remplis
+        connexionValide = True #VÃƒÂ©rifier si les champs sont remplis
         '''Tous les print() qui suivent devrait etre changes pour des Label+createwindow
-            Ã  cote/sous le champ correspondant dans le UI'''
+            ÃƒÂ  cote/sous le champ correspondant dans le UI'''
 
         if not identifiant:
             print("Veuillez entrer un identifiant")
@@ -854,9 +858,9 @@ class Vue():
             self.parent.loginclient(ipserveur,identifiant, motDePasse)
 
     def inscrireClient(self):
-        if self.validerInformations(): #Si les champs ont Ã©tÃ© remplis
+        if self.validerInformations(): #Si les champs ont ÃƒÂ©tÃƒÂ© remplis
             ipserveur=self.ipsplash.get() # lire le IP dans le champ du layout
-            self.parent.inscrireSiDisponibles(ipserveur, self.identifiant, self.courriel, self.mp1,self.questionSecu,self.reponseSecu )#Envoie Ã  client_main
+            self.parent.inscrireSiDisponibles(ipserveur, self.identifiant, self.courriel, self.mp1,self.questionSecu,self.reponseSecu )#Envoie ÃƒÂ  client_main
 
 #===============================================================================
 #     Description: intake outake ajout membre -} a alleger
@@ -878,12 +882,12 @@ class Vue():
 ##
             
     def afficherInscriptionAchevee(self, identifiant, motDePasse):
-        self.frameSignIn.destroy() #Faudrait mettre Ã§a dans le serveur parce que l'inscription n'est peut-Ãªtre pas
+        self.frameSignIn.destroy() #Faudrait mettre ÃƒÂ§a dans le serveur parce que l'inscription n'est peut-ÃƒÂªtre pas
         self.loginMDP.delete(0, END)
         self.loginMDP.insert(END, motDePasse)
         self.nomsplash.delete(0, END)
         self.nomsplash.insert(END, identifiant)
-        self.labelInscrit = Label(self.canevasLogin, text="Vous Ãªtes inscrit!", fg= 'green', bg="#282E3F", font =("Times New Roman", 16) )
+        self.labelInscrit = Label(self.canevasLogin, text="Vous ÃƒÂªtes inscrit!", fg= 'green', bg="#282E3F", font =("Times New Roman", 16) )
 
         self.canevasLogin.create_window(                        # Dessiner bouton connecter sur canevas
             300,380,window=self.labelInscrit)
@@ -929,7 +933,7 @@ class Vue():
             self.erreurIDInvalide.place(x=50, y=85)
         
         if self.mp1 != self.mp2:
-            #print("Les passwords entres sont differents")#Changer ces print pour des Label qui s'affichent Ã  cÃ´tÃ©/sous les champs
+            #print("Les passwords entres sont differents")#Changer ces print pour des Label qui s'affichent ÃƒÂ  cÃƒÂ´tÃƒÂ©/sous les champs
             infosValides = False
             self.erreurPWDifferents.place(x=50, y=130)
 
