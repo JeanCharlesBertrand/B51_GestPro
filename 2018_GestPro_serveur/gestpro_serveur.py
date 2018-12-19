@@ -378,22 +378,20 @@ class ControleurServeur(object):
 #    Last modified: 2018/12/19 - 10h30
 #===============================================================================
 
-    def insertIntoPlanif(self, list, idProjet):
+    def insertIntoPlanif(self, idProjet, list):
+        dbUtilisateurs.c.execute('DELETE FROM planif WHERE id_projet = ?', (idProjet,))
+        dbUtilisateurs.conn.commit()
+        self.resetCurseur()
+        c=0
         for i in list:
-            dbUtilisateurs.c.execute('UPDATE planif SET ordre = ?, WHERE id_projet = ? AND nom = ?', (list[0], idProjet, list[1],))
-            self.resetCurseur()
+            dbUtilisateurs.c.execute('INSERT INTO planif (id_projet, nom) VALUES (?, ?)', (idProjet, list[c]))
             dbUtilisateurs.conn.commit()
-            ok = dbUtilisateurs.c.execute('SELECT * FROM planif WHERE id_projet = ? and nom = ?', (idProjet,list[1],))
-            rows = ok.fetchone()
-            self.resetCurseur()
-            if rows is None:
-                dbUtilisateurs.c.execute('INSERT INTO planif(id_projet, ordre, nom) VALUES (?, ?, ?)', (idProjet, list[0],list[1]) )
-                dbUtilisateurs.conn.commit()
-                self.resetCurseur()    
-                
+            self.resetCurseur()  
+            c+=1  
+
     def selectFromPlanif(self, id):
-        curseurListe = dbUtilisateurs.c.execute('SELECT * FROM planif WHERE id_projet = ?', (id,))
-        liste = curseurListe.fetchone()
+        curseurListe = dbUtilisateurs.c.execute('SELECT nom FROM planif WHERE id_projet = ?', (id,))
+        liste = curseurListe.fetchall()
         self.resetCurseur()
         return liste 
 
@@ -430,17 +428,6 @@ class ControleurServeur(object):
             return liste
         except Exception as e:
             print(str(e))
-
-    def deleteFromCRC(self,idProjet,idFiche,classe,proprietaire,collaboration,responsabilites,parametres):
-        try:
-            test = dbUtilisateurs.c.execute('DELETE FROM crc WHERE id_projet = ? AND id_fiche = ? AND classe = ?', (idProjet,idFiche,classe))
-            crcrows = test.fetchone()
-            self.resetCurseur()
-            dbUtilisateurs.conn.commit()
-                
-        except Exception as e:
-                print(str(e))
-
 
 #===============================================================================
 
