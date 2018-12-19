@@ -12,12 +12,14 @@ class DbUtilisateurs:
 		self.creationChat()
 		self.creationMandat()
 		self.creationAnalyseTextuelle()
-		self.creationScenario
-		self.creationCasUsage()
-		self.creationLiaisonCasLigne()
+		self.creationScenario()
+       		self.creationCasUsage()
+        	self.creationLigneCasUsage()
 		self.creationCRC()
 		self.creationBlocTemps()
 		self.creationModelisation()
+		self.creationplanif()
+
 
 	def creationInscription(self):
 		self.c.execute(''' CREATE TABLE IF NOT EXISTS utilisateurs(
@@ -118,60 +120,40 @@ class DbUtilisateurs:
 														) ''')
 		
 	def creationScenario(self):
-		self.c.execute('''CREATE TABLE IF NOT EXISTS scenario(
-				id				INTEGER		PRIMARY KEY AUTOINCREMENT,
-				id_projet		INTEGER		NOT NULL,
-				id_cas			INTEGER,
-				
-				CONSTRAINT fk_sceanrio_projet	FOREIGN KEY (id_projet) REFERENCES projet(id)
-				CONSTRAINT fk_scenario_cas		FOREIGN KEY (id_cas) REFERENCES cas_usage(id)
-														) ''')
-	
+        	self.c.execute('''CREATE TABLE IF NOT EXISTS scenario(
+                	id                    INTEGER        PRIMARY KEY AUTOINCREMENT,
+                	id_projet             INTEGER         NOT NULL,
+                	id_cas                INTEGER         NOT NULL,
+                	utilisateur           TEXT            NOT NULL,
+                	ordinateur            TEXT            NOT NULL,
+                	autre                 TEXT            NOT NULL,
+               
+                	CONSTRAINT fk_sceanrio_projet    FOREIGN KEY (id_projet) REFERENCES projet(id)
+                	CONSTRAINT fk_scenario_cas       FOREIGN KEY (id_cas) REFERENCES cas_usage(id)
+                                                        	) ''')
+    
 
-	def creationCasUsage(self):
-		self.c.execute('''CREATE TABLE IF NOT EXISTS cas_usage(
-				id					INTEGER		PRIMARY KEY AUTOINCREMENT,
-				description			TEXT,
-				id_liste_lignes		INTEGER,
-				
-				CONSTRAINT fk_casusage_ligne	FOREIGN KEY (id_liste_lignes) REFERENCES liaison_cas_ligne(id)
-														) ''')
-		
-	def creationLiaisonCasLigne(self):
-		self.c.execute('''CREATE TABLE IF NOT EXISTS liaison_cas_ligne(
-				id					INTEGER		PRIMARY KEY AUTOINCREMENT,
-				id_cas				INTEGER,
-				id_ligne			INTEGER,
-				
-				CONSTRAINT fk_casusage_scenario	FOREIGN KEY (id_cas) REFERENCES cas_usage(id)
-				CONSTRAINT fk_casusage_ligne	FOREIGN KEY (id_ligne) REFERENCES ligne_cas(id)
-														) ''')
-			
-				
-	def creationLigneCasUsage(self):
-		self.c.execute('''CREATE TABLE IF NOT EXISTS ligne_cas(
-				id						INTEGER		PRIMARY KEY AUTOINCREMENT,
-				id_lisaison_cas_ligne	INTEGER,
-				type					TEXT,
-				description				TEXT,
-				
-				CONSTRAINT fk_ligne				FOREIGN KEY (id_lisaison_cas_ligne) REFERENCES liaison_cas_ligne(id)
-														) ''')
-		
-	
-		
-	def creationScenarioUtilisation(self):
-		self.c.execute('''CREATE TABLE IF NOT EXISTS scenario_utilisation(	
-				id				INTEGER		PRIMARY KEY AUTOINCREMENT,
-				id_projet		INTEGER		NOT NULL,
-				id_cas_usage	INTEGER		NOT NULL,
-				fichUsage		TEXT,
-				fichOrdi		TEXT,
-				fichAutre		TEXT,
-				
-				CONSTRAINT fk_scenario_projet	FOREIGN KEY (id_projet) REFERENCES projet(id),
-				CONSTRAINT fk_scenario_casusage	FOREIGN KEY (id_cas_usage) REFERENCES cas_usage(id)
-														) ''')
+    	def creationCasUsage(self):
+        	self.c.execute('''CREATE TABLE IF NOT EXISTS cas_usage(
+                	id                    INTEGER        PRIMARY KEY AUTOINCREMENT,
+                	id_projet             INTEGER        NOT NULL,
+                	description           TEXT           NOT NULL,
+            
+                	CONSTRAINT fk_sceanrio_projet    FOREIGN KEY (id_projet) REFERENCES projet(id)
+
+                                                         ) ''')        
+                                                        
+    
+                
+    	def creationLigneCasUsage(self):
+        	self.c.execute('''CREATE TABLE IF NOT EXISTS ligne_cas(
+                	id                        INTEGER        PRIMARY KEY AUTOINCREMENT,
+                	id_cas                    INTEGER,
+                	type                      TEXT,
+                	description               TEXT,
+                
+                	CONSTRAINT fk_ligne                FOREIGN KEY (id_cas) REFERENCES cas_usage(id)
+                                                        ) ''')
 				
 	def creationCRC(self):
 		self.c.execute('''CREATE TABLE IF NOT EXISTS crc(	
@@ -188,7 +170,14 @@ class DbUtilisateurs:
 														) ''')
 			###CONSTRAINT fk_crc_utilisateur	FOREIGN KEY (id_utilisateur) REFERENCES utilisateurs(id)
 				
-				
+	def creationplanif(self):
+		self.c.execute('''CREATE TABLE IF NOT EXISTS planif(	
+				id				INTEGER			PRIMARY KEY AUTOINCREMENT,
+				id_projet		INTEGER			NOT NULL,
+				nom		   		INTEGER         NOT NULL,
+								
+				CONSTRAINT fk_crc_projet	FOREIGN KEY (id_projet) REFERENCES projet(id)				
+														) ''') 						
 				
 
 				
