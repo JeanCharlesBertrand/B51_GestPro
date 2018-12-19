@@ -30,6 +30,15 @@ class Vue():
         self.root.title("Omada")
         self.root.iconbitmap('image/tk_logo.ico')
         self.root.protocol("WM_DELETE_WINDOW", self.parent.fermefenetre)
+
+        self.couleur500 = "#344955"
+        self.couleur800 = ""
+        self.couleur300 = ""
+        self.couleurTexte1 = "#FFFFFF"
+        self.couleurTexte2 = "#000000"
+        self.couleurAccent = "#FAAB1A"
+        self.couleurSelection = "#FF4181"
+
         self.monip=monip
         self.modele=None
         self.nom=None
@@ -57,32 +66,32 @@ class Vue():
             self.frameSelectProjet,
             width=600,
             height=400,
-            bg="#282E3F")
+            bg=self.couleur500)
         self.canevasSelectProjet.pack()
 
         self.listeProjets=Listbox(
-            bg="#4C9689",                            #Bleu-gris
+            bg=self.couleurAccent,                            #Bleu-gris
             borderwidth=0,
             relief=FLAT,
             width=25,
             height=8,
-            fg = "#dbdbdb",                            #texte blanc
+            fg = self.couleurTexte1,                            #texte blanc
             font = ("Courier New", 12, "bold"),
-            highlightbackground= "#282E3F")
+            highlightbackground= self.couleur500)
         
         btnSelection=Button(                                    # CrÃ©ation bouton connection
             text="Selection Projet",
-            bg="#4C9689",                                             # Couleur bouton [cyan]
+            bg=self.couleurAccent,                                             # Couleur bouton [cyan]
             relief = "raised",
             font = ("Courier New", 12, "bold"),
-            fg = "#dbdbdb",command=self.requeteProjet)
+            fg = self.couleurTexte1,command=self.requeteProjet)
         
         btnCreation=Button(                                       # CrÃ©ation bouton connection
             text="Creer un projet",
-            bg="#282E3F",                                        # Couleur bouton [cyan]
+            bg=self.couleur500,                                        # Couleur bouton [cyan]
             relief = "flat",
             font = ("Courier New", 12, "bold"),
-            fg = "#dbdbdb",command=self.frameQuiBougeCreationProjet)           # Couleur de texte [blanc]
+            fg = self.couleurTexte1,command=self.frameQuiBougeCreationProjet)           # Couleur de texte [blanc]
         
         self.canevasSelectProjet.create_window(
             300,
@@ -131,7 +140,10 @@ class Vue():
     
     def creerProjet(self):
         if self.validerInformationsCreationProjet(): #Si les champs ont Ã©tÃ© remplis
-            self.parent.creerSiDisponibles(self.nomProjet, self.description, self.nomOrganisation)#Envoie Ã Â  client_main
+            if(self.cadreactif==self.frameAccueil):
+                self.parent.creerSiDisponibles(self.nomProjet, self.description, self.nomOrganisation, TRUE)#Envoie Ã Â  client_main
+            else:
+                self.parent.creerSiDisponibles(self.nomProjet, self.description, self.nomOrganisation, FALSE)
  
 #===============================================================================
 #     Description: Temporaire fenetre pop pour creer projet
@@ -146,7 +158,7 @@ class Vue():
             self.root, 
             bd=1, 
             relief=RIDGE,
-            bg="#282E3F")
+            bg=self.couleur500)
         self.frameCreateProject.place(
             x=self.__winX, 
             y=20, 
@@ -157,18 +169,18 @@ class Vue():
             self.frameCreateProject, 
             bd=1, 
             relief=RIDGE, 
-            text="Creation du projet",fg="#4C9689",
+            text="Creation du projet",fg=self.couleurAccent,
             font = ("Courier New", 12, "bold"),
-            bg="#282E3F")
+            bg=self.couleur500)
         self.labelCreateProject.pack(fill=X, padx=1, pady=1)
         
         self.canevasCreation = Canvas(
             self.frameCreateProject, 
             width=300,
             height=360,
-            bg="#282E3F", 
+            bg=self.couleur500, 
             bd=0, 
-            highlightbackground ="#282E3F")
+            highlightbackground =self.couleur500)
         self.canevasCreation.pack(fill=X, padx=1, pady=1)
         
         ## When the button is pressed, make sure we get the first coordinates
@@ -187,13 +199,13 @@ class Vue():
         
         btnConfirmerCreation = Button(
             text="Creer",
-            bg="#282E3F",
-            fg = "#dbdbdb",                            #texte blanc
+            bg=self.couleur500,
+            fg = self.couleurTexte1,                            #texte blanc
             justify='right',
             font = ("Courier New", 12, "bold"),
             relief="flat",
             overrelief = "raised",
-            activebackground = "#4C9689",
+            activebackground = self.couleurAccent,
             command=self.creerProjet)
         
         self.canevasCreation.create_window(                           
@@ -302,7 +314,7 @@ class Vue():
             self.frameLogin,
             width=600,
             height=400,
-            bg="#282E3F")                                         # Couleur de fond [Bleu-gris]
+            bg=self.couleur500)                                         # Couleur de fond [Bleu-gris]
         self.img_logo2 = PhotoImage (file = "image/logo3.png")      # Importer image logo
         x = 300                                                       # Position x,y de l'image sur canevas
         y = 100 
@@ -314,27 +326,27 @@ class Vue():
             x, y, image = self.img_logo2)
         self.canevasLogin.pack()
         self.nomsplash=Entry(                                     # Champs entrÃƒÂ© no.1
-            bg="#4C9689",                                         # Couleur de fond [cyan]
+            bg=self.couleurAccent,                                         # Couleur de fond [cyan]
             relief = "sunken",
             font = ("Courier New", 12, "bold"),
-            fg = "#dbdbdb",justify='center')                    # Couleur de texte [blanc]
+            fg = self.couleurTexte1,justify='center')                    # Couleur de texte [blanc]
         
 
         self.loginMDP=Entry(                                    # Champs entrÃƒÂ© no.2
-            bg="#4C9689",                                         # Couleur de fond [cyan]
+            bg=self.couleurAccent,                                         # Couleur de fond [cyan]
             relief = "sunken",
             show = '*',
             font = ("Courier New", 12, "bold"),
-            fg = "#dbdbdb",justify='center')                    # Couleur de texte [blanc]
+            fg = self.couleurTexte1,justify='center')                    # Couleur de texte [blanc]
             #show="*")                                              # Remplace le texte par des '*'
 
         #################################
         #Rajouter ip ici
         self.ipsplash=Entry(
-            bg="#4C9689",
+            bg=self.couleurAccent,
             relief = "sunken",
             font = ("Courier New", 12, "bold"),
-            fg = "#dbdbdb",justify='center')
+            fg = self.couleurTexte1,justify='center')
         
         #self.ipsplash.insert(0, self.monip)
         #################################
@@ -342,17 +354,17 @@ class Vue():
                     # Placeholder password
         btnConnecter=Button(                                    # CrÃƒÂ©ation bouton connection
             text="Connecter au serveur",
-            bg="#4C9689",                                             # Couleur bouton [cyan]
+            bg=self.couleurAccent,                                             # Couleur bouton [cyan]
             relief = "raised",
             font = ("Courier New", 12, "bold"),
-            fg = "#dbdbdb",command=self.loginclient)            # Couleur de texte [blanc]
+            fg = self.couleurTexte1,command=self.loginclient)            # Couleur de texte [blanc]
             
         btnInscription=Button(                                        # CrÃƒÂ©ation bouton connection
             text="S'inscrire",
-            bg="#282E3F",                                         # Couleur bouton [cyan]
+            bg=self.couleur500,                                         # Couleur bouton [cyan]
             relief = "flat",
             font = ("Courier New", 12, "bold"),
-            fg = "#dbdbdb",command=self.frameQuiBouge)               # Couleur de texte [blanc]
+            fg = self.couleurTexte1,command=self.frameQuiBouge)               # Couleur de texte [blanc]
         self.canevasLogin.create_window(                        # Dessiner bouton connecter sur canevas
             300,300,window=btnConnecter,width=250,height=40)
         self.canevasLogin.create_window(                        # Dessiner bouton connecter sur canevas
@@ -377,10 +389,10 @@ class Vue():
         self.entry2.bind('<FocusIn>',lambda event: self.on_entry_click2(event,entry2,champsText2))
         self.entry2.bind('<FocusOut>',lambda event: self.on_focusout2(event,entry2,champsText2))
         self.entry2.config(                                        
-            bg="#4C9689",                                         
+            bg=self.couleurAccent,                                         
             relief = "sunken",
             font = ("Courier New", 12, "bold"),
-            fg = "#dbdbdb",justify='center')
+            fg = self.couleurTexte1,justify='center')
 
         self.canevasLogin.create_window(                        
             300,self.compteurLoginY,window=self.entry2,width=250,height=25)
@@ -410,7 +422,7 @@ class Vue():
             self.root, 
             bd=1, 
             relief=RIDGE,
-            bg="#282E3F")
+            bg=self.couleur500)
         self.frameSignIn.place(
             x=self.__winX, 
             y=20, 
@@ -421,18 +433,18 @@ class Vue():
             self.frameSignIn, 
             bd=1, 
             relief=RIDGE, 
-            text="Inscription",fg="#4C9689",
+            text="Inscription",fg=self.couleurAccent,
             font = ("Courier New", 12, "bold"),
-            bg="#282E3F")
+            bg=self.couleur500)
         self.labelSignIn.pack(fill=X, padx=1, pady=1)
         
         self.canevasSignIn = Canvas(
             self.frameSignIn, 
             width=300,
             height=360,
-            bg="#282E3F", 
+            bg=self.couleur500, 
             bd=0, 
-            highlightbackground ="#282E3F")
+            highlightbackground =self.couleur500)
         self.canevasSignIn.pack(fill=X, padx=1, pady=1)
         
         ## When the button is pressed, make sure we get the first coordinates
@@ -453,13 +465,13 @@ class Vue():
         self.reponseQuestion = Entry()
         self.btnConfirmerInscription = Button(
             text="S'inscrire",
-            bg="#282E3F",
-            fg = "#dbdbdb",                               #texte blanc
+            bg=self.couleur500,
+            fg = self.couleurTexte1,                               #texte blanc
             justify='right',
             font = ("Courier New", 12, "bold"),
             relief="flat",
             overrelief = "raised",
-            activebackground = "#4C9689",
+            activebackground = self.couleurAccent,
             command=self.inscrireClient)
 
         self.canevasSignIn.create_window(                          
@@ -482,25 +494,25 @@ class Vue():
             self.compteur += 1
             self.compteurY += 43
             
-        self.erreurIDInvalide = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Veuillez vous choisir un identifiant.")
-        self.erreurIDDejaUtilise = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Cet identifiant existe dÃƒÂ©jÃƒÂ , veuillez en choisir un autre")
-        self.erreurPWDifferents = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Les passwords entres sont diffÃƒÂ©rents.")
-        self.erreurCourrielInvalide = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Veuillez saisir un courriel valide.")
-        self.erreurCourrielDejaUtilise = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Cet courriel existe dÃƒÂ©jÃƒÂ , veuillez en choisir un autre")
-        self.erreurMPInvalide = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Veuillez saisir un mot de passe.")
-        self.erreurQSInvalide = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Veuillez saisir une question de sÃƒÂ©curitÃƒÂ©.")
-        self.erreurRSInvalide = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="Veuillez saisir une rÃƒÂ©ponse a la question de sÃƒÂ©curitÃƒÂ©.")
-        self.erreurAutre = Label(self.frameSignIn, fg="red", bg="#282E3F", height=1, text="")
+        self.erreurIDInvalide = Label(self.frameSignIn, fg="red", bg=self.couleur500, height=1, text="Veuillez vous choisir un identifiant.")
+        self.erreurIDDejaUtilise = Label(self.frameSignIn, fg="red", bg=self.couleur500, height=1, text="Cet identifiant existe dÃƒÂ©jÃƒÂ , veuillez en choisir un autre")
+        self.erreurPWDifferents = Label(self.frameSignIn, fg="red", bg=self.couleur500, height=1, text="Les passwords entres sont diffÃƒÂ©rents.")
+        self.erreurCourrielInvalide = Label(self.frameSignIn, fg="red", bg=self.couleur500, height=1, text="Veuillez saisir un courriel valide.")
+        self.erreurCourrielDejaUtilise = Label(self.frameSignIn, fg="red", bg=self.couleur500, height=1, text="Cet courriel existe dÃƒÂ©jÃƒÂ , veuillez en choisir un autre")
+        self.erreurMPInvalide = Label(self.frameSignIn, fg="red", bg=self.couleur500, height=1, text="Veuillez saisir un mot de passe.")
+        self.erreurQSInvalide = Label(self.frameSignIn, fg="red", bg=self.couleur500, height=1, text="Veuillez saisir une question de sÃƒÂ©curitÃƒÂ©.")
+        self.erreurRSInvalide = Label(self.frameSignIn, fg="red", bg=self.couleur500, height=1, text="Veuillez saisir une rÃƒÂ©ponse a la question de sÃƒÂ©curitÃƒÂ©.")
+        self.erreurAutre = Label(self.frameSignIn, fg="red", bg=self.couleur500, height=1, text="")
     
     def construitEntry(self, entry, champsTexte, v):
         self.entry.insert(0, champsTexte)
         self.entry.bind('<FocusIn>',lambda event: self.on_entry_click(event,entry,champsTexte))
         self.entry.bind('<FocusOut>',lambda event: self.on_focusout(event,entry,champsTexte))
         self.entry.config(
-            bg="#4C9689",                                         # Couleur de fond [cyan]
+            bg=self.couleurAccent,                                         # Couleur de fond [cyan]
             relief = "sunken",
             font = ("Courier New", 12, "bold"),
-            fg = "#dbdbdb",justify='center')
+            fg = self.couleurTexte1,justify='center')
 
         if v==1:
             self.canevasSignIn.create_window(                          
@@ -541,12 +553,12 @@ class Vue():
     
     def creerFrameAccueil(self):
         self.frameAccueil = Frame(self.root)
-        self.frameModule = Frame(self.frameAccueil,bg="#282E3F", width = 200, height = 800)
-        self.frameInfo = Frame(self.frameAccueil,bg="#282E3F", width = 998, height = 800)
+        self.frameModule = Frame(self.frameAccueil,bg=self.couleur500, width = 200, height = 800)
+        self.frameInfo = Frame(self.frameAccueil,bg=self.couleur500, width = 998, height = 800)
         self.frameBorder = Frame(self.frameAccueil,bg = "black", width = 2, height = 800)
-        #self.canevasModule = Canvas(self.frameModule,bg="#282E3F",bd=0, highlightthickness=0, width = 200, height = 800)
+        #self.canevasModule = Canvas(self.frameModule,bg=self.couleur500,bd=0, highlightthickness=0, width = 200, height = 800)
         #self.canevasModule.grid(row = 0, column = 0, sticky = "nsew")
-        #self.canevasInfo = Canvas(self.frameInfo, bg="#282E3F",bd=0, highlightthickness=0, width = 998, height = 800)
+        #self.canevasInfo = Canvas(self.frameInfo, bg=self.couleur500,bd=0, highlightthickness=0, width = 998, height = 800)
 
         self.frameModule.grid(row = 0, column = 1, sticky = "nse")
         self.frameBorder.grid(row = 0, column =2, sticky = "ns")
@@ -558,116 +570,160 @@ class Vue():
         #self.creerBoutonFrameModule()
     
     def creerBoutonFrameModule(self):       
-        self.canevasModule = Canvas(self.frameModule,bg="#282E3F",bd=0, highlightthickness=0, width = 200, height = 800)
+        self.canevasModule = Canvas(self.frameModule,bg=self.couleur500,bd=0, highlightthickness=0, width = 200, height = 800)
         self.canevasModule.grid(row = 0, column = 0, sticky = "nsew")
         
-        y=105
+        y=70
         cles=[*self.parent.getModulesDisponibles()]
         
         for cle in cles:
             btnX = Button(text=cle,
-                          bg="#282E3F",
-                          fg = "#dbdbdb",                            
+                          bg=self.couleur500,
+                          fg = self.couleurTexte1,                            
                           font = ("Arial", 15),
                           relief="flat",
-                          activebackground = "#4C9689", 
+                          activebackground = self.couleurAccent, 
                           width = 15, 
                           anchor = W)
         
             btnX.bind("<ButtonRelease-1>", self.requeteModule)
-            self.canevasModule.create_window(105, y, window=btnX,width=130,height=30)
-            y+=(200)/len(cles)
+            self.canevasModule.create_window(100, y, window=btnX,width=130,height=30)
+            y+=30
             
-        #self.btnAnalyseTxt      = Button(text = "     Analyse textuelle", command = self.requeteAnalyse)
-        #self.btnCasUsage        = Button(text = "     Cas d'usage", command = self.requeteCasUsages)
-        #self.btnScenario        = Button(text = "     Scenario")
-        #self.btnMaquette        = Button(text = "     Maquette", command = self.requeteMaquette)
-        #self.btnCRC             = Button(text = "     CRC", command = self.requeteCrc)
-        #self.btnDonnee          = Button(text = "     Donnee", command = self.requeteModelisation)
-        #self.btnCreationSprint  = Button(text = "     Creation sprint")
-        #self.btnScrum           = Button(text = "     Scrum(s)")
-        #self.btnProbleme        = Button(text = "     Probleme")
-        #self.btnDebriefing      = Button(text = "     Debriefing")
-        #self.btnCalendrier      = Button(text = "     Debriefing")
-        #self.btnStats           = Button(text = "     Statistique")
-        self.btnPlanif          = Button(text = "       Planification", bg="#282E3F",
-            fg = "#4C9689",                            
-            justify='left',
-            font = ("Arial", 16),
-            relief="flat",
-            activebackground = "#4C9689", 
-            width = 15,
-            anchor = W)
-        #self.btnImplementation  = Button(text = "     Implementation")
-        #self.btnSyntheseStats   = Button(text = "     Synthese et stats")
-        #self.btnChat            = Button(text = "     Chat")
+        self.btnCreationSprint  = Button(text = "     Creation sprint", command = self.utilisezCreationSprint)
+        self.btnScrum           = Button(text = "     Scrum(s)", command = self.utilisezScrum)
+        self.btnProbleme        = Button(text = "     Problème", command = self.utilisezProbleme)
+        self.btnDebriefing      = Button(text = "     Debriefing", command = self.utilisezDebriefing)
+        self.btnCalendrier      = Button(text = "     Calendrier", command = self.utilisezCalendrier)
+        self.btnStats           = Button(text = "     Statistique", command = self.utilisezStatistique)
+        self.btnPlanif          = Button(text = " Planification", command = self.utilisezPlanif)
+        self.btnImplementation  = Button(text = " Implementation", command = self.utilisezImple)
+        self.btnSyntheseStats   = Button(text = " Synthese et stats", command = self.utilisezSynthese)
+        self.btnChat            = Button(text = " Chat", command = self.utilisezChat)
+        self.btnQuitter         = Button(text = " Quitter", command = self.utilisezQuitter)
         
-        self.btnQuitter = Button(text = "          Quitter", bg="#282E3F",
-            fg = "#4C9689",                            
-            justify='left',
-            font = ("Arial", 16),
-            relief="flat",
-            activebackground = "#4C9689", 
-            width = 15,
-            anchor = W)
-        
-        self.lblVersion = Label(bd=1, text="Version 1.0",fg="#4C9689",font = ("Arial", 10),bg="#282E3F")
+        self.lblVersion = Label(bd=1, text="Version Alpha 1.92",fg=self.couleurAccent,font = ("Arial", 10),bg=self.couleur500)
 
-        #self.listeModule = [self.btnAnalyseTxt, self.btnCasUsage, self.btnScenario, self.btnMaquette, 
-                            #self.btnCRC, self.btnDonnee,self.btnCreationSprint,self.btnScrum,self.btnProbleme,
-                            #self.btnDebriefing,self.btnCalendrier,self.btnStats]
+        self.listeModule = [self.btnCreationSprint,self.btnScrum,self.btnProbleme,
+                            self.btnDebriefing,self.btnCalendrier,self.btnStats]
 
-        #self.listeEtapeProjet = [self.btnPlanif, self.btnImplementation, self.btnSyntheseStats, self.btnChat, self.btnQuitter]
+        self.listeEtapeProjet = [self.btnPlanif, self.btnImplementation, self.btnSyntheseStats, self.btnChat, self.btnQuitter]
 
-        #for self.etapeProjet in self.listeEtapeProjet:
-        #    self.creerBtnEtapeProjet(self.etapeProjet)
+        for self.etapeProjet in self.listeEtapeProjet:
+            self.creerBtnEtapeProjet(self.etapeProjet)
 
-       # for self.module in self.listeModule:
-       #     self.creerBtnModule(self.module)
+        for self.module in self.listeModule:
+            self.creerBtnModule(self.module)
 
-        #self.canevasModule.create_window(100,55, window=self.btnAnalyseTxt,width=200,height=30)
-        #self.canevasModule.create_window(100,85, window=self.btnCasUsage,width=200,height=30)
-        #self.canevasModule.create_window(100,115, window=self.btnScenario,width=200,height=30)
-        #self.canevasModule.create_window(100,145, window=self.btnMaquette,width=200,height=30)
-        #self.canevasModule.create_window(100,175, window=self.btnCRC,width=200,height=30)
-        #self.canevasModule.create_window(100,205, window=self.btnDonnee,width=200,height=30)
-        #self.canevasModule.create_window(100,280, window=self.btnCreationSprint,width=200,height=30)
-        #self.canevasModule.create_window(100,310, window=self.btnScrum,width=200,height=30)
-        #self.canevasModule.create_window(100,340, window=self.btnProbleme,width=200,height=30)
-        #self.canevasModule.create_window(100,370, window=self.btnDebriefing,width=200,height=30)
-        #self.canevasModule.create_window(100,435, window=self.btnCalendrier,width=200,height=30)
-        #self.canevasModule.create_window(100,465, window=self.btnStats,width=200,height=30)
-        self.canevasModule.create_window(160,790,window=self.lblVersion, width=75, height=30)
+        self.canevasModule.create_window(100,310, window=self.btnCreationSprint,width=200,height=30)
+        self.canevasModule.create_window(100,340, window=self.btnScrum,width=200,height=30)
+        self.canevasModule.create_window(100,370, window=self.btnProbleme,width=200,height=30)
+        self.canevasModule.create_window(100,400, window=self.btnDebriefing,width=200,height=30)
+        self.canevasModule.create_window(100,480, window=self.btnCalendrier,width=200,height=30)
+        self.canevasModule.create_window(100,510, window=self.btnStats,width=200,height=30)
+        self.canevasModule.create_window(140,790,window=self.lblVersion, width=120, height=30)
 
-        self.canevasModule.create_window(100,75, window=self.btnPlanif,width=200,height=30)
-        #self.canevasModule.create_window(100,250, window=self.btnImplementation,width=200,height=30)
-        #self.canevasModule.create_window(100,405, window=self.btnSyntheseStats,width=200,height=30)
-        #self.canevasModule.create_window(100,510, window=self.btnChat,width=200,height=30)
-        self.canevasModule.create_window(100,y, window=self.btnQuitter,width=200,height=30)
+        self.canevasModule.create_window(100,30, window=self.btnPlanif,width=200,height=30)
+        self.canevasModule.create_window(100,270, window=self.btnImplementation,width=200,height=30)
+        self.canevasModule.create_window(100,440, window=self.btnSyntheseStats,width=200,height=30)
+        self.canevasModule.create_window(100,550, window=self.btnChat,width=200,height=30)
+        self.canevasModule.create_window(100,590, window=self.btnQuitter,width=200,height=30)
+
+        self.setup()
+
+    def setup(self):
+        self.boutonNumber = 0
+        self.boutonActif = None
+
+    def utilisezPlanif(self):
+        self.activerBtn(self.btnPlanif)
+        self.boutonNumber = 0
+        self.canevasInfo.delete("all")
+        self.creerInfoProjet()
+
+    def utilisezImple(self):
+        self.activerBtn(self.btnImplementation)
+        self.boutonNumber = 0
+
+    def utilisezSynthese(self):
+        self.activerBtn(self.btnSyntheseStats)
+        self.boutonNumber = 0
+
+    def utilisezChat(self):
+        self.activerBtn(self.btnChat)
+        self.boutonNumber = 0
+
+    def utilisezQuitter(self):
+        self.activerBtn(self.btnQuitter)
+        self.boutonNumber = 0
+
+    def utilisezCreationSprint(self):
+        self.activerBtn(self.btnCreationSprint, choix = True)
+        self.underConstruction()
+        self.boutonNumber = 1
+
+    def utilisezScrum(self):
+        self.activerBtn(self.btnScrum, choix = True)
+        self.underConstruction()
+        self.boutonNumber = 1
+
+    def utilisezProbleme(self):
+        self.activerBtn(self.btnProbleme, choix = True)
+        self.underConstruction()
+        self.boutonNumber = 1
+
+    def utilisezDebriefing(self):
+        self.activerBtn(self.btnDebriefing,  choix = True)
+        self.underConstruction()
+        self.boutonNumber = 1
+
+    def utilisezStatistique(self):
+        self.activerBtn(self.btnStats, choix = True)
+        self.underConstruction()
+        self.boutonNumber = 1
+
+    def utilisezCalendrier(self):
+        self.activerBtn(self.btnCalendrier, choix = True)
+        self.underConstruction()
+        self.boutonNumber = 1
+
+    def activerBtn(self, choix_bouton, choix = False):
+        if self.boutonActif:
+            if not choix and self.boutonNumber == 0:
+                self.boutonActif.config(relief = FLAT, bg = self.couleur500, fg = self.couleurAccent)
+            elif not choix and self.boutonNumber == 1:
+                self.boutonActif.config(relief = FLAT, bg = self.couleur500, fg = self.couleurTexte1)
+            elif choix and self.boutonNumber == 0:
+                self.boutonActif.config(relief = FLAT, bg = self.couleur500, fg = self.couleurAccent)
+            elif choix and self.boutonNumber == 1:
+                self.boutonActif.config(relief = FLAT, bg = self.couleur500, fg = self.couleurTexte1)
+
+        choix_bouton.config(relief = SUNKEN, bg = self.couleurAccent, fg = self.couleurTexte2)
+        self.boutonActif = choix_bouton
 
     def creerBtnModule(self, module):
         self.module.config(
-            bg="#282E3F",
-            fg = "#dbdbdb",                            
+            bg=self.couleur500,
+            fg = self.couleurTexte1,                            
             font = ("Arial", 15),
             relief="flat",
-            activebackground = "#4C9689", 
+            activebackground = self.couleurAccent, 
             width = 15, 
             anchor = W)
 
     def creerBtnEtapeProjet(self,etapeProjet):
         self.etapeProjet.config(
-            bg="#282E3F",
-            fg = "#4C9689",                            
+            bg=self.couleur500,
+            fg = self.couleurAccent,                            
             justify='left',
             font = ("Arial", 16),
             relief="flat",
-            activebackground = "#4C9689", 
+            activebackground = self.couleurAccent, 
             width = 15,
             anchor = W)
 
     def creerInfoProjet(self): 
-        self.canevasInfo = Canvas(self.frameInfo, bg="#282E3F",bd=0, highlightthickness=0, width = 998, height = 800)
+        self.canevasInfo = Canvas(self.frameInfo, bg=self.couleur500,bd=0, highlightthickness=0, width = 998, height = 800)
         self.canevasInfo.grid(row = 0, column = 0, sticky = "nsew")
 
         self.nomProjet = "Project name"
@@ -675,12 +731,20 @@ class Vue():
         self.sprintNumber = 1
         self.timeRemaining = "2 Days 18h"
         nomProjet = self.parent.getNomProjet()
-        self.lblNomProjet           = Label(text = nomProjet[0], bg = "#282E3F", fg = "#4C9689", font = ("Arial", 25, "bold"))
-        self.lblDeadline            = Label(text = "Add: ", fg = "#4C9689")
-        self.lblDate                = Label(text = self.date, fg = "#dbdbdb")
-        self.lblMember              = Label(text = "Member:", fg = "#4C9689")
-        self.lblTimer               = Label(text = "Time left before the end of the Sprint #" + str(self.sprintNumber), fg = "#4C9689")
-        self.lblTimeLeft            = Label(text = self.timeRemaining, fg = "#dbdbdb")
+
+        self.lblNomProjet           = Label(text = nomProjet[0], bg = self.couleur500, fg = self.couleurAccent, font = ("Arial", 25, "bold"))
+        self.lblDeadline            = Label(text = "Add: ", fg = self.couleurAccent)
+        self.lblDate                = Label(text = self.date, fg = self.couleurTexte1)
+        self.lblMember              = Label(text = "Member:", fg = self.couleurAccent)
+        self.lblTimer               = Label(text = "Time left before the end of the Sprint #" + str(self.sprintNumber), fg = self.couleurAccent)
+        self.lblTimeLeft            = Label(text = self.timeRemaining, fg = self.couleurTexte1)
+
+        btnCreationP=Button(                                       # CrÃ©ation bouton connection
+            text="+",
+            bg="#282E3F",                                        # Couleur bouton [cyan]
+            relief = "flat",
+            font = ("Courier New", 12, "bold"),
+            fg = "#dbdbdb", command=self.frameQuiBougeCreationProjet)
                
         def changerProjet(*args):
             self.nom1=self.v.get()
@@ -700,37 +764,39 @@ class Vue():
         self.v.set(x)
         self.v.trace("w", changerProjet)
         self.om = OptionMenu(self.canevasInfo,  self.v, *self.listeOptions)
-        self.om.config(font=('calibri',(12)),bg="#4C9689",width=14)
+        self.om.config(font=('calibri',(12)),bg=self.couleurAccent,width=14, highlightcolor = self.couleurAccent )
         
         self.canevasInfo.create_window(870, 102, window = self.om)
         
         self.listeMembres=Listbox(
-            bg="#282E3F",                            #Bleu-gris
+            bg=self.couleur500,                            #Bleu-gris
             borderwidth=0,
             relief=FLAT,
             width=25,
             height=8,
-            fg = "#dbdbdb",                            #texte blanc
-            font = ("Courier New", 12, "bold"))
+            fg = self.couleurTexte1,                            #texte blanc
+            font = ("Courier New", 12, "bold"),
+            highlightthickness = 0,
+            highlightcolor = self.couleur500)
         
         self.updateListeMembres()
             
         self.entryNomMembreAjout = Entry(                                        
-            bg="#4C9689",                                         
+            bg=self.couleurAccent,                                         
             relief = "sunken",
             font = ("Courier New", 12, "bold"),
-            fg = "#dbdbdb",justify='center')
+            fg = self.couleurTexte1,justify='center')
         
         self.btnAjouterMembre = Button(                                       # CrÃ©ation bouton connection
                                         text="+",
-                                        bg="#282E3F",                                        # Couleur bouton [cyan]
+                                        bg=self.couleur500,                                        # Couleur bouton [cyan]
                                         relief = "flat",
                                         font = ("Courier New", 12, "bold"),
-                                        fg = "#dbdbdb", command=self.ajouterMembre)
+                                        fg = self.couleurTexte1, command=self.ajouterMembre)
         
-        self.lblProjectDescription    = Label(text = "Description du projet: ", font = ("Arial", 10),fg = "#4C9689",bg="#282E3F")
-        self.lblTeamMsg             = Label(text = "Message de l'equipe: ",font = ("Arial", 10),fg = "#4C9689",bg="#282E3F")
-        self.lblUser                = Label(text = '@' + self.parent.monnom, font = ("Arial", 10),fg = "#4C9689",bg="#282E3F")
+        self.lblProjectDescription    = Label(text = "Description du projet: ", font = ("Arial", 10),fg = self.couleurAccent,bg=self.couleur500)
+        self.lblTeamMsg             = Label(text = "Message de l'equipe: ",font = ("Arial", 10),fg = self.couleurAccent,bg=self.couleur500)
+        self.lblUser                = Label(text = '@' + self.parent.monnom, font = ("Arial", 10),fg = self.couleurAccent,bg=self.couleur500)
         self.listeLabelInfo = [self.lblDeadline,self.lblDate,self.lblMember,self.lblTimer,self.lblTimeLeft ] #,self.member1,self.member2,self.member3,self.member4, self.member5,self.member6
         self.canevasInfo.create_window(998/2,45, window = self.lblNomProjet)
         self.canevasInfo.create_window(200,100, window = self.lblMember)
@@ -741,33 +807,36 @@ class Vue():
         self.canevasInfo.create_window(110,355, window = self.lblProjectDescription)
         self.canevasInfo.create_window(110,453, window = self.lblTeamMsg)
         self.canevasInfo.create_window(72, 638, window = self.lblUser)
-        self.canevasInfo.create_line(40,70,950,70,fill="#4C9689")
+
+        self.canevasInfo.create_line(40,70,950,70,fill=self.couleurAccent)
 
         for self.labelInfo in self.listeLabelInfo:
             self.creerLabelInfo(self.labelInfo)
 
-        self.txtDescriptionProjet = Text(self.canevasInfo, width = 900, height = 65, bg ="#282E3F",selectbackground= "#f442e5", fg = "#dbdbdb")
+        self.txtDescriptionProjet = Text(self.canevasInfo, width = 900, height = 65, bg =self.couleur500,selectbackground= "#f442e5", fg = self.couleurTexte1)
         self.canevasInfo.create_window(499,400, window = self.txtDescriptionProjet,width = 900,height = 65)
         self.txtDescriptionProjet.insert('end', self.parent.getDescriptionProjet())
         self.txtDescriptionProjet.config(state=DISABLED)
-        self.txtTeam = Text(self.canevasInfo, width = 900, height = 65, bg ="#282E3F", selectbackground= "#f442e5", fg = "#dbdbdb" )
+        self.txtTeam = Text(self.canevasInfo, width = 900, height = 65, bg =self.couleur500, selectbackground= "#f442e5", fg = self.couleurTexte1 )
         self.canevasInfo.create_window(499,540, window = self.txtTeam,width = 900,height = 150)
         #self.txtTeam.insert('end', "@John:" + "\n" + "  J'ai terminer la premiere partie du travail." + "\n\n" + "@Sofia:" + "\n" + "  Parfait! Merci John.")
-        self.txtUser = Text(self.canevasInfo, width = 900, height = 65, bg ="#dbdbdb", selectbackground= "#f442e5")
+        self.txtUser = Text(self.canevasInfo, width = 900, height = 65, bg =self.couleurTexte1, selectbackground= "#f442e5")
         self.canevasInfo.create_window(499,700, window = self.txtUser,width = 900,height = 100)
         self.txtUser.insert('end', '')
         self.updateChat()
         self.txtTeam.config(state=DISABLED)
-        self.btnLeaveMsg = Button(text = "Envoyer",bg="#4C9689",fg = "#dbdbdb",font = ("Arial", 12), relief="raised", activebackground = "#4C9689", width = 12, command=self.insertIntoChat)
+        self.btnLeaveMsg = Button(text = "Envoyer",bg=self.couleurAccent,fg = self.couleurTexte1,font = ("Arial", 12), relief="raised", activebackground = self.couleurAccent, width = 12, command=self.insertIntoChat)
         self.canevasInfo.create_window(850,765, window = self.btnLeaveMsg, width = 200, height = 25)
+        
+        self.canevasInfo.create_window(780,102,window=btnCreationP)
 
     def creerLabelInfo(self,labelInfo):
         self.labelInfo.config(
-            bg="#282E3F",                            
+            bg=self.couleur500,                            
             justify='left',
             relief="flat",
             font = ("Arial", 12),
-            activebackground = "#4C9689", 
+            activebackground = self.couleurAccent, 
             width = 35,
             anchor = W)
 
@@ -887,7 +956,7 @@ class Vue():
         self.loginMDP.insert(END, motDePasse)
         self.nomsplash.delete(0, END)
         self.nomsplash.insert(END, identifiant)
-        self.labelInscrit = Label(self.canevasLogin, text="Vous ÃƒÂªtes inscrit!", fg= 'green', bg="#282E3F", font =("Times New Roman", 16) )
+        self.labelInscrit = Label(self.canevasLogin, text="Vous ÃƒÂªtes inscrit!", fg= 'green', bg=self.couleur500, font =("Times New Roman", 16) )
 
         self.canevasLogin.create_window(                        # Dessiner bouton connecter sur canevas
             300,380,window=self.labelInscrit)
@@ -957,7 +1026,139 @@ class Vue():
             infosValides = False
             self.erreurRSInvalide.place(x=20, y=302)
         
-        return infosValides 
+        return infosValides
+
+    def underConstruction(self):
+        self.canevasInfo.delete("all")
+        self.lblSorry = Label(
+            text = "Desole, cette page est en cours de construction.", 
+            bg= self.couleur500,
+            fg = self.couleurTexte1,                            
+            justify='left',
+            relief="flat",
+            font = ("Arial", 22),
+            activebackground = self.couleurAccent, 
+            width = 50)
+
+        self.lblAbonnement = Label(    		
+            text = "Pour avoir acces au module lors de leur lancement, abonnez-vous!", 
+            bg= self.couleur500,
+            fg = self.couleurAccent,                            
+            justify='left',
+            relief="flat",
+            font = ("Arial", 12),
+            activebackground = self.couleurAccent, 
+            width = 50)
+
+        self.btnAbonnement = Button(
+            text = "S'abonner",
+            bg= self.couleurAccent,
+            font = ("Arial", 12), 
+            relief="raised", 
+            activebackground = self.couleur500, 
+            width = 12,
+            command = self.nouvelleAbonnement)
+
+        self.img_UnderConstruction = PhotoImage (file = "image/Under_Construction.png")
+        x = 500
+        y = 400
+
+        self.canevasInfo.create_window(499, 575, window = self.btnAbonnement,width = 200, height = 35)
+        self.canevasInfo.create_window(499,250, window = self.lblSorry)
+        self.canevasInfo.create_window(499,520, window = self.lblAbonnement)
+        self.canevasInfo.create_image (x, y, image = self.img_UnderConstruction)
+
+    def nouvelleAbonnement(self):      
+        ## Record coordinates for window to avoid asking them every time
+        self.__winX, self.__winY = 499, 0
+        self.frameCreateAbonnement = Frame(
+            self.root, 
+            bd=1, 
+            relief=RIDGE,
+            bg= self.couleur500)
+        self.frameCreateAbonnement.place(
+            x=self.__winX, 
+            y=200, 
+            width=400, 
+            height=360)
+        
+        self.labelCreateAbonnement = Label(
+            self.frameCreateAbonnement, 
+            bd=1, 
+            relief=RIDGE, 
+            text="Abonnement",fg= self.couleurAccent,
+            font = ("Courier New", 12, "bold"),
+            bg = self.couleur500)
+        self.labelCreateAbonnement.pack(fill=X, padx=1, pady=1)
+		
+        self.canevasAbonnement = Canvas(
+            self.frameCreateAbonnement, 
+            width=400,
+            height=460,
+            bg = self.couleur500, 
+            bd=0, 
+            highlightbackground = self.couleur500)
+        self.canevasAbonnement.pack(fill=X, padx=1, pady=1)
+		
+		## When the button is pressed, make sure we get the first coordinates
+        self.labelCreateAbonnement.bind('<ButtonPress-1>', self.startMoveWindow)
+        self.labelCreateAbonnement.bind('<B1-Motion>', self.MoveWindowAbonnement)
+        self.frameCreateAbonnement.bind('<ButtonPress-1>', self.startMoveWindow)
+        self.frameCreateAbonnement.bind('<B1-Motion>', self.MoveWindowAbonnement)
+        self.compteur = 0
+        self.compteurY = 50
+              
+        #usager, mot de passe, confirmation, email, question de sÃ©curitÃ©, rÃ©ponse sÃ©curitÃ©, btnOk
+        self.champNomClient = Entry()
+        self.champAddresse = Entry()
+        self.champNumeroCarte = Entry()
+        self.champExpiration = Entry()
+              
+        self.btnConfirmerAbonnement = Button(
+            text="Creer",
+            bg = self.couleur500,
+            fg = self.couleurTexte1,#texte blanc
+            justify='right',
+            font = ("Courier New", 12, "bold"),
+            relief="flat",
+            overrelief = "raised",
+            activebackground = self.couleurAccent,
+            command= None)
+        
+        self.canevasAbonnement.create_window(200,240,window=self.btnConfirmerAbonnement,width=300,height=25)
+        self.btnQuitter1 = Button( text='X', command=self.frameCreateAbonnement.destroy, bg= self.couleur500, relief = "flat" )
+        self.canevasAbonnement.create_window( 380,-10,window=self.btnQuitter1,width=25,height=21 )
+        self.textNomClient = "Nom Prenom"
+        self.textAddresse = "Addresse"
+        self.textNumeroCarte = "Carte de credit"
+        self.textDateExpiration = "Date d'expiration"
+      
+        self.entryListe = [self.champNomClient, self.champAddresse, self.champNumeroCarte, self.champExpiration]
+        self.texteListe = [self.textNomClient, self.textAddresse, self.textNumeroCarte, self.textDateExpiration]
+        
+        for self.entry in self.entryListe:
+            self.champsTexte = self.texteListe[self.compteur]
+            self.construitEntryAbonnement(self.entry,self.champsTexte,2)
+            self.compteur += 1
+            self.compteurY += 43
+    
+    def construitEntryAbonnement(self, entry, champsTexte, v):
+        self.entry.insert(0, champsTexte)
+        self.entry.bind('<FocusIn>',lambda event: self.on_entry_click(event,entry,champsTexte))
+        self.entry.bind('<FocusOut>',lambda event: self.on_focusout(event,entry,champsTexte))
+        self.entry.config(
+            bg= self.couleurAccent,                                         # Couleur de fond [cyan]
+            relief = "sunken",
+            font = ("Courier New", 12, "bold"),
+            justify='center')
+
+        self.canevasAbonnement.create_window(200,self.compteurY,window=self.entry,width=300,height=25)
+    
+    def MoveWindowAbonnement(self, event):
+        self.root.update_idletasks()
+        self.__winX += event.x_root - self.__lastX
+        self.__lastX = event.x_root
+        self.frameCreateAbonnement.place_configure(x=self.__winX) 
     
 
 

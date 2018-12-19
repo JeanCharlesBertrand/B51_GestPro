@@ -66,13 +66,16 @@ class Controleur():
 #    Last modified: 2018/11/04 - 12h30
 #===============================================================================				
 				
-	def creerSiDisponibles(self, nom, description, organisation):
+	def creerSiDisponibles(self, nom, description, organisation, option):
 		if nom:# and description and organisation and dateButoir:
 			reponseCreation=self.serveur.creerSiInfosDisponibles(nom, self.identifiant, description, organisation)# on averti le serveur de crÃ©er le projet
 			if reponseCreation[0]:# reponseInscription[0] == True/False (succes de l'inscription) et reponseInscription[1] = messageErreur si [0] == False
 				print("Projet Creer") #Ã€ CHANGER POUR UN LABEL+CREATEWINDOW DANS LA VUE
 				self.vue.frameCreateProject.destroy()
-				self.vue.chargerSelectProjet(self.selectProjetDuMembre()) #retourner fenetre d'affichage des projets du membre
+				if(option):
+					self.selectionProjet(nom)
+				else:
+					self.vue.chargerSelectProjet(self.selectProjetDuMembre()) #retourner fenetre d'affichage des projets du membre
 			else:
 				print(reponseCreation[1])	
 	
