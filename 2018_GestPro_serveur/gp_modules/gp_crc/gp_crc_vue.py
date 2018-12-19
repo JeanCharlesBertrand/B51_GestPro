@@ -13,12 +13,14 @@ class Vue():
         self.root=tix.Tk()
         self.root.protocol("WM_DELETE_WINDOW", self.fermerfenetre)
         self.parent=parent
+        self.root.iconbitmap('image/tk_logo.ico')
         self.root.title(self.parent.getNomProjet())
         self.modele=None
         self.largeur=largeur
         self.hauteur=hauteur
         self.images={}
         self.cadreactif=None
+        self.root.resizable(False, False)
 
         self.listeFiches =[]
         self.listeFramesFiches=[]
@@ -56,7 +58,9 @@ class Vue():
     def creercadresplash(self):
         self.cadresplash=Frame(self.root)
         self.canevasplash=Canvas(self.cadresplash,width=1200,height=1200,bg="#282E3F")
-        
+        self.img_logo2 = PhotoImage (file = "image/logo3.png")
+        x=300
+        y=100
         self.labelTitre = Label(
             self.cadresplash, 
             bd=1, 
@@ -137,15 +141,29 @@ class Vue():
 
     def recupererListeMembres(self):
         return self.parent.getListeMembres()
+
+    def deleteFromCRC(self,ficheEnlever,idFiche,classe,proprietaire,collaboration,responsabilites,parametres):
+        self.listeFiches.remove(ficheEnlever)
+        self.parent.deleteFromCRC(idFiche,classe,proprietaire,collaboration,responsabilites,parametres)
         
-                    
+    def rafraichirApresDelete(self):
+        self.saisirFiche()
+        for f in self.listeFiches:
+            f.effacerFiche()
+            
+        self.listeFiches =[]
+        self.listeFramesFiches=[]
+        self.listeBD = self.parent.selectFromCRC()
+        self.idFiche=0
+        self.frameX=25
+        self.frameY=25   
+        self.afficherFichesBD()
+        
     def saisirFiche(self):
         for f in self.listeFiches:
             f.saisirFicheIndividuelle()
-            if(f.classe !=""):
-                self.parent.insertIntoCRC(f.idFiche,f.classe,f.proprietaire,f.collaboration,f.responsabilites,f.parametres)
-
-        
+            self.parent.insertIntoCRC(f.idFiche,f.classe,f.proprietaire,f.collaboration,f.responsabilites,f.parametres)
+     
     def afficherFichesBD(self):
         for liste in self.listeBD:
             f = Fiche(self,self.frameX,self.frameY)
@@ -159,7 +177,7 @@ class Vue():
             f.responsabilites = liste[6]
             f.parametres = liste[7]
             f.afficherFiche()
-
+            
     def fermerfenetre(self):
         print("ONFERME la fenetre")
         self.root.destroy()
@@ -197,9 +215,11 @@ class Fiche():
             self.frameFiche,
             width=350,
             height=250,
-            bg='lightgray')                                         
-        self.canevasFiche.pack(fill=X, padx=1, pady=1)
+            bg='lightgray')
         
+        self.canevasFiche.pack(fill=X, padx=1, pady=1)
+        self.btnQuitter = Button( text='X', command=self.deleteFiche, bg="red", relief = "sunken" )
+        self.canevasFiche.create_window( 336,6,window=self.btnQuitter,width=20,height=20 )
         self.creerLabelsFiche()
         self.creerChampsTexteFiche()
 
@@ -213,7 +233,15 @@ class Fiche():
             self.parent.frameY += 300
             
         self.parent.listeFramesFiches.append(self.frameFiche)
-
+        
+    def deleteFiche(self):
+        self.parent.deleteFromCRC(self,self.idFiche,self.classe,self.proprietaire,self.collaboration,self.responsabilites,self.parametres)
+        self.parent.listeFramesFiches.remove(self.frameFiche)
+        self.frameFiche.destroy()
+        self.parent.rafraichirApresDelete()
+        
+    def effacerFiche(self):
+        self.frameFiche.destroy()
         
     def creerLabelsFiche(self):
         self.labelClasse = Label(

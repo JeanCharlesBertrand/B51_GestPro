@@ -32,7 +32,7 @@ class Controleur():
 
     def getNomProjet(self):
         self.nomProjet = self.serveur.getNomProjet(self.idProjet)
-        return self.nomProjet
+        return self.nomProjet[0]
 
     def getListeMembres(self):
         self.listeMembre = self.serveur.getListeMembres(self.idProjet)
@@ -43,6 +43,9 @@ class Controleur():
         print("enregistrer Fiche")
         self.serveur.insertIntoCRC(self.idProjet,idFiche,classe,proprietaire,collaboration,responsabilites,parametres)
 
+    def deleteFromCRC(self,idFiche,classe,proprietaire,collaboration,responsabilites,parametres):
+        print("effacer Fiche")
+        self.serveur.deleteFromCRC(self.idProjet,idFiche,classe,proprietaire,collaboration,responsabilites,parametres)
         
     def selectFromCRC(self):
         print("lire dans BD")
