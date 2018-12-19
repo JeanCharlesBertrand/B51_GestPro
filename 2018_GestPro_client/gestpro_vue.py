@@ -734,9 +734,9 @@ class Vue():
         nomProjet = self.parent.getNomProjet()
 
         self.lblNomProjet           = Label(text = nomProjet[0], bg = self.couleur500, fg = self.couleurAccent, font = ("Arial", 25, "bold"))
-        self.lblDeadline            = Label(text = "Add: ", fg = self.couleurAccent)
+        self.lblDeadline            = Label(text = "Ajouter: ", fg = self.couleurAccent)
         self.lblDate                = Label(text = self.date, fg = self.couleurTexte1)
-        self.lblMember              = Label(text = "Member:", fg = self.couleurAccent)
+        self.lblMember              = Label(text = "Membres du projet:", fg = self.couleurAccent)
         self.lblTimer               = Label(text = "Time left before the end of the Sprint #" + str(self.sprintNumber), fg = self.couleurAccent)
         self.lblTimeLeft            = Label(text = self.timeRemaining, fg = self.couleurTexte1)
 
