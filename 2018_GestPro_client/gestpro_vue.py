@@ -684,7 +684,7 @@ class Vue():
                
         def changerProjet(*args):
             self.nom1=self.v.get()
-            self.nom1=self.nom1[2:-3]
+            #self.nom1=self.nom1[2:-3]
             self.parent.selectionProjet(self.nom1)
           
         self.listeOptions=list()
