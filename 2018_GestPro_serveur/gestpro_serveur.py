@@ -373,6 +373,30 @@ class ControleurServeur(object):
         return liste
 
 #===============================================================================
+#    Description: server insertion et select pour planif
+#    Creator: Guillaume Geoffroy
+#    Last modified: 2018/12/19 - 10h30
+#===============================================================================
+
+    def insertIntoPlanif(self, list, idProjet):
+        for i in list:
+            dbUtilisateurs.c.execute('UPDATE planif SET ordre = ?, WHERE id_projet = ? AND nom = ?', (list[0], idProjet, list[1],))
+            self.resetCurseur()
+            dbUtilisateurs.conn.commit()
+            ok = dbUtilisateurs.c.execute('SELECT * FROM planif WHERE id_projet = ? and nom = ?', (idProjet,list[1],))
+            rows = ok.fetchone()
+            self.resetCurseur()
+            if rows is None:
+                dbUtilisateurs.c.execute('INSERT INTO planif(id_projet, ordre, nom) VALUES (?, ?, ?)', (idProjet, list[0],list[1]) )
+                dbUtilisateurs.conn.commit()
+                self.resetCurseur()    
+                
+    def selectFromPlanif(self, id):
+        curseurListe = dbUtilisateurs.c.execute('SELECT * FROM planif WHERE id_projet = ?', (id,))
+        liste = curseurListe.fetchone()
+        self.resetCurseur()
+        return liste 
+
 #===============================================================================
 #    Description: server insertion et select pour CRC -Lynda - 2018/12/13
 #
