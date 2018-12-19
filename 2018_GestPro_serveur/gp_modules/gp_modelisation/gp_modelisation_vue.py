@@ -95,16 +95,16 @@ class Vue():
 		self.frameModNom.grid(column=1, row=0, sticky=W+E)
 		self.frameModTables.grid(column=0, row=0, rowspan=10, sticky=N+S+W+E)
 		self.frameModListBox.grid(column=1, row=1, sticky=N+S+W+E)
-		
+
 	
 		self.listTables = Listbox(self.frameModTables,height=15, width=12, bg="#D3D3D3", font = ('Courier New',13))
 		self.listTables.pack(side=LEFT)
-		
+
 
 		
 		self.scroll = Scrollbar(self.frameModListBox,orient=VERTICAL,command=self.monScroll)
 
-		self.listNom = Listbox(self.frameModListBox,  height=20,width=12, bg="#D3D3D3",  font = ('Courier New',13),exportselection=0, yscrollcommand=self.scroll.set)
+		self.listNom = Listbox(self.frameModListBox,  height=20,width=12, bg="#D3D3D3",  font = ('Courier New',13),exportselection=0,yscrollcommand=self.scroll.set)
 		self.listType = Listbox(self.frameModListBox,  height=20,width=12, bg="#D3D3D3", font = ('Courier New',13),exportselection=0, yscrollcommand=self.scroll.set)
 		self.listKey = Listbox(self.frameModListBox,  height=20,width=12, bg="#D3D3D3", font = ('Courier New',13), exportselection=0, yscrollcommand=self.scroll.set)
 		self.listNN = Listbox(self.frameModListBox,  height=20,width=12, bg="#D3D3D3", font = ('Courier New',13),exportselection=0, yscrollcommand=self.scroll.set)
@@ -153,7 +153,7 @@ class Vue():
 			
 		btnUpdate=Button(self.frameModListBox, text="UPDATE",bg="#4C9689",relief = "raised",font = ("Courier New", 12, "bold"),fg = "#dbdbdb",command=self.updateLigne)
 			
-		btnSave=Button(self.frameModNom,	text=" Save ",bg="#4C9689",relief = "raised",font = ("Courier New", 14, "bold"),fg = "#dbdbdb",command= self.saveTable)  
+		#btnSave=Button(self.frameModNom,	text=" Save ",bg="#4C9689",relief = "raised",font = ("Courier New", 14, "bold"),fg = "#dbdbdb",command= self.saveTable)  
 			
 		btnDelete=Button(self.frameModTables, text=" DELETE ",bg="#4C9689",relief = "raised",font = ("Courier New", 14, "bold"),fg = "#dbdbdb", command=self.deleteTable)
 			
@@ -168,7 +168,7 @@ class Vue():
 		self.labelNomCetteTable.grid(column=1, row=3, sticky=N+S+W+E)
 		self.labelNTable.grid(column=2, row=3, sticky=N+S+W+E)
 		btnNew.grid(column=6, row=1, sticky=N+S+W+E)
-		btnSave.grid(column=6, row=2, sticky=N+S+W+E)
+		self.scroll.grid(column=7, row=0, sticky=N+S+W+E)
 			
 		self.listNom.grid(column=0, row=0, sticky=N+S+W+E)
 		self.entryNomChamp.grid(column=0, row=1, sticky=N+S+W+E)
@@ -191,11 +191,11 @@ class Vue():
 	
 	def monScroll (self, *args):
 		
-		self.listNom.pack(side=LEFT,expand=1,fill=BOTH)
-		self.listType.pack(side=LEFT,expand=1,fill=BOTH)
-		self.listKey.pack(side=LEFT,expand=1,fill=BOTH)
-		self.listNN.pack(side=LEFT,expand=1,fill=BOTH)
-		self.listDefault.pack(side=LEFT,expand=1,fill=BOTH)
+		self.listNom.yview(*args)
+		self.listType.yview(*args)
+		self.listKey.yview(*args)
+		self.listNN.yview(*args)
+		self.listDefault.yview(*args)
 		
 	
 	def	updateLigne(self):
