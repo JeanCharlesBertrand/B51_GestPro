@@ -18,6 +18,8 @@ class DbUtilisateurs:
 		self.creationCRC()
 		self.creationBlocTemps()
 		self.creationModelisation()
+		self.creationplanif()
+
 
 	def creationInscription(self):
 		self.c.execute(''' CREATE TABLE IF NOT EXISTS utilisateurs(
@@ -168,7 +170,14 @@ def creationScenario(self):
 														) ''')
 			###CONSTRAINT fk_crc_utilisateur	FOREIGN KEY (id_utilisateur) REFERENCES utilisateurs(id)
 				
-				
+	def creationplanif(self):
+		self.c.execute('''CREATE TABLE IF NOT EXISTS planif(	
+				id				INTEGER			PRIMARY KEY AUTOINCREMENT,
+				id_projet		INTEGER			NOT NULL,
+				nom		   		INTEGER         NOT NULL,
+								
+				CONSTRAINT fk_crc_projet	FOREIGN KEY (id_projet) REFERENCES projet(id)				
+														) ''') 						
 				
 
 				
