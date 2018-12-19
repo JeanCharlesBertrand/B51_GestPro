@@ -561,7 +561,7 @@ class Vue():
         self.canevasModule = Canvas(self.frameModule,bg="#282E3F",bd=0, highlightthickness=0, width = 200, height = 800)
         self.canevasModule.grid(row = 0, column = 0, sticky = "nsew")
         
-        y=130
+        y=105
         cles=[*self.parent.getModulesDisponibles()]
         
         for cle in cles:
@@ -575,8 +575,8 @@ class Vue():
                           anchor = W)
         
             btnX.bind("<ButtonRelease-1>", self.requeteModule)
-            self.canevasModule.create_window(100, y, window=btnX,width=200,height=30)
-            y+=(600)/len(cles)
+            self.canevasModule.create_window(105, y, window=btnX,width=130,height=30)
+            y+=(200)/len(cles)
             
         #self.btnAnalyseTxt      = Button(text = "     Analyse textuelle", command = self.requeteAnalyse)
         #self.btnCasUsage        = Button(text = "     Cas d'usage", command = self.requeteCasUsages)
