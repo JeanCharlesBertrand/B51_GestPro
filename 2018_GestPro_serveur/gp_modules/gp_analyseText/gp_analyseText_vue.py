@@ -16,6 +16,15 @@ class Vue():
         self.root.title(self.parent.getNomProjet())
         self.root.iconbitmap('image/tk_logo.ico')
         self.root.protocol("WM_DELETE_WINDOW", self.fermerfenetre)
+        
+        self.couleur500 = "#344955"
+        self.couleur800 = ""
+        self.couleur300 = ""
+        self.couleurTexte1 = "#FFFFFF"
+        self.couleurTexte2 = "#000000"
+        self.couleurAccent = "#FAAB1A"
+        self.couleurSelection = "#FF4181"
+
         self.modele=None
         self.largeur=largeur
         self.hauteur=hauteur
@@ -48,29 +57,29 @@ class Vue():
                 
     def creercadresplash(self):
         self.cadresplash=Frame(self.root)
-        self.canevasplash=Canvas(self.cadresplash,width=640,height=480,bg="#4C9689")
+        self.canevasplash=Canvas(self.cadresplash,width=640,height=480,bg=self.couleurAccent)
         self.canevasplash.pack()
         print("creer splash screen")
         
         btnTest = Button(
             text="Test",
-            bg="#282E3F",
-            fg = "#dbdbdb",                            #texte blanc
+            bg=self.couleur500,
+            fg = self.couleurTexte1,                            #texte blanc
             justify='right',
             font = ("Courier New", 12, "bold"),
             relief="flat",
             overrelief = "raised",
-            activebackground = "#4C9689")
+            activebackground = self.couleurAccent)
         
         self.canevasplash.create_window(80,10,window=btnTest, width=150, height=15)
         
         self.champIdentifiant = Entry()
         
         self.champIdentifiant.config(
-            bg="#4C9689",
+            bg=self.couleurAccent,
             relief = "sunken",
             font = ("Courier New", 12, "bold"),
-            fg = "#dbdbdb",justify='center')
+            fg = self.couleurTexte1,justify='center')
         
         self.canevasplash.create_window(80,60,window=self.champIdentifiant, width=150, height=15)
         
@@ -78,15 +87,15 @@ class Vue():
     def mainWindow(self):
          # Main Frame
         self.gui_style = ttk.Style()
-        self.gui_style.configure('My.TFrame', background='#282E3F', foreground='#dbdbdb')
-        self.gui_style.configure('My.TLabel', background='#282E3F', foreground='#4C9689', font = ("Arial", 10))
+        self.gui_style.configure('My.TFrame', background=self.couleur500, foreground=self.couleurTexte1)
+        self.gui_style.configure('My.TLabel', background=self.couleur500, foreground=self.couleurAccent, font = ("Arial", 10))
         self.mainFrame = ttk.Frame(self.root, style='My.TFrame')
         self.mainFrame.pack()
         
         # Frame Title bar
         self.frameTitleBar = ttk.Frame(self.mainFrame)
         self.frameTitleBar.grid(row=0, column=1, pady=10)
-        self.labelNomProjet = ttk.Label(self.frameTitleBar, text="ANALYSE TEXTUELLE", font = ("Arial", 30), background='#282E3F', foreground='#4C9689')
+        self.labelNomProjet = ttk.Label(self.frameTitleBar, text="ANALYSE TEXTUELLE", font = ("Arial", 30), background=self.couleur500, foreground=self.couleurAccent)
         self.labelNomProjet.grid(row=0, column=1)
 
         # Frame Enonce
@@ -110,11 +119,11 @@ class Vue():
         self.frameBtnCentre = ttk.Frame(self.mainFrame, style='My.TFrame')
         self.frameBtnCentre.grid(row=2, column=1, pady=20)
         
-        self.btnImportEnonce = Button(self.frameBtnCentre, text="IMPORTER", font = ("Arial", 12), background='#4C9689', foreground='#dbdbdb', command=self.importEnonce)
+        self.btnImportEnonce = Button(self.frameBtnCentre, text="IMPORTER", font = ("Arial", 12), background=self.couleurAccent, foreground=self.couleurTexte1, command=self.importEnonce)
         self.btnImportEnonce.grid(row=0, column=0, padx=10)
-        self.btnSaveEnonce = Button(self.frameBtnCentre, text="SAUVEGARDER", font = ("Arial", 12), background='#4C9689', foreground='#dbdbdb', command=self.parent.insertIntoAnalyse)
+        self.btnSaveEnonce = Button(self.frameBtnCentre, text="SAUVEGARDER", font = ("Arial", 12), background=self.couleurAccent, foreground=self.couleurTexte1, command=self.parent.insertIntoAnalyse)
         self.btnSaveEnonce.grid(row=0, column=1, padx=10)
-        self.btnExportEnonce = Button(self.frameBtnCentre, text="EXPORTER", font = ("Arial", 12), background='#4C9689', foreground='#dbdbdb', command=self.saveToTxtFile)
+        self.btnExportEnonce = Button(self.frameBtnCentre, text="EXPORTER", font = ("Arial", 12), background=self.couleurAccent, foreground=self.couleurTexte1, command=self.saveToTxtFile)
         self.btnExportEnonce.grid(row=0, column=2, padx=10)
         
             
@@ -123,19 +132,19 @@ class Vue():
         self.frameTableau.grid(row=3, column=1, padx=25, pady=10)
        
        # Labels Nom, Verbe, Adjectif
-        self.labelNom = ttk.Label(self.frameTableau, text="NOM", font = ("Arial", 12), background='#282E3F', foreground='#4C9689')
+        self.labelNom = ttk.Label(self.frameTableau, text="NOM", font = ("Arial", 12), background=self.couleur500, foreground=self.couleurAccent)
         self.labelNom.grid(row=1, column=1, pady=10)
-        self.labelVerbe = ttk.Label(self.frameTableau, text="VERBE", font = ("Arial", 12), background='#282E3F', foreground='#4C9689')
+        self.labelVerbe = ttk.Label(self.frameTableau, text="VERBE", font = ("Arial", 12), background=self.couleur500, foreground=self.couleurAccent)
         self.labelVerbe.grid(row=1, column=2, pady=10)
-        self.labelAdj = ttk.Label(self.frameTableau, text="ADJECTIF", font = ("Arial", 12), background='#282E3F', foreground='#4C9689')
+        self.labelAdj = ttk.Label(self.frameTableau, text="ADJECTIF", font = ("Arial", 12), background=self.couleur500, foreground=self.couleurAccent)
         self.labelAdj.grid(row=1, column=3, pady=10)
 
         # Labels Nom, Verbe, Adjectif
-        self.labelNom = ttk.Label(self.frameTableau, text="IMPLICITE", font = ("Arial", 12), background='#282E3F', foreground='#4C9689')
+        self.labelNom = ttk.Label(self.frameTableau, text="IMPLICITE", font = ("Arial", 12), background=self.couleur500, foreground=self.couleurAccent)
         self.labelNom.grid(row=2, column=0, padx=10)
-        self.labelVerbe = ttk.Label(self.frameTableau, text="EXPLICITE", font = ("Arial", 12), background='#282E3F', foreground='#4C9689')
+        self.labelVerbe = ttk.Label(self.frameTableau, text="EXPLICITE", font = ("Arial", 12), background=self.couleur500, foreground=self.couleurAccent)
         self.labelVerbe.grid(row=3, column=0, padx=10)
-        self.labelAdj = ttk.Label(self.frameTableau, text="SUPPLEMENTAIRE", font = ("Arial", 12), background='#282E3F', foreground='#4C9689')
+        self.labelAdj = ttk.Label(self.frameTableau, text="SUPPLEMENTAIRE", font = ("Arial", 12), background=self.couleur500, foreground=self.couleurAccent)
         self.labelAdj.grid(row=4, column=0, padx=10)
 
         self.tabNomImplicite = Text(self.frameTableau, width=30, height=10, wrap=WORD)
