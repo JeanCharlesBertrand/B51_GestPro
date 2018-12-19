@@ -22,6 +22,14 @@ class Vue():
         self.cadreactif=None
         self.root.resizable(False, False)
 
+        self.couleur500 = "#344955"
+        self.couleur800 = ""
+        self.couleur300 = ""
+        self.couleurTexte1 = "#FFFFFF"
+        self.couleurTexte2 = "#000000"
+        self.couleurAccent = "#FAAB1A"
+        self.couleurSelection = "#FF4181"
+
         self.listeFiches =[]
         self.listeFramesFiches=[]
         self.listeBD = self.parent.selectFromCRC()
@@ -57,7 +65,7 @@ class Vue():
                 
     def creercadresplash(self):
         self.cadresplash=Frame(self.root)
-        self.canevasplash=Canvas(self.cadresplash,width=1200,height=1200,bg="#282E3F")
+        self.canevasplash=Canvas(self.cadresplash,width=1200,height=1200,bg=self.couleur500)
         self.img_logo2 = PhotoImage (file = "image/logo3.png")
         x=300
         y=100
@@ -65,9 +73,9 @@ class Vue():
             self.cadresplash, 
             bd=1, 
             relief=RIDGE, 
-            text="Module CRC ",fg="#4C9689",
+            text="Module CRC ",fg=self.couleurAccent,
             font = ("Courier New", 15, "bold"),
-            bg="#282E3F")
+            bg=self.couleur500)
 
         self.canevasplash.bind("<MouseWheel>", self.OnMouseWheel)
         
@@ -86,36 +94,36 @@ class Vue():
             self.root, 
             bd=1, 
             relief=RIDGE,
-            bg='#282E3F')
+            bg=self.couleur500)
         
         self.canevasBoutons=Canvas(                                
             self.frameBoutons,
             width=self.largeur,
             height=100,
-            bg='#282E3F')                                         
+            bg=self.couleur500)                                         
         self.canevasBoutons.pack(fill=X, padx=1, pady=1)
 
         self.labelTitre = Label(
             self.frameBoutons, 
             bd=1, 
             relief=RIDGE, 
-            text="Module CRC ",fg="#4C9689",
+            text="Module CRC ",fg=self.couleurAccent,
             font = ("Courier New", 15, "bold"),
-            bg="#282E3F")
+            bg=self.couleur500)
         
         self.btnAjouterFiche=Button(                                    
             text="Ajouter Fiche",
-            bg="#4C9689",                                             
+            bg=self.couleurAccent,                                             
             relief = "raised",
             font = ("Courier New", 12, "bold"),
-            fg = "#dbdbdb",command=self.creerFiche)
+            fg = self.couleurTexte1,command=self.creerFiche)
         
         self.btnEnregistrerFiche=Button(                                    
             text="Enregistrer",
-            bg="#4C9689",                                             
+            bg=self.couleurAccent,                                             
             relief = "raised",
             font = ("Courier New", 12, "bold"),
-            fg = "#dbdbdb",command=self.saisirFiche)
+            fg = self.couleurTexte1,command=self.saisirFiche)
         
 
         self.canevasBoutons.create_window(300,70,window=self.btnAjouterFiche,width=250,height=40)
@@ -202,6 +210,14 @@ class Fiche():
         self.collaboration=""
         self.responsabilites=""
         self.parametres=""
+
+        self.couleur500 = "#344955"
+        self.couleur800 = ""
+        self.couleur300 = ""
+        self.couleurTexte1 = "#FFFFFF"
+        self.couleurTexte2 = "#000000"
+        self.couleurAccent = "#FAAB1A"
+        self.couleurSelection = "#FF4181"
         
         self.creerFrameFiche()
 
@@ -254,41 +270,41 @@ class Fiche():
             self.frameFiche, 
             bd=1, 
             relief=RIDGE, 
-            text="Classe",fg="#4C9689",
+            text="Classe",fg=self.couleurAccent,
             font = ("Courier New", 12, "bold"),
-            bg="#282E3F")
+            bg=self.couleur500)
         
         self.labelProprietaire = Label(
             self.frameFiche, 
             bd=1, 
             relief=RIDGE, 
-            text="Proprietaire",fg="#4C9689",
+            text="Proprietaire",fg=self.couleurAccent,
             font = ("Courier New", 12, "bold"),
-            bg="#282E3F")
+            bg=self.couleur500)
 
         self.labelCollaboration = Label(
             self.frameFiche, 
             bd=1, 
             relief=RIDGE, 
-            text="Collaboration",fg="#4C9689",
+            text="Collaboration",fg=self.couleurAccent,
             font = ("Courier New", 12, "bold"),
-            bg="#282E3F")
+            bg=self.couleur500)
         
         self.labelResponsabilites = Label(
             self.frameFiche, 
             bd=1, 
             relief=RIDGE, 
-            text="Responsabilites",fg="#4C9689",
+            text="Responsabilites",fg=self.couleurAccent,
             font = ("Courier New", 12, "bold"),
-            bg="#282E3F")
+            bg=self.couleur500)
         
         self.labelParametres = Label(
             self.frameFiche, 
             bd=1, 
             relief=RIDGE, 
-            text="Parametres",fg="#4C9689",
+            text="Parametres",fg=self.couleurAccent,
             font = ("Courier New", 12, "bold"),
-            bg="#282E3F")
+            bg=self.couleur500)
 
         self.canevasFiche.create_window(80,20, window = self.labelClasse,width=150, height=15)
         self.canevasFiche.create_window(80,60, window = self.labelProprietaire,width=150, height=15)
@@ -308,7 +324,7 @@ class Fiche():
             bg='white',
             relief = "sunken",
             font = ("Courier New", 12, "bold"),
-            fg = "#4C9689",justify='center')
+            fg = self.couleurAccent,justify='center')
         
         self.varProprio = StringVar()
         self.fetchValeur =self.varProprio.get()
@@ -323,19 +339,19 @@ class Fiche():
             bg='white',
             relief = "sunken",
             font = ("Courier New", 12, "bold"),
-            fg = "#4C9689")
+            fg = self.couleurAccent)
         
         self.champResponsabilites.config(
             bg='white',
             relief = "sunken",
             font = ("Courier New", 12, "bold"),
-            fg = "#4C9689")
+            fg = self.couleurAccent)
         
         self.champParametres.config(
             bg='white',
             relief = "sunken",
             font = ("Courier New", 12, "bold"),
-            fg = "#4C9689")
+            fg = self.couleurAccent)
      
         self.canevasFiche.create_window(80,40,window=self.champClasse, width=150, height=20)
         self.canevasFiche.create_window(80,80,window=self.comboProprietaire, width=150, height=20)
