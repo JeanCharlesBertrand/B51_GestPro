@@ -1,9 +1,9 @@
   #===============================================================================
 #     Nom fichier : gestpro_vue.py
-#     OrmÃƒÂ da
+#     Orma da
 #     Creation date: 2018/10/22
-#     Description: CrÃƒÂ©ation du GUI et des ÃƒÂ©lÃƒÂ©ments visuel du projet 
-#     Creator: Julien DesgagnÃƒÂ©
+#     Description: Creation du GUI et des elements visuel du projet 
+#     Creator: Julien Desgagne
 #     Version 1.0
 #===============================================================================
 
@@ -19,7 +19,7 @@ import signal
 
 #===============================================================================
 #     Description: Classe principale d'affichage
-#     Creator: Julien DesgagnÃƒÂ©
+#     Creator: Julien Desgagne
 #     Last modified: 2018/10/22 - 21h40 
 #===============================================================================
 
@@ -263,8 +263,8 @@ class Vue():
 
 #===============================================================================
 #     Description: Change le frame actif. Efface le frame actuel et le remplace
-#                  par le frame passÃƒÂ© en paramÃƒÂ¨tre.
-#     Creator: Julien DesgagnÃƒÂ©
+#                  par le frame passe en parama¨tre.
+#     Creator: Julien Desgagne
 #     Last modified: 2018/10/22 - 21h48 
 #===============================================================================
 
@@ -278,10 +278,10 @@ class Vue():
             self.cadreactif.pack()
 
 #===============================================================================
-#     Description: Affiche la liste des modules prÃƒÂ©sent dans le dossier du projet.
-#                  Cette fonction est appelÃƒÂ© dans le controlleur par la fontion
+#     Description: Affiche la liste des modules present dans le dossier du projet.
+#                  Cette fonction est appele dans le controlleur par la fontion
 #                  loginclient().
-#     Creator: Julien DesgagnÃƒÂ©
+#     Creator: Julien Desgagne
 #     Last modified: 2018/10/22 - 21h40 
 #===============================================================================
 
@@ -291,8 +291,8 @@ class Vue():
         self.changecadre(self.frameAccueil)
 
 #===============================================================================
-#     Description: CrÃƒÂ©er les diffÃƒÂ©rents frames utilisÃƒÂ©s dans le projet 
-#     Creator: Julien DesgagnÃƒÂ©
+#     Description: Creer les differents frames utilises dans le projet 
+#     Creator: Julien Desgagne
 #     Last modified: 2018/10/22 - 21h40 
 #===============================================================================
         
@@ -304,12 +304,12 @@ class Vue():
 
 #===============================================================================
 #     Description: Création du frame de login pour l'usager
-#     Creator: Julien DesgagnÃƒÂ©
+#     Creator: Julien Desgagne
 #     Last modified: 2018/11/05 - 8h00
 #===============================================================================
 
     def creerFrameLogin(self):
-        self.frameLogin = Frame(self.root)                          # CrÃƒÂ©ation frameLogin
+        self.frameLogin = Frame(self.root)                          # Creation frameLogin
         self.canevasLogin=Canvas(                                 # Ajout d'un canvas de le frame
             self.frameLogin,
             width=600,
@@ -325,14 +325,14 @@ class Vue():
         self.canevasLogin.create_image (                        # Dessiner logo sur le canevas
             x, y, image = self.img_logo2)
         self.canevasLogin.pack()
-        self.nomsplash=Entry(                                     # Champs entrÃƒÂ© no.1
+        self.nomsplash=Entry(                                     # Champs entre no.1
             bg=self.couleurAccent,                                         # Couleur de fond [cyan]
             relief = "sunken",
             font = ("Courier New", 12, "bold"),
             fg = self.couleurTexte1,justify='center')                    # Couleur de texte [blanc]
         
 
-        self.loginMDP=Entry(                                    # Champs entrÃƒÂ© no.2
+        self.loginMDP=Entry(                                    # Champs entre no.2
             bg=self.couleurAccent,                                         # Couleur de fond [cyan]
             relief = "sunken",
             show = '*',
@@ -352,14 +352,14 @@ class Vue():
         #################################
         
                     # Placeholder password
-        btnConnecter=Button(                                    # CrÃƒÂ©ation bouton connection
+        btnConnecter=Button(                                    # Creation bouton connection
             text="Connecter au serveur",
             bg=self.couleurAccent,                                             # Couleur bouton [cyan]
             relief = "raised",
             font = ("Courier New", 12, "bold"),
             fg = self.couleurTexte1,command=self.loginclient)            # Couleur de texte [blanc]
             
-        btnInscription=Button(                                        # CrÃƒÂ©ation bouton connection
+        btnInscription=Button(                                        # Creation bouton connection
             text="S'inscrire",
             bg=self.couleur500,                                         # Couleur bouton [cyan]
             relief = "flat",
@@ -417,7 +417,7 @@ class Vue():
 
 #===============================================================================
 #     Description: 
-#     Creator: Julien DesgagnÃƒÂ©
+#     Creator: Julien Desgagne
 #     Last modified: 2018/11/05 - 7h25 
 #===============================================================================
 
@@ -459,7 +459,7 @@ class Vue():
         self.frameSignIn.bind('<ButtonPress-1>', self.startMoveWindow)
         self.frameSignIn.bind('<B1-Motion>', self.MoveWindow)
 
-        #usager, mot de passe, confirmation, email, question de sÃƒÂ©curitÃƒÂ©, rÃƒÂ©ponse sÃƒÂ©curitÃƒÂ©, btnOk
+        #usager, mot de passe, confirmation, email, question de securite, reponse securite, btnOk
         self.compteur = 0
         self.compteurY = 50
 
@@ -501,13 +501,13 @@ class Vue():
             self.compteurY += 43
             
         self.erreurIDInvalide = Label(self.frameSignIn, fg="red", bg=self.couleur500, height=1, text="Veuillez vous choisir un identifiant.")
-        self.erreurIDDejaUtilise = Label(self.frameSignIn, fg="red", bg=self.couleur500, height=1, text="Cet identifiant existe dÃƒÂ©jÃƒÂ , veuillez en choisir un autre")
-        self.erreurPWDifferents = Label(self.frameSignIn, fg="red", bg=self.couleur500, height=1, text="Les passwords entres sont diffÃƒÂ©rents.")
+        self.erreurIDDejaUtilise = Label(self.frameSignIn, fg="red", bg=self.couleur500, height=1, text="Cet identifiant existe deja , veuillez en choisir un autre")
+        self.erreurPWDifferents = Label(self.frameSignIn, fg="red", bg=self.couleur500, height=1, text="Les passwords entres sont differents.")
         self.erreurCourrielInvalide = Label(self.frameSignIn, fg="red", bg=self.couleur500, height=1, text="Veuillez saisir un courriel valide.")
-        self.erreurCourrielDejaUtilise = Label(self.frameSignIn, fg="red", bg=self.couleur500, height=1, text="Cet courriel existe dÃƒÂ©jÃƒÂ , veuillez en choisir un autre")
+        self.erreurCourrielDejaUtilise = Label(self.frameSignIn, fg="red", bg=self.couleur500, height=1, text="Cet courriel existe deja , veuillez en choisir un autre")
         self.erreurMPInvalide = Label(self.frameSignIn, fg="red", bg=self.couleur500, height=1, text="Veuillez saisir un mot de passe.")
-        self.erreurQSInvalide = Label(self.frameSignIn, fg="red", bg=self.couleur500, height=1, text="Veuillez saisir une question de sÃƒÂ©curitÃƒÂ©.")
-        self.erreurRSInvalide = Label(self.frameSignIn, fg="red", bg=self.couleur500, height=1, text="Veuillez saisir une rÃƒÂ©ponse a la question de sÃƒÂ©curitÃƒÂ©.")
+        self.erreurQSInvalide = Label(self.frameSignIn, fg="red", bg=self.couleur500, height=1, text="Veuillez saisir une question de securite.")
+        self.erreurRSInvalide = Label(self.frameSignIn, fg="red", bg=self.couleur500, height=1, text="Veuillez saisir une reponse a la question de securite.")
         self.erreurAutre = Label(self.frameSignIn, fg="red", bg=self.couleur500, height=1, text="")
     
     def construitEntry(self, entry, champsTexte, v):
@@ -552,7 +552,7 @@ class Vue():
 
 #===============================================================================
 #     Description: 
-#     Creator: Julien DesgagnÃƒÂ©
+#     Creator: Julien Desgagne
 #     Last modified: 2018/10/23 - 9h15 
 #===============================================================================
     
@@ -923,9 +923,9 @@ class Vue():
         identifiant=self.nomsplash.get() # noter notre identifiant
         motDePasse = self.loginMDP.get() #Lit le mot de passe
 
-        connexionValide = True #VÃƒÂ©rifier si les champs sont remplis
+        connexionValide = True #Verifier si les champs sont remplis
         '''Tous les print() qui suivent devrait etre changes pour des Label+createwindow
-            ÃƒÂ  cote/sous le champ correspondant dans le UI'''
+            a  cote/sous le champ correspondant dans le UI'''
 
         if not identifiant:
             print("Veuillez entrer un identifiant")
@@ -937,9 +937,9 @@ class Vue():
             self.parent.loginclient(ipserveur,identifiant, motDePasse)
 
     def inscrireClient(self):
-        if self.validerInformations(): #Si les champs ont ÃƒÂ©tÃƒÂ© remplis
+        if self.validerInformations(): #Si les champs ont ete remplis
             ipserveur=self.ipsplash.get() # lire le IP dans le champ du layout
-            self.parent.inscrireSiDisponibles(ipserveur, self.identifiant, self.courriel, self.mp1,self.questionSecu,self.reponseSecu )#Envoie ÃƒÂ  client_main
+            self.parent.inscrireSiDisponibles(ipserveur, self.identifiant, self.courriel, self.mp1,self.questionSecu,self.reponseSecu )#Envoie a  client_main
 
 #===============================================================================
 #     Description: intake outake ajout membre -} a alleger
@@ -961,12 +961,12 @@ class Vue():
 ##
             
     def afficherInscriptionAchevee(self, identifiant, motDePasse):
-        self.frameSignIn.destroy() #Faudrait mettre ÃƒÂ§a dans le serveur parce que l'inscription n'est peut-ÃƒÂªtre pas
+        self.frameSignIn.destroy() #Faudrait mettre a§a dans le serveur parce que l'inscription n'est peut-etre pas
         self.loginMDP.delete(0, END)
         self.loginMDP.insert(END, motDePasse)
         self.nomsplash.delete(0, END)
         self.nomsplash.insert(END, identifiant)
-        self.labelInscrit = Label(self.canevasLogin, text="Vous ÃƒÂªtes inscrit!", fg= 'green', bg=self.couleur500, font =("Times New Roman", 16) )
+        self.labelInscrit = Label(self.canevasLogin, text="Vous etes inscrit!", fg= 'green', bg=self.couleur500, font =("Times New Roman", 16) )
 
         self.canevasLogin.create_window(                        # Dessiner bouton connecter sur canevas
             300,380,window=self.labelInscrit)
@@ -1012,7 +1012,7 @@ class Vue():
             self.erreurIDInvalide.place(x=50, y=85)
         
         if self.mp1 != self.mp2:
-            #print("Les passwords entres sont differents")#Changer ces print pour des Label qui s'affichent ÃƒÂ  cÃƒÂ´tÃƒÂ©/sous les champs
+            #print("Les passwords entres sont differents")#Changer ces print pour des Label qui s'affichent a  ca´te/sous les champs
             infosValides = False
             self.erreurPWDifferents.place(x=50, y=130)
 

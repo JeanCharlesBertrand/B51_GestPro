@@ -38,7 +38,7 @@ class Controleur():
 			self.serveur=ServerProxy(ad)
 			reponseInscription=self.serveur.inscrireSiInfosDisponibles(identifiant, courriel, motDePasse, question, reponse)# on averti le serveur de nous inscrire
 			if reponseInscription[0]:# reponseInscription[0] == True/False (succes de l'inscription) et reponseInscription[1] = messageErreur si [0] == False
-				print("Inscrit!") #Ã€ CHANGER POUR UN LABEL+CREATEWINDOW DANS LA VUE
+				print("Inscrit!") #A CHANGER POUR UN LABEL+CREATEWINDOW DANS LA VUE
 				self.vue.afficherInscriptionAchevee(identifiant, motDePasse)
 			else:
 				self.vue.afficherErreurDejaUtilise(reponseInscription[1])
@@ -50,14 +50,14 @@ class Controleur():
 			self.monnom=identifiant
 			rep=self.serveur.loginauserveur(identifiant, motDePasse)	# on averti le serveur de nous inscrire
 			print(str(rep))
-			#C'est dans le serveur que se passent les vÃ©rifications dans la BD
-			if rep!=0: # Rep sera 0 si l'utilisateur n'est pas trouvÃ© ou si le pw ne match pas
-				self.identifiant=self.serveur.getIdMembre(identifiant) #sauvegarde du cÃ´tÃ© client le id de utilisateur
+			#C'est dans le serveur que se passent les verifications dans la BD
+			if rep!=0: # Rep sera 0 si l'utilisateur n'est pas trouve ou si le pw ne match pas
+				self.identifiant=self.serveur.getIdMembre(identifiant) #sauvegarde du ca´te client le id de utilisateur
 				self.monip = ipserveur
-				self.vue.chargerSelectProjet(self.selectProjetDuMembre()) #charge fenÃªtre intermÃ©diaire de sÃ©lection/crÃ©ation de projet
+				self.vue.chargerSelectProjet(self.selectProjetDuMembre()) #charge fenaªtre intermediaire de selection/creation de projet
 			else:
-				print("Nous n'avons pas rÃ©ussi Ã  vous connecter avec ces informations")
-				#Ã€ CHANGER POUR UN LABEL+CREATEWINDOW DANS LA VUE
+				print("Nous n'avons pas reussi a  vous connecter avec ces informations")
+				#A CHANGER POUR UN LABEL+CREATEWINDOW DANS LA VUE
 				
 	
 #===============================================================================
@@ -68,9 +68,9 @@ class Controleur():
 				
 	def creerSiDisponibles(self, nom, description, organisation, option):
 		if nom:# and description and organisation and dateButoir:
-			reponseCreation=self.serveur.creerSiInfosDisponibles(nom, self.identifiant, description, organisation)# on averti le serveur de crÃ©er le projet
+			reponseCreation=self.serveur.creerSiInfosDisponibles(nom, self.identifiant, description, organisation)# on averti le serveur de creer le projet
 			if reponseCreation[0]:# reponseInscription[0] == True/False (succes de l'inscription) et reponseInscription[1] = messageErreur si [0] == False
-				print("Projet Creer") #Ã€ CHANGER POUR UN LABEL+CREATEWINDOW DANS LA VUE
+				print("Projet Creer") #A CHANGER POUR UN LABEL+CREATEWINDOW DANS LA VUE
 				self.vue.frameCreateProject.destroy()
 				if(option):
 					self.selectionProjet(nom)
@@ -93,7 +93,7 @@ class Controleur():
 		return "User inexistant"
 
 #===============================================================================
-#    Description: appel fonction du serveur qui retourne la liste des projets du client Ã  partir de son identifiant conserver localement
+#    Description: appel fonction du serveur qui retourne la liste des projets du client a  partir de son identifiant conserver localement
 #    Creator: Guillaume Geoffroy
 #    Last modified: 2018/11/04 - 12h30
 #===============================================================================
@@ -132,7 +132,7 @@ class Controleur():
 		return self.serveur.getListeMembres(self.idProjet)
 
 #===============================================================================
-#    Description: permet de shippÃ© au client la version la plus Ã  jour de ses modules
+#    Description: permet de shippe au client la version la plus a  jour de ses modules
 #    Creator: Guillaume Geoffroy/Jean-Marc
 #    Last modified: 2018/11/07 - 17h40
 #===============================================================================
@@ -144,7 +144,7 @@ class Controleur():
 		print(lieu)
 		if not os.path.exists(lieu):
 			os.mkdir(lieu) #plante s'il exist deja
-		if self.updateDispo(mod, lieu): #vÃ©rifie si une version updatÃ© du module est disponible
+		if self.updateDispo(mod, lieu): #verifie si une version update du module est disponible
 			rep=self.serveur.requetemodule(mod)
 			if rep:
 				reso=rep[1]
