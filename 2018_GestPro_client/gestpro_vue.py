@@ -131,7 +131,10 @@ class Vue():
     
     def creerProjet(self):
         if self.validerInformationsCreationProjet(): #Si les champs ont Ã©tÃ© remplis
-            self.parent.creerSiDisponibles(self.nomProjet, self.description, self.nomOrganisation)#Envoie Ã Â  client_main
+            if(self.cadreactif==self.frameAccueil):
+                self.parent.creerSiDisponibles(self.nomProjet, self.description, self.nomOrganisation, TRUE)#Envoie Ã Â  client_main
+            else:
+                self.parent.creerSiDisponibles(self.nomProjet, self.description, self.nomOrganisation, FALSE)
  
 #===============================================================================
 #     Description: Temporaire fenetre pop pour creer projet
@@ -561,7 +564,7 @@ class Vue():
         self.canevasModule = Canvas(self.frameModule,bg="#282E3F",bd=0, highlightthickness=0, width = 200, height = 800)
         self.canevasModule.grid(row = 0, column = 0, sticky = "nsew")
         
-        y=130
+        y=105
         cles=[*self.parent.getModulesDisponibles()]
         
         for cle in cles:
@@ -575,8 +578,8 @@ class Vue():
                           anchor = W)
         
             btnX.bind("<ButtonRelease-1>", self.requeteModule)
-            self.canevasModule.create_window(100, y, window=btnX,width=200,height=30)
-            y+=(600)/len(cles)
+            self.canevasModule.create_window(105, y, window=btnX,width=130,height=30)
+            y+=(200)/len(cles)
             
         #self.btnAnalyseTxt      = Button(text = "     Analyse textuelle", command = self.requeteAnalyse)
         #self.btnCasUsage        = Button(text = "     Cas d'usage", command = self.requeteCasUsages)
@@ -602,14 +605,7 @@ class Vue():
         #self.btnSyntheseStats   = Button(text = "     Synthese et stats")
         #self.btnChat            = Button(text = "     Chat")
         
-        self.btnQuitter = Button(text = "          Quitter", bg="#282E3F",
-            fg = "#4C9689",                            
-            justify='left',
-            font = ("Arial", 16),
-            relief="flat",
-            activebackground = "#4C9689", 
-            width = 15,
-            anchor = W)
+        
         
         self.lblVersion = Label(bd=1, text="Version 1.0",fg="#4C9689",font = ("Arial", 10),bg="#282E3F")
 
@@ -637,6 +633,16 @@ class Vue():
         #self.canevasModule.create_window(100,370, window=self.btnDebriefing,width=200,height=30)
         #self.canevasModule.create_window(100,435, window=self.btnCalendrier,width=200,height=30)
         #self.canevasModule.create_window(100,465, window=self.btnStats,width=200,height=30)
+        self.btnQuitter = Button(text = "          Quitter", bg="#282E3F",
+            fg = "#4C9689",                            
+            justify='left',
+            font = ("Arial", 16),
+            relief="flat",
+            activebackground = "#4C9689", 
+            width = 15,
+            anchor = W)
+        
+
         self.canevasModule.create_window(160,790,window=self.lblVersion, width=75, height=30)
 
         self.canevasModule.create_window(100,75, window=self.btnPlanif,width=200,height=30)
@@ -681,6 +687,13 @@ class Vue():
         self.lblMember              = Label(text = "Member:", fg = "#4C9689")
         self.lblTimer               = Label(text = "Time left before the end of the Sprint #" + str(self.sprintNumber), fg = "#4C9689")
         self.lblTimeLeft            = Label(text = self.timeRemaining, fg = "#dbdbdb")
+        
+        btnCreationP=Button(                                       # CrÃ©ation bouton connection
+            text="+",
+            bg="#282E3F",                                        # Couleur bouton [cyan]
+            relief = "flat",
+            font = ("Courier New", 12, "bold"),
+            fg = "#dbdbdb", command=self.frameQuiBougeCreationProjet)
                
         def changerProjet(*args):
             self.nom1=self.v.get()
@@ -742,7 +755,7 @@ class Vue():
         self.canevasInfo.create_window(110,453, window = self.lblTeamMsg)
         self.canevasInfo.create_window(72, 638, window = self.lblUser)
         self.canevasInfo.create_line(40,70,950,70,fill="#4C9689")
-
+        
         for self.labelInfo in self.listeLabelInfo:
             self.creerLabelInfo(self.labelInfo)
 
@@ -760,6 +773,8 @@ class Vue():
         self.txtTeam.config(state=DISABLED)
         self.btnLeaveMsg = Button(text = "Envoyer",bg="#4C9689",fg = "#dbdbdb",font = ("Arial", 12), relief="raised", activebackground = "#4C9689", width = 12, command=self.insertIntoChat)
         self.canevasInfo.create_window(850,765, window = self.btnLeaveMsg, width = 200, height = 25)
+        
+        self.canevasInfo.create_window(780,102,window=btnCreationP)
 
     def creerLabelInfo(self,labelInfo):
         self.labelInfo.config(
