@@ -14,6 +14,15 @@ class Vue():
         self.parent=parent
         self.root.title(self.parent.getNomProjet())
         self.root.iconbitmap('image/tk_logo.ico')
+		
+        self.couleur500 = "#344955"
+        self.couleur800 = ""
+        self.couleur300 = ""
+        self.couleurTexte1 = "#FFFFFF"
+        self.couleurTexte2 = "#000000"
+        self.couleurAccent = "#FAAB1A"
+        self.couleurSelection = "#FF4181"
+		
         self.modele=None
         self.largeur=largeur
         self.hauteur=hauteur
@@ -43,20 +52,20 @@ class Vue():
                 
     def creercadresplash(self):
         self.cadresplash=Frame(self.root)
-        self.canevasplash=Canvas(self.cadresplash,width=640,height=480,bg="#282E3F")
+        self.canevasplash=Canvas(self.cadresplash,width=640,height=480,bg=self.couleur500)
         self.canevasplash.pack()
         
     def mainWindow(self):
         # Main Frame
         self.gui_style = ttk.Style()
-        self.gui_style.configure('My.TFrame', background='#282E3F', foreground='#dbdbdb')
+        self.gui_style.configure('My.TFrame', background=self.couleur500, foreground=self.couleurTexte1)
         self.mainFrame = ttk.Frame(self.root, style='My.TFrame')
         self.mainFrame.pack()
         
         # Frame Title bar
         self.frameTitleBar = ttk.Frame(self.mainFrame)
         self.frameTitleBar.grid(row=0, column=1, padx=15, pady=10)
-        self.labelNomProjet = ttk.Label(self.frameTitleBar, text="SÉQUENCE DE DÉVELOPPEMENT", font = ("Arial", 20), background='#282E3F', foreground='#4C9689')
+        self.labelNomProjet = ttk.Label(self.frameTitleBar, text="SÉQUENCE DE DÉVELOPPEMENT", font = ("Arial", 20), background=self.couleur500, foreground=self.couleurAccent)
         self.labelNomProjet.grid(row=0, column=1)
         
         # Input Text 
@@ -70,9 +79,9 @@ class Vue():
         self.topButtons = ttk.Frame(self.mainFrame, style='My.TFrame')
         self.topButtons.grid(row=1, column=1, pady=25)
         
-        self.btn1 = Button(self.topButtons, text="Update", font = ("Arial", 12), background='#4C9689', foreground='#dbdbdb')
+        self.btn1 = Button(self.topButtons, text="Update", font = ("Arial", 12), background=self.couleurAccent, foreground=self.couleurTexte1)
         self.btn1.grid(row = 0, column = 0, padx=10)
-        self.btn2 = Button(self.topButtons, text="Save", font = ("Arial", 12), background='#4C9689', foreground='#dbdbdb')
+        self.btn2 = Button(self.topButtons, text="Save", font = ("Arial", 12), background=self.couleurAccent, foreground=self.couleurTexte1)
         self.btn2.grid(row = 0, column = 1, padx=10)
         """
         
@@ -96,13 +105,13 @@ class Vue():
         self.frameBottomBar = ttk.Frame(self.mainFrame, style='My.TFrame')
         self.frameBottomBar.grid(row=3, column=1, pady=25)
         
-        self.btnAdd = Button(self.frameBottomBar, text="Ajouter", font = ("Arial", 12), background='#4C9689', foreground='#dbdbdb')
+        self.btnAdd = Button(self.frameBottomBar, text="Ajouter", font = ("Arial", 12), background=self.couleurAccent, foreground=self.couleurTexte1)
         self.btnAdd.grid(row=0, column=0, padx=10)
-        self.btnMoveUp = Button(self.frameBottomBar, text="Monter", font = ("Arial", 12), background='#4C9689', foreground='#dbdbdb', command = self.moveUp)
+        self.btnMoveUp = Button(self.frameBottomBar, text="Monter", font = ("Arial", 12), background=self.couleurAccent, foreground=self.couleurTexte1, command = self.moveUp)
         self.btnMoveUp.grid(row=0, column=1, padx=10)
-        self.btnMoveDown = Button(self.frameBottomBar, text="Descendre", font = ("Arial", 12), background='#4C9689', foreground='#dbdbdb', command = self.moveDown)
+        self.btnMoveDown = Button(self.frameBottomBar, text="Descendre", font = ("Arial", 12), background=self.couleurAccent, foreground=self.couleurTexte1, command = self.moveDown)
         self.btnMoveDown.grid(row=0, column=2, padx=10)
-        self.btnRemove = Button(self.frameBottomBar, text="Effacer", font = ("Arial", 12), background='#4C9689', foreground='#dbdbdb')
+        self.btnRemove = Button(self.frameBottomBar, text="Effacer", font = ("Arial", 12), background=self.couleurAccent, foreground=self.couleurTexte1)
         self.btnRemove.grid(row=0, column=3, padx=10)
         
         #Add to listbox
