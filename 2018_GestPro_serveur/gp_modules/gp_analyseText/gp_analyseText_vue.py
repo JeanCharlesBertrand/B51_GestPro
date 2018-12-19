@@ -99,7 +99,7 @@ class Vue():
 
         
         # Champ Text de l'enonce Analyse
-        self.txtEnonce = Text(self.frameEnonce, width=100, height=15, wrap=WORD)
+        self.txtEnonce = Text(self.frameEnonce, width=100, height=15, wrap=WORD, relief=SUNKEN)
         self.txtEnonce.grid(row=0, column=1)
         self.enonceScrollb = Scrollbar(self.frameEnonce, command=self.txtEnonce.yview)
         self.enonceScrollb.grid(row=0, column=2, sticky='nsew')
@@ -232,18 +232,21 @@ class Vue():
                 for line in file:
                     self.txtEnonce.insert(END, line)
         except IOError as e:
-            print("File not found")
+            print("Fichier non trouvé")
     
     # Sauvegarde l'enonce dans un fichier texte        
     def saveToTxtFile(self):
-        file_path = filedialog.asksaveasfile()
-        content=self.txtEnonce.get("1.0", END)
-        file_path.write(content)
-        file_path.close()
+        file_path = filedialog.asksaveasfilename(defaultextension=".txt", filetypes=(("Text file", "*.txt"),))
+        if file_path != "":
+            content=self.txtEnonce.get("1.0", END)
+            file_path.write(content)
+            file_path.close()
+        else:
+            print("Sauvegarde annulée")
 
     # Fenetre pour sélectionner un fichier à ouvrir
     def openTxtFile(self):
-        file_path = filedialog.askopenfilename()
+        file_path = filedialog.askopenfilename(defaultextension=".txt", filetypes=(("Text file", "*.txt"),))
         return file_path
         
     def fermerfenetre(self):
