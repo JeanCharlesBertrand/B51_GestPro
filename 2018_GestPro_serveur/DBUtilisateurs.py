@@ -119,40 +119,40 @@ class DbUtilisateurs:
 				CONSTRAINT fk_bloc_projet	FOREIGN KEY (id_projet) REFERENCES projet(id)
 														) ''')
 		
-def creationScenario(self):
-        self.c.execute('''CREATE TABLE IF NOT EXISTS scenario(
-                id                    INTEGER        PRIMARY KEY AUTOINCREMENT,
-                id_projet             INTEGER         NOT NULL,
-                id_cas                INTEGER         NOT NULL,
-                utilisateur           TEXT            NOT NULL,
-                ordinateur            TEXT            NOT NULL,
-                autre                 TEXT            NOT NULL,
+	def creationScenario(self):
+        	self.c.execute('''CREATE TABLE IF NOT EXISTS scenario(
+                	id                    INTEGER        PRIMARY KEY AUTOINCREMENT,
+                	id_projet             INTEGER         NOT NULL,
+                	id_cas                INTEGER         NOT NULL,
+                	utilisateur           TEXT            NOT NULL,
+                	ordinateur            TEXT            NOT NULL,
+                	autre                 TEXT            NOT NULL,
                
-                CONSTRAINT fk_sceanrio_projet    FOREIGN KEY (id_projet) REFERENCES projet(id)
-                CONSTRAINT fk_scenario_cas       FOREIGN KEY (id_cas) REFERENCES cas_usage(id)
-                                                        ) ''')
+                	CONSTRAINT fk_sceanrio_projet    FOREIGN KEY (id_projet) REFERENCES projet(id)
+                	CONSTRAINT fk_scenario_cas       FOREIGN KEY (id_cas) REFERENCES cas_usage(id)
+                                                        	) ''')
     
 
-    def creationCasUsage(self):
-        self.c.execute('''CREATE TABLE IF NOT EXISTS cas_usage(
-                id                    INTEGER        PRIMARY KEY AUTOINCREMENT,
-                id_projet             INTEGER        NOT NULL,
-                description           TEXT           NOT NULL,
+    	def creationCasUsage(self):
+        	self.c.execute('''CREATE TABLE IF NOT EXISTS cas_usage(
+                	id                    INTEGER        PRIMARY KEY AUTOINCREMENT,
+                	id_projet             INTEGER        NOT NULL,
+                	description           TEXT           NOT NULL,
             
-                CONSTRAINT fk_sceanrio_projet    FOREIGN KEY (id_projet) REFERENCES projet(id)
+                	CONSTRAINT fk_sceanrio_projet    FOREIGN KEY (id_projet) REFERENCES projet(id)
 
                                                          ) ''')        
                                                         
     
                 
-    def creationLigneCasUsage(self):
-        self.c.execute('''CREATE TABLE IF NOT EXISTS ligne_cas(
-                id                        INTEGER        PRIMARY KEY AUTOINCREMENT,
-                id_cas                    INTEGER,
-                type                      TEXT,
-                description               TEXT,
+    	def creationLigneCasUsage(self):
+        	self.c.execute('''CREATE TABLE IF NOT EXISTS ligne_cas(
+                	id                        INTEGER        PRIMARY KEY AUTOINCREMENT,
+                	id_cas                    INTEGER,
+                	type                      TEXT,
+                	description               TEXT,
                 
-                CONSTRAINT fk_ligne                FOREIGN KEY (id_cas) REFERENCES cas_usage(id)
+                	CONSTRAINT fk_ligne                FOREIGN KEY (id_cas) REFERENCES cas_usage(id)
                                                         ) ''')
 				
 	def creationCRC(self):
