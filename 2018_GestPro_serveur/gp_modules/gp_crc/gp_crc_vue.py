@@ -148,15 +148,18 @@ class Vue():
         
     def rafraichirApresDelete(self):
         self.saisirFiche()
+        
+        #self.canevasplash.delete(ALL)
+        
         for f in self.listeFiches:
             f.effacerFiche()
             
         self.listeFiches =[]
         self.listeFramesFiches=[]
         self.listeBD = self.parent.selectFromCRC()
-        self.idFiche=0
         self.frameX=25
-        self.frameY=25   
+        self.frameY=25
+        
         self.afficherFichesBD()
         
     def saisirFiche(self):
@@ -165,19 +168,22 @@ class Vue():
             self.parent.insertIntoCRC(f.idFiche,f.classe,f.proprietaire,f.collaboration,f.responsabilites,f.parametres)
      
     def afficherFichesBD(self):
+        noTempFiche=0
         for liste in self.listeBD:
             f = Fiche(self,self.frameX,self.frameY)
-            self.listeFiches.append(f)
-            self.idFiche+=1
-            
+            self.listeFiches.append(f)    
             f.idFiche = int(liste[2])
             f.classe = liste[3]
             f.proprietaire = liste[4]
             f.collaboration = liste[5]
             f.responsabilites = liste[6]
             f.parametres = liste[7]
+
+            if( f.idFiche > noTempFiche):
+                noTempFiche = f.idFiche
             f.afficherFiche()
-            
+        self.idFiche = noTempFiche+1
+    
     def fermerfenetre(self):
         print("ONFERME la fenetre")
         self.root.destroy()
@@ -237,9 +243,9 @@ class Fiche():
     def deleteFiche(self):
         self.parent.deleteFromCRC(self,self.idFiche,self.classe,self.proprietaire,self.collaboration,self.responsabilites,self.parametres)
         self.parent.listeFramesFiches.remove(self.frameFiche)
+        #self.frameFiche = None
         self.frameFiche.destroy()
         self.parent.rafraichirApresDelete()
-        
     def effacerFiche(self):
         self.frameFiche.destroy()
         
