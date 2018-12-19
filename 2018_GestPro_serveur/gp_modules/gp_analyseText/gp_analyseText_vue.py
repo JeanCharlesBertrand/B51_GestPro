@@ -13,7 +13,6 @@ class Vue():
         #self.root=tix.Tk()
         self.root=Tk()
         self.parent=parent
-        #self.root.title(os.path.basename(sys.argv[0]))
         self.root.title(self.parent.getNomProjet())
         self.root.iconbitmap('image/tk_logo.ico')
         self.root.protocol("WM_DELETE_WINDOW", self.fermerfenetre)
