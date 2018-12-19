@@ -56,9 +56,16 @@ class Vue():
         # Frame Title bar
         self.frameTitleBar = ttk.Frame(self.mainFrame)
         self.frameTitleBar.grid(row=0, column=1, padx=15, pady=10)
-        self.labelNomProjet = ttk.Label(self.frameTitleBar, text="SÉQUENCE DE DÉVELOPPEMENT", font = ("Arial", 30), background='#282E3F', foreground='#4C9689')
+        self.labelNomProjet = ttk.Label(self.frameTitleBar, text="SÉQUENCE DE DÉVELOPPEMENT", font = ("Arial", 20), background='#282E3F', foreground='#4C9689')
         self.labelNomProjet.grid(row=0, column=1)
         
+        # Input Text 
+        self.frameTextInput = ttk.Frame(self.mainFrame)
+        self.frameTextInput.grid(row=1, column=1, padx=15, pady=10)
+        self.txtInput = Text(self.frameTextInput, width=70, height=2, wrap=WORD, relief=SUNKEN)
+        self.txtInput.grid(row=0, column=1)
+        
+        """
         # Frame Top Buttons
         self.topButtons = ttk.Frame(self.mainFrame, style='My.TFrame')
         self.topButtons.grid(row=1, column=1, pady=25)
@@ -67,6 +74,7 @@ class Vue():
         self.btn1.grid(row = 0, column = 0, padx=10)
         self.btn2 = Button(self.topButtons, text="Save", font = ("Arial", 12), background='#4C9689', foreground='#dbdbdb')
         self.btn2.grid(row = 0, column = 1, padx=10)
+        """
         
         # Frame ListBox
         self.listBoxFrame = Frame(self.mainFrame)
