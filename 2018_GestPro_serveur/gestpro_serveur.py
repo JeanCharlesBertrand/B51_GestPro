@@ -428,7 +428,7 @@ class ControleurServeur(object):
             return liste
         except Exception as e:
             print(str(e))
-        
+            
     def deleteFromCRC(self,idProjet,idFiche,classe,proprietaire,collaboration,responsabilites,parametres):
         try:
             test = dbUtilisateurs.c.execute('DELETE FROM crc WHERE id_projet = ? AND id_fiche = ? AND classe = ?', (idProjet,idFiche,classe))
