@@ -140,9 +140,9 @@ class Vue():
         self.labelAdj.grid(row=1, column=3, pady=10)
 
         # Labels Nom, Verbe, Adjectif
-        self.labelNom = ttk.Label(self.frameTableau, text="IMPLICITE", font = ("Arial", 12), background=self.couleur500, foreground=self.couleurAccent)
+        self.labelNom = ttk.Label(self.frameTableau, text="EXPLICITE", font = ("Arial", 12), background=self.couleur500, foreground=self.couleurAccent)
         self.labelNom.grid(row=2, column=0, padx=10)
-        self.labelVerbe = ttk.Label(self.frameTableau, text="EXPLICITE", font = ("Arial", 12), background=self.couleur500, foreground=self.couleurAccent)
+        self.labelVerbe = ttk.Label(self.frameTableau, text="IMPLICITE", font = ("Arial", 12), background=self.couleur500, foreground=self.couleurAccent)
         self.labelVerbe.grid(row=3, column=0, padx=10)
         self.labelAdj = ttk.Label(self.frameTableau, text="SUPPLEMENTAIRE", font = ("Arial", 12), background=self.couleur500, foreground=self.couleurAccent)
         self.labelAdj.grid(row=4, column=0, padx=10)
