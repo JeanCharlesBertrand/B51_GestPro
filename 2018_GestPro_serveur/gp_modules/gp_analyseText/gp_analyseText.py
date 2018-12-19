@@ -33,7 +33,7 @@ class Controleur():
         
     def getNomProjet(self):
         self.nomProjet = self.serveur.getNomProjet(self.idProjet)
-        return self.nomProjet
+        return self.nomProjet[0]
 
     def insertIntoAnalyse(self):
         self.list=self.vue.prepaInsertList()
