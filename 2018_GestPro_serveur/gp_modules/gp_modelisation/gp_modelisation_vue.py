@@ -38,8 +38,6 @@ class Vue():
 		for nomTable in self.parent.serveur.getTablesMod(self.parent.idProjet):
 			self.listTables.insert(self.listTables.size(), nomTable)
 
-		
-		
 	def changemode(self,cadre):
 		if self.modecourant:
 			self.modecourant.pack_forget()
@@ -55,7 +53,6 @@ class Vue():
 		else:
 			self.cadreactif.pack()
 	
-		
 	def creercadres(self):	
 		self.creercadresplash()
 		#self.cadrejeu=Frame(self.root,bg="blue")
@@ -68,8 +65,6 @@ class Vue():
 		self.parent.serveur.entreeGenerique(requete, (idProjet,nomTable) )
 		self.clearTable()
 		self.afficherListeTables()
-		
-		
 		
 	def loadTable(self, event):
 		self.clearTable()
@@ -162,7 +157,7 @@ class Vue():
 			
 		btnUpdate=Button(self.frameModListBox, text="UPDATE",bg=self.couleurAccent,relief = "raised",font = ("Courier New", 12, "bold"),fg = self.couleurTexte1,command=self.updateLigne)
 			
-		#btnSave=Button(self.frameModNom,	text=" Save ",bg=self.couleurAccent,relief = "raised",font = ("Courier New", 14, "bold"),fg = self.couleurTexte1,command= self.saveTable)  
+		btnSave=Button(self.frameModNom,	text=" Save ",bg=self.couleurAccent,relief = "raised",font = ("Courier New", 14, "bold"),fg = self.couleurTexte1,command= self.saveTable)  
 			
 		btnDelete=Button(self.frameModTables, text=" DELETE ",bg=self.couleurAccent,relief = "raised",font = ("Courier New", 14, "bold"),fg = self.couleurTexte1, command=self.deleteTable)
 			
@@ -177,6 +172,8 @@ class Vue():
 		self.labelNomCetteTable.grid(column=1, row=3, sticky=N+S+W+E)
 		self.labelNTable.grid(column=2, row=3, sticky=N+S+W+E)
 		btnNew.grid(column=6, row=1, sticky=N+S+W+E)
+		btnSave.grid(column=6, row=2, sticky=N+S+W+E)
+
 		self.scroll.grid(column=7, row=0, sticky=N+S+W+E)
 			
 		self.listNom.grid(column=0, row=0, sticky=N+S+W+E)
@@ -194,9 +191,6 @@ class Vue():
 		
 
 		self.lineEntries = [ self.entryNomChamp, self.entryTypeChamp, self.entryKeyChamp, self.entryNNChamp, self.entryDefaultChamp]
-
-
-	
 	
 	def monScroll (self, *args):
 		
@@ -206,7 +200,6 @@ class Vue():
 		self.listNN.yview(*args)
 		self.listDefault.yview(*args)
 		
-	
 	def	updateLigne(self):
 		numLigne = int(self.entryNumLigne.get())
 		updatedText = ""
@@ -216,7 +209,6 @@ class Vue():
 			lb.delete(numLigne)
 			lb.insert(numLigne, updatedText)
 
-		
 	def insertLineToTable(self):
 		line = [entry.get() for entry in self.lineEntries]
 		for i in range(5):
@@ -227,14 +219,12 @@ class Vue():
 		for i in self.listBoxes:
 			i.delete(0,'end')
 
-	
 	def getShownTableText(self):
 		texteDeLaTableAffiche = ""
 		for i in range( self.listNom.size() ):
 			texteDeLaTableAffiche+= ",".join( [lb.get(i) for lb in self.listBoxes] )
 			texteDeLaTableAffiche+='\n'
 		return texteDeLaTableAffiche
-	
 	
 	def saveTable(self):
 		texteDeLaTable = self.getShownTableText()
