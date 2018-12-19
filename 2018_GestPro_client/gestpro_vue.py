@@ -315,7 +315,7 @@ class Vue():
             width=600,
             height=400,
             bg=self.couleur500)                                         # Couleur de fond [Bleu-gris]
-        self.img_logo2 = PhotoImage (file = "image/logo3.png")      # Importer image logo
+        self.img_logo2 = PhotoImage (file = "image/logo4.png")      # Importer image logo
         x = 300                                                       # Position x,y de l'image sur canevas
         y = 100 
 
@@ -377,6 +377,12 @@ class Vue():
         self.texteLoginMDP = "Mot de passe"
         self.listeConnexion = [self.nomsplash, self.loginMDP, self.ipsplash]
         self.texteListe = [self.texteNomSplash, self.texteLoginMDP, self.monip]
+
+        self.btnOption = Button(relief = FLAT, bg = self.couleur500)
+        self.photo = PhotoImage(file = "image/Setting2.png")
+        self.btnOption.config(image = self.photo, width = 15, height = 15)
+
+        self.canevasLogin.create_window(570,370, window = self.btnOption)
 
         for self.entry2 in self.listeConnexion:
             self.champsText2 = self.texteListe[self.compteurTexte]
@@ -556,18 +562,13 @@ class Vue():
         self.frameModule = Frame(self.frameAccueil,bg=self.couleur500, width = 200, height = 800)
         self.frameInfo = Frame(self.frameAccueil,bg=self.couleur500, width = 998, height = 800)
         self.frameBorder = Frame(self.frameAccueil,bg = "black", width = 2, height = 800)
-        #self.canevasModule = Canvas(self.frameModule,bg=self.couleur500,bd=0, highlightthickness=0, width = 200, height = 800)
-        #self.canevasModule.grid(row = 0, column = 0, sticky = "nsew")
-        #self.canevasInfo = Canvas(self.frameInfo, bg=self.couleur500,bd=0, highlightthickness=0, width = 998, height = 800)
 
         self.frameModule.grid(row = 0, column = 1, sticky = "nse")
         self.frameBorder.grid(row = 0, column =2, sticky = "ns")
         self.frameInfo.grid(row = 0, column = 3, sticky = "nse")
-        #self.canevasInfo.grid(row = 0, column = 0, sticky = "nsew")
 
         self.frameModule.grid_rowconfigure(20, weight = 0)
         self.frameModule.grid_columnconfigure(2, weight =0)
-        #self.creerBoutonFrameModule()
     
     def creerBoutonFrameModule(self):       
         self.canevasModule = Canvas(self.frameModule,bg=self.couleur500,bd=0, highlightthickness=0, width = 200, height = 800)
@@ -741,10 +742,10 @@ class Vue():
 
         btnCreationP=Button(                                       # CrÃ©ation bouton connection
             text="+",
-            bg="#282E3F",                                        # Couleur bouton [cyan]
+            bg= self.couleur500,                                        # Couleur bouton [cyan]
             relief = "flat",
             font = ("Courier New", 12, "bold"),
-            fg = "#dbdbdb", command=self.frameQuiBougeCreationProjet)
+            fg = self.couleurTexte1, command=self.frameQuiBougeCreationProjet)
                
         def changerProjet(*args):
             self.nom1=self.v.get()
@@ -777,7 +778,8 @@ class Vue():
             fg = self.couleurTexte1,                            #texte blanc
             font = ("Courier New", 12, "bold"),
             highlightthickness = 0,
-            highlightcolor = self.couleur500)
+            highlightcolor = self.couleur500,
+            selectbackground = self.couleurAccent)
         
         self.updateListeMembres()
             
@@ -800,7 +802,7 @@ class Vue():
         self.listeLabelInfo = [self.lblDeadline,self.lblDate,self.lblMember,self.lblTimer,self.lblTimeLeft ] #,self.member1,self.member2,self.member3,self.member4, self.member5,self.member6
         self.canevasInfo.create_window(998/2,45, window = self.lblNomProjet)
         self.canevasInfo.create_window(200,100, window = self.lblMember)
-        self.canevasInfo.create_window(177,205, window = self.listeMembres)
+        self.canevasInfo.create_window(200,205, window = self.listeMembres)
         self.canevasInfo.create_window(205,310, window = self.entryNomMembreAjout)
         self.canevasInfo.create_window(315,310, window = self.btnAjouterMembre)
         self.canevasInfo.create_window(205,310, window = self.lblDeadline)
@@ -809,6 +811,13 @@ class Vue():
         self.canevasInfo.create_window(72, 638, window = self.lblUser)
 
         self.canevasInfo.create_line(40,70,950,70,fill=self.couleurAccent)
+
+        self.btnRefresh = Button(relief = FLAT, bg = self.couleur500)
+        self.photoRefresh = PhotoImage(file = "image/refresh.png")
+        self.btnRefresh.config(image = self.photoRefresh, width = 15, height = 15, command = self.updateChat)
+
+        #self.canevasInfo.create_window(830,765, window = self.btnRefresh)
+
 
         for self.labelInfo in self.listeLabelInfo:
             self.creerLabelInfo(self.labelInfo)
@@ -829,6 +838,7 @@ class Vue():
         self.canevasInfo.create_window(850,765, window = self.btnLeaveMsg, width = 200, height = 25)
         
         self.canevasInfo.create_window(780,102,window=btnCreationP)
+        self.canevasInfo.create_window(185,450, window = self.btnRefresh)
 
     def creerLabelInfo(self,labelInfo):
         self.labelInfo.config(
