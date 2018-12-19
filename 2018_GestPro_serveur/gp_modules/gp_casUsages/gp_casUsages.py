@@ -60,6 +60,7 @@ class Controleur():
     def uploadBD(self, idProjet):
         requete="SELECT * FROM cas_usage WHERE id_projet = '"+str(idProjet)+"';"
         rep=self.serveur.entreeGenerique1(requete)
+        print(rep)
         nbCas=self.serveur.entreeGenerique1("SELECT COUNT(*) FROM cas_usage WHERE id_projet = '"+str(self.idProjet)+"';")
         if nbCas != "no such column: id_projet":
             for i in range(nbCas[0][0]):
