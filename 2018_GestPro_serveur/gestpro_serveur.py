@@ -190,7 +190,7 @@ class ControleurServeur(object):
 #    Last modified: 2018/12/12 - 9h40
 #===============================================================================
     
-    def entreeGenerique(self,requete):
+    def entreeGenerique1(self,requete):
         try:
             dbUtilisateurs.c.execute(requete)
             dbUtilisateurs.conn.commit()
