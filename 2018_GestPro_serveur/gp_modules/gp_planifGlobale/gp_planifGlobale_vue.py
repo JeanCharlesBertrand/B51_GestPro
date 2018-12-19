@@ -14,15 +14,6 @@ class Vue():
         self.parent=parent
         self.root.title(self.parent.getNomProjet())
         self.root.iconbitmap('image/tk_logo.ico')
-		
-        self.couleur500 = "#344955"
-        self.couleur800 = ""
-        self.couleur300 = ""
-        self.couleurTexte1 = "#FFFFFF"
-        self.couleurTexte2 = "#000000"
-        self.couleurAccent = "#FAAB1A"
-        self.couleurSelection = "#FF4181"
-		
         self.modele=None
         self.largeur=largeur
         self.hauteur=hauteur
@@ -45,27 +36,45 @@ class Vue():
         else:
             self.cadreactif.pack()
     
-        
+    def insert(self):
+        self.lb.insert(0, self.txtInput.get("1.0", END))
+        self.liste=self.lb.get(0, END)
+        print(self.liste)                
+        self.parent.insertIntoPlanif(self.liste) 
+
+    #def prepaInsertList(self):
+    #    self.liste=list()
+    #    for i in self.lb:
+    #        self.liste.append(i)    
+    #    return self.liste
+    
+    def showListeSelect(self):
+        self.lb.delete(0,END)
+        lista=self.parent.selectFromPlanif()
+        if lista is not None:
+            for i in lista:
+                for n in i:
+                    self.lb.insert(END, n)
+                    
     def creercadres(self):
         self.mainWindow()
 
-                
     def creercadresplash(self):
         self.cadresplash=Frame(self.root)
-        self.canevasplash=Canvas(self.cadresplash,width=640,height=480,bg=self.couleur500)
+        self.canevasplash=Canvas(self.cadresplash,width=640,height=480,bg="#282E3F")
         self.canevasplash.pack()
         
     def mainWindow(self):
         # Main Frame
         self.gui_style = ttk.Style()
-        self.gui_style.configure('My.TFrame', background=self.couleur500, foreground=self.couleurTexte1)
+        self.gui_style.configure('My.TFrame', background='#282E3F', foreground='#dbdbdb')
         self.mainFrame = ttk.Frame(self.root, style='My.TFrame')
         self.mainFrame.pack()
         
         # Frame Title bar
         self.frameTitleBar = ttk.Frame(self.mainFrame)
         self.frameTitleBar.grid(row=0, column=1, padx=15, pady=10)
-        self.labelNomProjet = ttk.Label(self.frameTitleBar, text="SÉQUENCE DE DÉVELOPPEMENT", font = ("Arial", 20), background=self.couleur500, foreground=self.couleurAccent)
+        self.labelNomProjet = ttk.Label(self.frameTitleBar, text="SÉQUENCE DE DÉVELOPPEMENT", font = ("Arial", 20), background='#282E3F', foreground='#4C9689')
         self.labelNomProjet.grid(row=0, column=1)
         
         # Input Text 
@@ -79,9 +88,9 @@ class Vue():
         self.topButtons = ttk.Frame(self.mainFrame, style='My.TFrame')
         self.topButtons.grid(row=1, column=1, pady=25)
         
-        self.btn1 = Button(self.topButtons, text="Update", font = ("Arial", 12), background=self.couleurAccent, foreground=self.couleurTexte1)
+        self.btn1 = Button(self.topButtons, text="Update", font = ("Arial", 12), background='#4C9689', foreground='#dbdbdb')
         self.btn1.grid(row = 0, column = 0, padx=10)
-        self.btn2 = Button(self.topButtons, text="Save", font = ("Arial", 12), background=self.couleurAccent, foreground=self.couleurTexte1)
+        self.btn2 = Button(self.topButtons, text="Save", font = ("Arial", 12), background='#4C9689', foreground='#dbdbdb')
         self.btn2.grid(row = 0, column = 1, padx=10)
         """
         
@@ -90,7 +99,7 @@ class Vue():
         self.listBoxFrame.grid(row=2, column=1)
         
         # ListBox contenant les items
-        self.lb=Listbox(self.listBoxFrame, height=30, width=100, selectmode=EXTENDED)
+        self.lb=Listbox(self.listBoxFrame, height=30, width=100, selectmode=SINGLE)
         self.lb.grid(row=1, column=0)
         
         #Attach scrollbar to the List
@@ -105,23 +114,18 @@ class Vue():
         self.frameBottomBar = ttk.Frame(self.mainFrame, style='My.TFrame')
         self.frameBottomBar.grid(row=3, column=1, pady=25)
         
-        self.btnAdd = Button(self.frameBottomBar, text="Ajouter", font = ("Arial", 12), background=self.couleurAccent, foreground=self.couleurTexte1)
+        self.btnAdd = Button(self.frameBottomBar, text="Ajouter", font = ("Arial", 12), background='#4C9689', foreground='#dbdbdb',command=self.insert)
         self.btnAdd.grid(row=0, column=0, padx=10)
-        self.btnMoveUp = Button(self.frameBottomBar, text="Monter", font = ("Arial", 12), background=self.couleurAccent, foreground=self.couleurTexte1, command = self.moveUp)
+        self.btnMoveUp = Button(self.frameBottomBar, text="Monter", font = ("Arial", 12), background='#4C9689', foreground='#dbdbdb', command = self.moveUp)
         self.btnMoveUp.grid(row=0, column=1, padx=10)
-        self.btnMoveDown = Button(self.frameBottomBar, text="Descendre", font = ("Arial", 12), background=self.couleurAccent, foreground=self.couleurTexte1, command = self.moveDown)
+        self.btnMoveDown = Button(self.frameBottomBar, text="Descendre", font = ("Arial", 12), background='#4C9689', foreground='#dbdbdb', command = self.moveDown)
         self.btnMoveDown.grid(row=0, column=2, padx=10)
-        self.btnRemove = Button(self.frameBottomBar, text="Effacer", font = ("Arial", 12), background=self.couleurAccent, foreground=self.couleurTexte1)
+        self.btnRemove = Button(self.frameBottomBar, text="Effacer", font = ("Arial", 12), background='#4C9689', foreground='#dbdbdb', command = self.delete)
         self.btnRemove.grid(row=0, column=3, padx=10)
         
         #Add to listbox
-        self.lb.insert(0, "Tâche 1")
-        self.lb.insert(1, "Tâche 2")
-        self.lb.insert(2, "Tâche 3")
-        self.lb.insert(3, "Tâche 4")
-        self.lb.insert(4, "Tâche 5")
-        self.lb.insert(5, "Tâche 6")
-        self.lb.insert(6, "Tâche 7")
+        
+        self.showListeSelect()
     
     def move(self):
         value = self.lb.get(self.lb.curselection())
@@ -131,6 +135,15 @@ class Vue():
             self.lb.selection_set(0)
         else:
             self.lb.selection_set(x1+1)
+            
+        
+    def delete(self):
+        self.lb.delete(self.lb.curselection())
+        self.liste=self.lb.get(0, END)
+        self.parent.insertIntoPlanif(self.liste) 
+        
+        self.lb.selection_set(0)
+        self.lb.focus_set()  
             
     def listItemSelection(self):
         selection = self.lb.curselection()
@@ -151,25 +164,33 @@ class Vue():
             self.lb.delete(pos)
             self.lb.insert(pos-1, text)
             
+       
+        
+        self.liste=self.lb.get(0, END)
+        self.parent.insertIntoPlanif(self.liste) 
+        
         self.lb.selection_set(pos-1, pos-1)
         self.lb.focus_set()
         
     def moveDown(self):
-            posList = self.lb.curselection()
+        posList = self.lb.curselection()
             # exit if the list is empty
-            if not posList:
-                return
+        if not posList:
+            return
         
-            for pos in posList:
-                # skip if item is at the top
-                if pos == 0:
-                    continue
-                text = self.lb.get(pos)
-                self.lb.delete(pos)
-                self.lb.insert(pos+1, text)
-                
-            self.lb.selection_set(pos+1, pos+1)
-            self.lb.focus_set()    
+        for pos in posList:
+            # skip if item is at the top
+            if pos == 0:
+                continue
+            text = self.lb.get(pos)
+            self.lb.delete(pos)
+            self.lb.insert(pos+1, text)  
+            
+        self.liste=self.lb.get(0, END)
+        self.parent.insertIntoPlanif(self.liste) 
+        
+        self.lb.selection_set(pos+1, pos+1)
+        self.lb.focus_set()  
 
         
     def fermerfenetre(self):

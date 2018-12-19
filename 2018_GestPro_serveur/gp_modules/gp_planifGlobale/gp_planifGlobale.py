@@ -27,11 +27,19 @@ class Controleur():
 
     def getNomProjet(self):
         self.nomProjet = self.serveur.getNomProjet(self.idProjet)
-        return self.nomProjet
+        return self.nomProjet[0]
     
     def lierServeur(self):
         ad="http://"+self.ipserveur+":"+self.nodeport
         self.serveur=ServerProxy(ad) 
+               
+    def insertIntoPlanif(self,liste):
+        self.serveur.insertIntoPlanif(self.idProjet, liste)
+        self.vue.showListeSelect()
+        
+    def selectFromPlanif(self):
+        self.selectList=self.serveur.selectFromPlanif(self.idProjet)
+        return self.selectList
         
 if __name__ == '__main__':
     c=Controleur()
