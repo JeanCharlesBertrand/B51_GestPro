@@ -12,13 +12,23 @@ class Vue():
         self.root=Tk()
         self.root.protocol("WM_DELETE_WINDOW", self.fermerfenetre)
         self.parent=parent
+        self.root.title(self.parent.getNomProjet())
+        self.root.iconbitmap('image/tk_logo.ico')
+		
+        self.couleur500 = "#344955"
+        self.couleur800 = ""
+        self.couleur300 = ""
+        self.couleurTexte1 = "#FFFFFF"
+        self.couleurTexte2 = "#000000"
+        self.couleurAccent = "#FAAB1A"
+        self.couleurSelection = "#FF4181"
+		
         self.modele=None
         self.largeur=largeur
         self.hauteur=hauteur
         self.images={}
         self.cadreactif=None
         self.creercadres()
-        self.root.title(self.parent.getNomProjet())
         
     def changemode(self,cadre):
         if self.modecourant:
@@ -42,50 +52,67 @@ class Vue():
                 
     def creercadresplash(self):
         self.cadresplash=Frame(self.root)
-        self.canevasplash=Canvas(self.cadresplash,width=640,height=480,bg="#282E3F")
+        self.canevasplash=Canvas(self.cadresplash,width=640,height=480,bg=self.couleur500)
         self.canevasplash.pack()
         
     def mainWindow(self):
         # Main Frame
-        self.mainFrame = ttk.Frame(self.root)
+        self.gui_style = ttk.Style()
+        self.gui_style.configure('My.TFrame', background=self.couleur500, foreground=self.couleurTexte1)
+        self.mainFrame = ttk.Frame(self.root, style='My.TFrame')
         self.mainFrame.pack()
         
-        # Barre de bouton du haut
+        # Frame Title bar
         self.frameTitleBar = ttk.Frame(self.mainFrame)
-        self.frameTitleBar.pack()
-        self.btn1 = ttk.Button(self.frameTitleBar, text="Update")
-        self.btn1.grid(row = 0, column = 0)
-        self.btn2 = ttk.Button(self.frameTitleBar, text="Save")
-        self.btn2.grid(row = 0, column = 1)
+        self.frameTitleBar.grid(row=0, column=1, padx=15, pady=10)
+        self.labelNomProjet = ttk.Label(self.frameTitleBar, text="SÉQUENCE DE DÉVELOPPEMENT", font = ("Arial", 20), background=self.couleur500, foreground=self.couleurAccent)
+        self.labelNomProjet.grid(row=0, column=1)
         
-        # Label titre
-        self.frameSequenceDev = ttk.Frame(self.mainFrame)
-        self.frameSequenceDev.pack()
-        self.txtTache = ttk.Label(self.frameSequenceDev, text="Séquence de développement")
-        self.txtTache.grid(row=0, column=0)
+        # Input Text 
+        self.frameTextInput = ttk.Frame(self.mainFrame)
+        self.frameTextInput.grid(row=1, column=1, padx=15, pady=10)
+        self.txtInput = Text(self.frameTextInput, width=70, height=2, wrap=WORD, relief=SUNKEN)
+        self.txtInput.grid(row=0, column=1)
+        
+        """
+        # Frame Top Buttons
+        self.topButtons = ttk.Frame(self.mainFrame, style='My.TFrame')
+        self.topButtons.grid(row=1, column=1, pady=25)
+        
+        self.btn1 = Button(self.topButtons, text="Update", font = ("Arial", 12), background=self.couleurAccent, foreground=self.couleurTexte1)
+        self.btn1.grid(row = 0, column = 0, padx=10)
+        self.btn2 = Button(self.topButtons, text="Save", font = ("Arial", 12), background=self.couleurAccent, foreground=self.couleurTexte1)
+        self.btn2.grid(row = 0, column = 1, padx=10)
+        """
+        
+        # Frame ListBox
+        self.listBoxFrame = Frame(self.mainFrame)
+        self.listBoxFrame.grid(row=2, column=1)
         
         # ListBox contenant les items
-        self.lb=Listbox(self.frameSequenceDev, height=20, width=50, selectmode=EXTENDED)
-        #self.lb.grid(row=1, column=0, rowspan=6,columnspan=2)
+        self.lb=Listbox(self.listBoxFrame, height=30, width=100, selectmode=EXTENDED)
         self.lb.grid(row=1, column=0)
         
         #Attach scrollbar to the List
-        self.sb1=Scrollbar(self.frameSequenceDev)
+        self.sb1=Scrollbar(self.listBoxFrame)
         self.sb1.grid(row=1, column=1)
         
         #Apply scrollbar to the list
         self.lb.configure(yscrollcommand=self.sb1.set)
         self.sb1.configure(command=self.lb.yview)
         
-        
         #Frame pour les bouton Move Up et Move Down
-        self.frameBottomBar = ttk.Frame(self.mainFrame)
-        self.frameBottomBar.pack()
+        self.frameBottomBar = ttk.Frame(self.mainFrame, style='My.TFrame')
+        self.frameBottomBar.grid(row=3, column=1, pady=25)
         
-        self.btnMoveUp = ttk.Button(self.frameBottomBar, text="Move Up", command = self.moveUp)
-        self.btnMoveUp.grid(row=0, column=0)
-        self.btnMoveDown = ttk.Button(self.frameBottomBar, text="Move Down", command = self.moveDown)
-        self.btnMoveDown.grid(row=1, column=0)
+        self.btnAdd = Button(self.frameBottomBar, text="Ajouter", font = ("Arial", 12), background=self.couleurAccent, foreground=self.couleurTexte1)
+        self.btnAdd.grid(row=0, column=0, padx=10)
+        self.btnMoveUp = Button(self.frameBottomBar, text="Monter", font = ("Arial", 12), background=self.couleurAccent, foreground=self.couleurTexte1, command = self.moveUp)
+        self.btnMoveUp.grid(row=0, column=1, padx=10)
+        self.btnMoveDown = Button(self.frameBottomBar, text="Descendre", font = ("Arial", 12), background=self.couleurAccent, foreground=self.couleurTexte1, command = self.moveDown)
+        self.btnMoveDown.grid(row=0, column=2, padx=10)
+        self.btnRemove = Button(self.frameBottomBar, text="Effacer", font = ("Arial", 12), background=self.couleurAccent, foreground=self.couleurTexte1)
+        self.btnRemove.grid(row=0, column=3, padx=10)
         
         #Add to listbox
         self.lb.insert(0, "Tâche 1")
