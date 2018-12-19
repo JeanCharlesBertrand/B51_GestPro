@@ -10,9 +10,10 @@ import time
 class Vue():
 	def __init__(self,parent,largeur=800,hauteur=600):
 		self.root=tix.Tk()
-		self.root.title(os.path.basename(sys.argv[0]))
-		self.root.protocol("WM_DELETE_WINDOW", self.fermerfenetre)
 		self.parent=parent
+		self.root.title(self.parent.getNomProjet()) 
+		self.root.iconbitmap("Image/tk_logo.ico")
+		self.root.protocol("WM_DELETE_WINDOW", self.fermerfenetre)
 		self.modele=None
 		self.largeur=largeur
 		self.hauteur=hauteur
@@ -85,220 +86,118 @@ class Vue():
 		self.entryNumLigne.insert(0, indexLine)
 	
 	def creercadresplash(self):
-		self.cadresplash=Frame(self.root)
-		self.canevasplash=Canvas(self.cadresplash,width=640,height=480,bg="#282E3F")
-		self.canevasplash.pack()
-		self.listTables = Listbox(self.cadresplash,height=15, width=12, bg="#002887", font = ('Courier New',13), fg = 'white')
-		self.listTables.place(x= 20, y=100)
+		self.cadresplash=Frame(self.root, bg="#282E3F")
 		
-		self.listNom = Listbox(self.cadresplash,  height=500, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0)
-		self.listNom.place(x= 150, y=160,width=65, height=235)
-		self.listType = Listbox(self.cadresplash, width=20, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0)
-		self.listType.place(x= 230, y=160,width=65, height=235)
-		self.listKey = Listbox(self.cadresplash, width=20, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0)
-		self.listKey.place(x= 310, y=160,width=65, height=235)
-		self.listNN = Listbox(self.cadresplash, width=20, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0)
-		self.listNN.place(x= 390, y=160,width=65, height=235)
-		self.listDefault = Listbox(self.cadresplash, width=20, bg="#002887", font = ('Courier New',13), fg = 'white', exportselection=0)
-		self.listDefault.place(x= 470, y=160,width=65, height=235)
+		self.frameModNom = Frame(self.cadresplash, bg="#282E3F")
+		self.frameModTables = Frame(self.cadresplash, bg="#282E3F")
+		self.frameModListBox = Frame(self.cadresplash, bg="#282E3F")
+		
+		self.frameModNom.grid(column=1, row=0, sticky=W+E)
+		self.frameModTables.grid(column=0, row=0, rowspan=10, sticky=N+S+W+E)
+		self.frameModListBox.grid(column=1, row=1, sticky=N+S+W+E)
+		
+	
+		self.listTables = Listbox(self.frameModTables,height=15, width=12, bg="#D3D3D3", font = ('Courier New',13))
+		self.listTables.pack(side=LEFT)
+		
+
+		
+		self.scroll = Scrollbar(self.frameModListBox,orient=VERTICAL,command=self.monScroll)
+
+		self.listNom = Listbox(self.frameModListBox,  height=20,width=12, bg="#D3D3D3",  font = ('Courier New',13),exportselection=0, yscrollcommand=self.scroll.set)
+		self.listType = Listbox(self.frameModListBox,  height=20,width=12, bg="#D3D3D3", font = ('Courier New',13),exportselection=0, yscrollcommand=self.scroll.set)
+		self.listKey = Listbox(self.frameModListBox,  height=20,width=12, bg="#D3D3D3", font = ('Courier New',13), exportselection=0, yscrollcommand=self.scroll.set)
+		self.listNN = Listbox(self.frameModListBox,  height=20,width=12, bg="#D3D3D3", font = ('Courier New',13),exportselection=0, yscrollcommand=self.scroll.set)
+		self.listDefault = Listbox(self.frameModListBox,  height=20,width=12, bg="#D3D3D3", font = ('Courier New',13), exportselection=0, yscrollcommand=self.scroll.set)
 		self.listBoxes = [ self.listNom, self.listType, self.listKey, self.listNN, self.listDefault ]
 		
 		for listbox in self.listBoxes:
 			listbox.bind("<Button-1>", self.selectLine)
+
 		
 		self.listTables.bind("<Double-Button-1>", self.loadTable)
-		self.canevasplash.create_line(0, 50, 640, 50, fill="black")
 		
-		self.labelListeTables = Label(
-			self.cadresplash, 
-			bd=1,
-			text="Tables",fg="#4C9689",
-			font = ("Courier New", 12, "bold"),
-			bg="#282E3F")
+		self.labelListeTables = Label(self.frameModNom, bd=1,text="Tables",fg="#4C9689",font = ("Courier New", 12, "bold"),bg="#282E3F")
 			
-		self.labelNomTable = Label(
-			self.cadresplash,
-			bd=1,
-			text="Nom de la nouvelle table: ",fg="#4C9689",
-			font = ("Courier New", 10, "bold"),
-			bg="#282E3F")
+		self.labelNomTable = Label(self.frameModNom,bd=1,text="Nom de la nouvelle table: ",fg='white', font = ("Courier New", 10, "bold"),bg="#282E3F")
 				
-		self.labelNTable = Label(
-			self.cadresplash,
-			bd=1,
-			text="",fg="#4C9689",
-			font = ("Courier New", 13, "bold"),
-			bg="#282E3F")
+		self.labelNTable = Label(self.frameModNom,bd=1,text="",fg='white',font = ("Courier New", 13, "bold"), bg="#282E3F")
 		
-		self.entryNumLigne=Entry(
-			bg="#4C9689",
-			relief = "sunken",
-			font = ("Courier New", 12, "bold"),
-			fg = "#dbdbdb",justify='center')
+		self.entryNumLigne=Entry(self.frameModListBox,bg="#4C9689", relief = "sunken", font = ("Courier New", 12, "bold"), fg = "#282E3F",justify='center')
 		
-		self.entryNomTable=Entry(
-			bg="#4C9689",		
-			relief = "sunken",
-			font = ("Courier New", 12, "bold"),
-			fg = "#dbdbdb",justify='center')
+		self.entryNomTable=Entry(self.frameModNom ,bg="#D3D3D3", relief = "sunken", font = ("Courier New", 12, "bold"),justify='center')
 			
-		btnNew=Button(									  
-			text=" CREATE ",
-			bg="#4C9689",											  
-			relief = "raised",
-			font = ("Courier New", 14, "bold"),
-			fg = "#dbdbdb",
-			command=self.nouvelleTable)
+		btnNew=Button(self.frameModNom, text=" CREATE ",bg="#4C9689", relief = "raised", font = ("Courier New", 14, "bold"), fg = "#dbdbdb", command=self.nouvelleTable)
 			
-		#btnClear=Button(									 
-		#	 text=" CLEAR ",
-		#	 bg="#4C9689",											   
-		#	 relief = "raised",
-		#	 font = ("Courier New", 14, "bold"),
-		#	 fg = "#dbdbdb",
-		#	command=self.clearTable)  
+		self.labelNomChamp = Label(self.frameModListBox,bd=1,text="Nom ",fg="#4C9689",font = ("Courier New", 12, "bold"),bg="#282E3F")
+			
+		self.entryNomChamp=Entry(self.frameModListBox, bg="#4C9689", relief = "sunken",font = ("Courier New", 10, "bold"),fg = "#dbdbdb",justify='center', width= 8)
 
-		self.labelNomChamp = Label(
-			self.cadresplash,
-			bd=1,
-			text="Nom ",fg="#4C9689",
-			font = ("Courier New", 12, "bold"),
-			bg="#282E3F")
+		self.labelTypeChamp = Label(self.frameModListBox,bd=1,text="Type ",fg="#4C9689",font = ("Courier New", 12, "bold"),bg="#282E3F")
 			
-		self.entryNomChamp=Entry(
-			bg="#4C9689",		
-			relief = "sunken",
-			font = ("Courier New", 10, "bold"),
-			fg = "#dbdbdb",justify='center', width= 8)
+		self.entryTypeChamp=Entry(self.frameModListBox, bg="#4C9689",	relief = "sunken",font = ("Courier New", 10, "bold"),fg = "#dbdbdb",justify='center', width= 8)
 
-		self.labelTypeChamp = Label(
-			self.cadresplash,
-			bd=1,
-			text="Type ",fg="#4C9689",
-			font = ("Courier New", 12, "bold"),
-			bg="#282E3F")
+		self.labelKeyChamp = Label(self.frameModListBox,bd=1,text="Cle ",fg="#4C9689",font = ("Courier New", 12, "bold"),bg="#282E3F")
 			
-		self.entryTypeChamp=Entry(
-			bg="#4C9689",		
-			relief = "sunken",
-			font = ("Courier New", 10, "bold"),
-			fg = "#dbdbdb",justify='center', width= 8)
+		self.entryKeyChamp=Entry(self.frameModListBox, bg="#4C9689",relief = "sunken",font = ("Courier New", 10, "bold"),fg = "#dbdbdb",justify='center', width= 8)
+		
+		self.labelNNChamp = Label(self.frameModListBox,bd=1,text="Non nul",fg="#4C9689",font = ("Courier New", 12, "bold"),bg="#282E3F")
+			
+		self.entryNNChamp=Entry(self.frameModListBox, bg="#4C9689",relief = "sunken",font = ("Courier New", 10, "bold"),fg = "#dbdbdb",justify='center', width= 8)
+			
+		self.labelDefaultChamp = Label(self.frameModListBox,bd=1,text="Defaut ",fg="#4C9689",font = ("Courier New", 12, "bold"),bg="#282E3F")
+			
+		self.entryDefaultChamp=Entry(self.frameModListBox, bg="#4C9689",relief = "sunken",font = ("Courier New", 10, "bold"),fg = "#dbdbdb",justify='center', width= 8)
+			
+		btnAdd=Button(self.frameModListBox, text="+Ligne",bg="#4C9689",relief = "raised",font = ("Courier New", 12, "bold"),fg = "#dbdbdb",command=self.insertLineToTable)
+			
+		btnUpdate=Button(self.frameModListBox, text="UPDATE",bg="#4C9689",relief = "raised",font = ("Courier New", 12, "bold"),fg = "#dbdbdb",command=self.updateLigne)
+			
+		btnSave=Button(self.frameModNom,	text=" Save ",bg="#4C9689",relief = "raised",font = ("Courier New", 14, "bold"),fg = "#dbdbdb",command= self.saveTable)  
+			
+		btnDelete=Button(self.frameModTables, text=" DELETE ",bg="#4C9689",relief = "raised",font = ("Courier New", 14, "bold"),fg = "#dbdbdb", command=self.deleteTable)
+			
+		self.labelNumLigne = Label(self.frameModListBox,bd=1,text="Ligne:",fg="#4C9689",font = ("Courier New", 10, "bold"),bg="#282E3F")
+			
+		self.labelNomCetteTable = Label(self.frameModNom,bd=1,text="Table active: ",fg="#4C9689",font = ("Courier New", 12, "bold"),bg="#282E3F")
+		
+		btnDelete.pack( side = BOTTOM)
 
-		self.labelKeyChamp = Label(
-			self.cadresplash,
-			bd=1,
-			text="Cle ",fg="#4C9689",
-			font = ("Courier New", 12, "bold"),
-			bg="#282E3F")
+		self.labelNomTable.grid(column=1, row=1, sticky=N+S+W+E)
+		self.entryNomTable.grid(column=2, row=1, sticky=N+S+W+E)
+		self.labelNomCetteTable.grid(column=1, row=3, sticky=N+S+W+E)
+		self.labelNTable.grid(column=2, row=3, sticky=N+S+W+E)
+		btnNew.grid(column=6, row=1, sticky=N+S+W+E)
+		btnSave.grid(column=6, row=2, sticky=N+S+W+E)
 			
-		self.entryKeyChamp=Entry(
-			bg="#4C9689",		
-			relief = "sunken",
-			font = ("Courier New", 10, "bold"),
-			fg = "#dbdbdb",justify='center', width= 8)
+		self.listNom.grid(column=0, row=0, sticky=N+S+W+E)
+		self.entryNomChamp.grid(column=0, row=1, sticky=N+S+W+E)
+		self.listType.grid(column=1, row=0, sticky=N+S+W+E)
+		self.entryTypeChamp.grid(column=1, row=1, sticky=N+S+W+E)
+		self.listKey.grid(column=2, row=0, sticky=N+S+W+E)
+		self.entryKeyChamp.grid(column=2, row=1, sticky=N+S+W+E)
+		self.listNN.grid(column=3, row=0, sticky=N+S+W+E)
+		self.entryNNChamp.grid(column=3, row=1, sticky=N+S+W+E)
+		self.listDefault.grid(column=4, row=0, sticky=N+S+W+E)
+		self.entryDefaultChamp.grid(column=4, row=1, sticky=N+S+W+E)
+		btnAdd.grid(column=5, row=1, sticky=N+S+W+E)
+		btnUpdate.grid(column=5, row=2, sticky=N+S+W+E)
 		
-		self.labelNNChamp = Label(
-			self.cadresplash,
-			bd=1,
-			text="Non nul",fg="#4C9689",
-			font = ("Courier New", 12, "bold"),
-			bg="#282E3F")
-			
-		self.entryNNChamp=Entry(
-			bg="#4C9689",		
-			relief = "sunken",
-			font = ("Courier New", 10, "bold"),
-			fg = "#dbdbdb",justify='center', width= 8)
-			
-		self.labelDefaultChamp = Label(
-			self.cadresplash,
-			bd=1,
-			text="Defaut ",fg="#4C9689",
-			font = ("Courier New", 12, "bold"),
-			bg="#282E3F")
-			
-		self.entryDefaultChamp=Entry(
-			bg="#4C9689",		
-			relief = "sunken",
-			font = ("Courier New", 10, "bold"),
-			fg = "#dbdbdb",justify='center', width= 8)
-			
-		btnAdd=Button(									  
-			text="+Ligne",
-			bg="#4C9689",											  
-			relief = "raised",
-			font = ("Courier New", 12, "bold"),
-			fg = "#dbdbdb",
-			command=self.insertLineToTable)
-			
-		btnUpdate=Button(									 
-			text="UPDATE",
-			bg="#4C9689",											  
-			relief = "raised",
-			font = ("Courier New", 12, "bold"),
-			fg = "#dbdbdb",
-			command=self.updateLigne)
-			
-		btnSave=Button(									   
-			text=" Save ",
-			bg="#4C9689",											  
-			relief = "raised",
-			font = ("Courier New", 14, "bold"),
-			fg = "#dbdbdb",
-			command= self.saveTable)  
-			
-		btnDelete=Button(									 
-			text=" DELETE ",
-			bg="#4C9689",											  
-			relief = "raised",
-			font = ("Courier New", 14, "bold"),
-			fg = "#dbdbdb", command=self.deleteTable)
-			
-		self.labelNumLigne = Label(
-			self.cadresplash,
-			bd=1,
-			text="Ligne:",fg="#4C9689",
-			font = ("Courier New", 10, "bold"),
-			bg="#282E3F")
-			
-		self.labelNomCetteTable = Label(
-			self.cadresplash,
-			bd=1,
-			text="Table active: ",fg="#4C9689",
-			font = ("Courier New", 12, "bold"),
-			bg="#282E3F")
-			
-		
-		self.labelDefaultChamp.place(x=470, y=140)
-		self.entryDefaultChamp.place(x=470, y= 400)
-		self.labelDefaultChamp.place(x=470, y=140)
-		self.entryNNChamp.place(x=390, y= 400)
-		self.labelNNChamp.place(x=382, y=140)
-		self.entryKeyChamp.place(x=310, y= 400)
-		self.labelKeyChamp.place(x=323, y=140)
-		self.entryNomChamp.place(x=150, y= 400)
-		self.labelNomChamp.place(x=160, y=140)
-		self.entryTypeChamp.place(x=230, y= 400)
-		self.labelTypeChamp.place(x=240, y=140)
 
 		self.lineEntries = [ self.entryNomChamp, self.entryTypeChamp, self.entryKeyChamp, self.entryNNChamp, self.entryDefaultChamp]
 
 
-		self.canevasplash.create_window(605,80,window=btnNew,width=70,height=30)
-		self.canevasplash.create_window(605,115,window=btnSave,width=70,height=30)
-		#self.canevasplash.create_window(605,150,window=btnClear,width=70,height=30)
-
-		self.entryNumLigne.place(x=588, y=372, width=28)
-		self.labelNumLigne.place(x=537, y=372)
-		self.canevasplash.create_window(580, 437,window=btnAdd,width=75,height=25)
-		self.canevasplash.create_window(580, 412,window=btnUpdate,width=75,height=25)
-		self.canevasplash.create_window(80,450,window=btnDelete,width=120,height=30)
-		self.entryNomTable.place(x=363, y= 70)
-		self.labelNomTable.place(x=160, y=70)
-		self.labelNTable.place(x=320,y=100)
-		self.labelNomCetteTable.place(x=160, y=100)
-		self.labelListeTables.place(x= 20, y=70)
+	
+	
+	def monScroll (self, *args):
 		
+		self.listNom.pack(side=LEFT,expand=1,fill=BOTH)
+		self.listType.pack(side=LEFT,expand=1,fill=BOTH)
+		self.listKey.pack(side=LEFT,expand=1,fill=BOTH)
+		self.listNN.pack(side=LEFT,expand=1,fill=BOTH)
+		self.listDefault.pack(side=LEFT,expand=1,fill=BOTH)
+		
+	
 	def	updateLigne(self):
 		numLigne = int(self.entryNumLigne.get())
 		updatedText = ""
@@ -356,6 +255,8 @@ class Vue():
 			self.afficherListeTables()
 			self.selectByName(nomEntre, self.listTables)
 			self.insertNom()
+		else :	
+			print("champ nom vide") 
 	
 	def insertNom(self):
 		nom = self.listTables.get(self.listTables.curselection())[0]
