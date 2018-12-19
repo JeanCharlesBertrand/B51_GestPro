@@ -8,8 +8,8 @@ class Vue():
     def __init__(self, parent):
         self.root = Tk()
         self.parent=parent
-        self.root.title("Omada")
-        #self.root.geometry('1200x800')
+        self.root.title(self.parent.getNomProjet())
+        self.root.geometry('1200x800')
 
         self.couleur500 = "#282E3F"
         self.couleur800 = ""
@@ -34,9 +34,9 @@ class Vue():
         self.frameModuleCU.rowconfigure(1, weight=3)
         
         self.listeCas = Frame(self.frameModuleCU)
-        self.bordure = Frame(self.frameModuleCU, bg="black")
+        self.bordure = Frame(self.frameModuleCU, background=self.couleur500)
         self.infoCas = Frame(self.frameModuleCU, background=self.couleur500)
-        self.scenario = Frame(self.frameModuleCU, bg=self.couleur500)
+        self.scenario = Frame(self.frameModuleCU, background=self.couleur500)
         
         self.listeCas.grid(column=0, row=0, rowspan=2, sticky=N+S+W+E)
         self.bordure.grid(column=1, row=0, rowspan=2, sticky=N+S+W+E)
@@ -72,7 +72,7 @@ class Vue():
         self.entryCas = Entry(self.infoCas)
         self.entryCas.grid(row=1, column=0, sticky=W+E)
         
-        self.boutonCasUsage = Button(self.infoCas, text="+", command=self.commitCasUsageBD)
+        self.boutonCasUsage = Button(self.infoCas, text="+", command=self.ajoutCas)
         self.boutonCasUsage.grid(row=1, column=1)
   
        
@@ -142,8 +142,11 @@ class Vue():
         self.listeAutre.grid(row=3, column=2, sticky=N+S+W+E)
         
         
-        self.boutonCommit = Button(self.scenario, text="commit", command=self.commitCasUsageBD)
+        
+        self.boutonCommit = Button(self.scenario, text="commit", command=self.sauveCasUsage)
         self.boutonCommit.grid(row=4, column=0, columnspan=3, sticky=W+E)
+        
+        
         
         self.boutonEffacerLigne = Button(self.scenario, text="Effacer ligne", command=self.effacerLigne)
         self.boutonEffacerLigne.grid(row=5, column=0, sticky=W+E)
@@ -212,10 +215,31 @@ class Vue():
         self.listeOrdi.delete(0, END)
         self.listeAutre.delete(0, END)
  
-        
-    def commitCasUsageBD(self):
+    def sauveCasUsage(self):
         self.texteCas = self.entryCas.get()
-        self.inscrireCasUsageEntryDansListe(self.texteCas)
-        self.parent.commitCasUsageBD(self.texteCas)
         
-    
+        self.UsagerListe = self.listeUsager.get(0, END)
+        self.OrdiListe = self.listeOrdi.get(0, END)
+        self.AutreListe = self.listeAutre.get(0, END)
+        
+        listeScenario = []
+        
+        for i in range(len(self.UsagerListe)):
+            ligne=[]
+            ligne.append(self.UsagerListe[i])
+            ligne.append(self.OrdiListe[i])
+            ligne.append(self.AutreListe[i])
+            listeScenario.append([ligne])
+        
+        self.parent.sauveCasUsageModele(self.texteCas, listeScenario)
+        
+        
+           
+    def ajoutCas(self):
+        texteCas = self.entryCas.get()
+        self.parent.creerCas(texteCas)
+        
+        
+        
+            
+        
