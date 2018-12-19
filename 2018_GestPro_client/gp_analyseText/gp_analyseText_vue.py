@@ -77,67 +77,66 @@ class Vue():
         
     
     def mainWindow(self):
-         # Main Frame
         self.gui_style = ttk.Style()
+        self.gui_style.configure('My.TButton', foreground='#4C9689')
         self.gui_style.configure('My.TFrame', background='#282E3F', foreground='#dbdbdb')
-        self.gui_style.configure('My.TLabel', background='#282E3F', foreground='#4C9689', font = ("Arial", 10))
+
+         # Main Frame
         self.mainFrame = ttk.Frame(self.root, style='My.TFrame')
         self.mainFrame.pack()
+        self.mainFrame.configure()
         
         # Frame Title bar
         self.frameTitleBar = ttk.Frame(self.mainFrame)
-        self.frameTitleBar.grid(row=0, column=1, pady=10)
-        self.labelNomProjet = ttk.Label(self.frameTitleBar, text="ANALYSE TEXTUELLE", font = ("Arial", 30), background='#282E3F', foreground='#4C9689')
-        self.labelNomProjet.grid(row=0, column=1)
+        self.frameTitleBar.pack()
+        #self.labelNomProjet = ttk.Label(self.frameTitleBar, text="Nom du projet", justify = LEFT)
+        #self.labelNomProjet.grid(row=0, column=0)
 
         # Frame Enonce
-        self.leftMargin = Frame(self.mainFrame)
-        self.leftMargin.grid(row=1, column=0, padx=25, pady=25)
-        self.frameEnonce = Frame(self.mainFrame)
-        self.frameEnonce.grid(row=1, column=1, pady=25)
-        self.rightMargin = Frame(self.mainFrame)
-        self.rightMargin.grid(row=1, column=2, padx=25, pady=25)
-
+        self.frameEnonce = ttk.Frame(self.mainFrame, style='My.TFrame')
+        self.frameEnonce.pack()
+        #self.frameEnonce.configure()
         
         # Champ Text de l'enonce Analyse
-        self.txtEnonce = Text(self.frameEnonce, width=100, height=15, wrap=WORD)
-        self.txtEnonce.grid(row=0, column=1)
-        self.enonceScrollb = Scrollbar(self.frameEnonce, command=self.txtEnonce.yview)
-        self.enonceScrollb.grid(row=0, column=2, sticky='nsew')
+        self.txtEnonce = Text(self.frameEnonce, width=100, height=20, wrap=WORD)
+        self.txtEnonce.grid(row=0, column=0)
+        self.enonceScrollb = ttk.Scrollbar(self.frameEnonce, command=self.txtEnonce.yview)
+        self.enonceScrollb.grid(row=0, column=1, sticky='nsew')
         self.txtEnonce['yscrollcommand'] = self.enonceScrollb.set
-        
         
         # Frame boutons Importer Exporter Sauvegarder
         self.frameBtnCentre = ttk.Frame(self.mainFrame, style='My.TFrame')
-        self.frameBtnCentre.grid(row=2, column=1, pady=20)
+        self.frameBtnCentre.pack(pady=20)
+        self.frameBtnCentre.configure()
         
-        self.btnImportEnonce = Button(self.frameBtnCentre, text="IMPORTER", font = ("Arial", 12), background='#4C9689', foreground='#dbdbdb', command=self.importEnonce)
-        self.btnImportEnonce.grid(row=0, column=0, padx=10)
-        self.btnSaveEnonce = Button(self.frameBtnCentre, text="SAUVEGARDER", font = ("Arial", 12), background='#4C9689', foreground='#dbdbdb', command=self.parent.insertIntoAnalyse)
-        self.btnSaveEnonce.grid(row=0, column=1, padx=10)
-        self.btnExportEnonce = Button(self.frameBtnCentre, text="EXPORTER", font = ("Arial", 12), background='#4C9689', foreground='#dbdbdb', command=self.saveToTxtFile)
-        self.btnExportEnonce.grid(row=0, column=2, padx=10)
+        self.btnImportEnonce = ttk.Button(self.frameBtnCentre, text="Importer un énoncé", command=self.importEnonce)
+        self.btnImportEnonce.grid(row=0, column=0)
+        self.btnSaveEnonce = ttk.Button(self.frameBtnCentre, text="Sauvegarder dans la BD", command=self.parent.insertIntoAnalyse)
+        self.btnSaveEnonce.grid(row=0, column=1)
+        self.btnExportEnonce = ttk.Button(self.frameBtnCentre, text="Exporter l'énoncé vers un fichier texte", command=self.saveToTxtFile)
+        self.btnExportEnonce.grid(row=0, column=2)
         
-            
+                
         # Frame Tableau
         self.frameTableau = ttk.Frame(self.mainFrame, style='My.TFrame')
-        self.frameTableau.grid(row=3, column=1, padx=25, pady=10)
+        self.frameTableau.pack()
+        #self.frameTableau.configure()
        
        # Labels Nom, Verbe, Adjectif
-        self.labelNom = ttk.Label(self.frameTableau, text="NOM", font = ("Arial", 12), background='#282E3F', foreground='#4C9689')
-        self.labelNom.grid(row=1, column=1, pady=10)
-        self.labelVerbe = ttk.Label(self.frameTableau, text="VERBE", font = ("Arial", 12), background='#282E3F', foreground='#4C9689')
-        self.labelVerbe.grid(row=1, column=2, pady=10)
-        self.labelAdj = ttk.Label(self.frameTableau, text="ADJECTIF", font = ("Arial", 12), background='#282E3F', foreground='#4C9689')
-        self.labelAdj.grid(row=1, column=3, pady=10)
+        self.labelNom = ttk.Label(self.frameTableau, text="NOM")
+        self.labelNom.grid(row=1, column=1)
+        self.labelVerbe = ttk.Label(self.frameTableau, text="VERBE")
+        self.labelVerbe.grid(row=1, column=2)
+        self.labelAdj = ttk.Label(self.frameTableau, text="ADJECTIF")
+        self.labelAdj.grid(row=1, column=3)
 
         # Labels Nom, Verbe, Adjectif
-        self.labelNom = ttk.Label(self.frameTableau, text="IMPLICITE", font = ("Arial", 12), background='#282E3F', foreground='#4C9689')
-        self.labelNom.grid(row=2, column=0, padx=10)
-        self.labelVerbe = ttk.Label(self.frameTableau, text="EXPLICITE", font = ("Arial", 12), background='#282E3F', foreground='#4C9689')
-        self.labelVerbe.grid(row=3, column=0, padx=10)
-        self.labelAdj = ttk.Label(self.frameTableau, text="SUPPLEMENTAIRE", font = ("Arial", 12), background='#282E3F', foreground='#4C9689')
-        self.labelAdj.grid(row=4, column=0, padx=10)
+        self.labelNom = ttk.Label(self.frameTableau, text="IMPLICITE")
+        self.labelNom.grid(row=2, column=0)
+        self.labelVerbe = ttk.Label(self.frameTableau, text="EXPLICITE")
+        self.labelVerbe.grid(row=3, column=0)
+        self.labelAdj = ttk.Label(self.frameTableau, text="SUPPLEMENTAIRE")
+        self.labelAdj.grid(row=4, column=0)
 
         self.tabNomImplicite = Text(self.frameTableau, width=30, height=10, wrap=WORD)
         self.tabNomImplicite.grid(row=2, column=1)
@@ -159,11 +158,6 @@ class Vue():
         self.tabVerbeSupp.grid(row=4, column=2)
         self.tabAdjSupp = Text(self.frameTableau, width=30, height=10, wrap=WORD)
         self.tabAdjSupp.grid(row=4, column=3)
-        
-        # Frame Marge bas
-        self.bottomMargin = Frame(self.mainFrame)
-        self.bottomMargin.grid(row=4, column=1, padx=25, pady=25)
-        
         
     def getSelectedText(self):
         if self.txtEnonce.tag_ranges("sel"):
