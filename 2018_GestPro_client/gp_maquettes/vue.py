@@ -1,3 +1,23 @@
+ #===============================================================================
+#     Nom fichier : gp_maquette_vue.py
+#     Nom projet: OrmÃda
+#     Creation date: 2018/12/10
+#     Description: Creation du visuel du module de maquette
+#     Creator: Julien Desgagne
+#     Version 1.0
+#===============================================================================
+
+# -*- coding: utf-8 -*-
+from tkinter import *
+from tkinter.colorchooser import askcolor
+from tkinter import tix
+from tkinter import ttk
+from PIL import Image,ImageDraw, ImageTk
+import os,os.path
+import math
+from helper import Helper as hlp
+from PIL._imaging import outline
+
 # -*- coding: utf-8 -*-
 from tkinter import *
 from tkinter import tix
@@ -12,12 +32,13 @@ class Vue():
     GROSSEUR_CRAYON_DEFAUT = 5.0
     COULEUR_DEFAUT = 'black'
     
-    def __init__(self, parent):
-        self.parent = parent
+    def __init__(self):
+        #self.parent = parent
         self.root = tix.Tk()
         #self.root.overrideredirect(1)
         self.root.title("Omada")
         #self.root.iconbitmap('image/tk_logo.ico')
+        #self.parent = parent
         #self.modele = None
 
         self.largeur = 1000        # Largeur de la fenetre de ce module
@@ -35,12 +56,12 @@ class Vue():
         self.root.geometry('%dx%d+%d+%d' % (self.largeur,self.hauteur,self.x,self.y))
 
         # Couleur de theme pour le projet
-        self.couleur500 = "#344955"
+        self.couleur500 = "#282E3F"
         self.couleur800 = ""
         self.couleur300 = ""
         self.couleurTexte1 = "#FFFFFF"
-        self.couleurTexte2 = "#000000"
-        self.couleurAccent = "#FAAB1A"
+        self.couleurTexte2 = "#FFFFFF"
+        self.couleurAccent = "#4C9689"
         self.couleurSelection = "#FF4181"
 
         self.images = {}
@@ -157,8 +178,7 @@ class Vue():
 
     def reset(self, event):
         formeType = self.boutonActif.cget('text')
-        print("Type :", formeType, self.couleur, self.epaisseurTrait,[self.oldX, self.oldY, event.x, event.y])
-        self.parent.ajouteForme(formeType,self.couleur, self.epaisseurTrait,[self.oldX, self.oldY, event.x, event.y] )
+        self.parent.ajouteForme(self.boutonActif.cget('text'),self.couleur, self.epaisseurTrait,[self.oldX, self.oldY, event.x, event.y] )
         if formeType == 'Rect':
             self.canevasDessin.create_rectangle(self.oldX, self.oldY, event.x, event.y)
         self.boutonActif = None
@@ -206,7 +226,7 @@ class Vue():
         self.compteur = 0
         self.compteurY = 50
         
-        #usager, mot de passe, confirmation, email, question de sÃ©curitÃ©, rÃ©ponse sÃ©curitÃ©, btnOk
+        #usager, mot de passe, confirmation, email, question de sécurité, réponse sécurité, btnOk
         self.champnomMaquette = Entry()
         self.champnomOrganisation = Entry()
         self.champdescription = Entry()
@@ -231,7 +251,7 @@ class Vue():
         self.textOrganisation = "Nom de la maquette"
         self.textdescription = "Courte description"
         
-        self.entryListe = [self.champnomMaquette, self.champnomOrganisation, self.champdescription]
+        self.entryListe = [self.champnomProjet, self.champnomOrganisation, self.champdescription]
         self.texteListe = [self.textProjet, self.textOrganisation, self.textdescription]
         
         for self.entry in self.entryListe:
@@ -241,8 +261,8 @@ class Vue():
             self.compteurY += 43
     
     def creerMaquette(self):
-        nomMaquette = self.champnomMaquette
-        self.parent.creerMaquette(nomMaquette)
+    	nomMaquette = self.champnomMaquette
+    	self.parent.creerMaquette(nomMaquette)
     
     def construitEntry(self, entry, champsTexte, v):
         self.entry.insert(0, champsTexte)
@@ -283,7 +303,19 @@ class Vue():
         
     def startMoveWindow(self,event):
         self.__lastX= event.x_root
-        
-        
-        
-        
+
+
+if __name__ == '__main__':
+    m=Vue()
+    m.root.mainloop()
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

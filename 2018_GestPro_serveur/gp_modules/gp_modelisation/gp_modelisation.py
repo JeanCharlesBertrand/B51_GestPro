@@ -29,5 +29,9 @@ class Controleur():
         ad="http://"+self.ipserveur+":"+self.nodeport
         self.serveur=ServerProxy(ad)
 
+    def getNomProjet(self):
+        self.nomProjet = self.serveur.getNomProjet(self.idProjet)
+        return self.nomProjet
+
 if __name__ == '__main__':
     c=Controleur()

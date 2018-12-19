@@ -35,12 +35,12 @@ class Vue():
         self.root.geometry('%dx%d+%d+%d' % (self.largeur,self.hauteur,self.x,self.y))
 
         # Couleur de theme pour le projet
-        self.couleur500 = "#344955"
+        self.couleur500 = "#282E3F"
         self.couleur800 = ""
         self.couleur300 = ""
         self.couleurTexte1 = "#FFFFFF"
-        self.couleurTexte2 = "#000000"
-        self.couleurAccent = "#FAAB1A"
+        self.couleurTexte2 = "#FFFFFF"
+        self.couleurAccent = "#4C9689"
         self.couleurSelection = "#FF4181"
 
         self.images = {}
